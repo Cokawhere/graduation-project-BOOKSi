@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'app.dart'; 
+import 'app.dart';
+import 'common/styles/colors.dart'; 
 
 
 void main() {
@@ -17,9 +18,11 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        fontFamily: 'Inter',
+        scaffoldBackgroundColor: AppColors.background,
       ),
       home: App() , 
+      
     );
   }
 }
