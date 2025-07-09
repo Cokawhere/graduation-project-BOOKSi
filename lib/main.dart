@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'app.dart';
 import 'common/styles/colors.dart';
+import 'lang/app_translations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +18,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      translations: AppTranslations(),
+      locale: Locale('en', 'US'),
+      fallbackLocale: Locale('en', 'US'),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Inter',
