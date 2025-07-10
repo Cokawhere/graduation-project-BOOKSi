@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
+// import 'features/auth/views/loginview.dart';
+import 'features/splash-screen/view.dart';
 import 'firebase_options.dart';
-import 'app.dart';
+
 import 'common/styles/colors.dart';
 import 'lang/app_translations.dart';
 
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Inter',
         scaffoldBackgroundColor: AppColors.background,
       ),
-      home: App(),
+      home: SplashView(),
     );
   }
 }

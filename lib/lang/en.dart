@@ -5,7 +5,7 @@ const Map<String, String> en = {
 
   // Signup
   'signup_title': 'Join BOOKSi',
-  'signup_subtitle': 'Create an account to continue',
+  'signup_subtitle': 'Create an account to continue ?',
   'full_name': 'Full Name',
   'email': 'Email Address',
   'password': 'Password',

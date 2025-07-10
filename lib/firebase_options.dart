@@ -63,6 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1030004054709',
     projectId: 'bookie-b932b',
     storageBucket: 'bookie-b932b.firebasestorage.app',
+    iosClientId: '1030004054709-s46t0edshp13q5384v03qlrblkheai34.apps.googleusercontent.com',
     iosBundleId: 'com.example.booksi',
   );
 
@@ -72,6 +73,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1030004054709',
     projectId: 'bookie-b932b',
     storageBucket: 'bookie-b932b.firebasestorage.app',
+    iosClientId: '1030004054709-s46t0edshp13q5384v03qlrblkheai34.apps.googleusercontent.com',
     iosBundleId: 'com.example.booksi',
   );
 
@@ -83,4 +85,5 @@ class DefaultFirebaseOptions {
     authDomain: 'bookie-b932b.firebaseapp.com',
     storageBucket: 'bookie-b932b.firebasestorage.app',
   );
+
 }
