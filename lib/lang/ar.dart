@@ -19,4 +19,11 @@ const Map<String, String> ar = {
   'login_subtitle': 'سجّل الدخول للمتابعة',
   'sign_in': 'تسجيل الدخول',
   'forgot_password': 'هل نسيت كلمة المرور؟',
+
+  //profile
+  'profile_title': 'الملف الشخصي',
+  'bio': 'السيرة الذاتية (اختياري)',
+  'genres': 'الأنواع',
+  'save_profile': 'حفظ الملف الشخصي',
+  'invalid_name': 'أدخل اسمًا صحيحًا',
 };
