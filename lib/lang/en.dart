@@ -19,4 +19,11 @@ const Map<String, String> en = {
   'login_subtitle': 'Sign in to continue',
   'sign_in': 'Sign In',
   'forgot_password': 'Forgot password?',
+
+  //profile
+  'profile_title': 'Profile',
+  'bio': 'Bio (optional)',
+  'genres': 'Genres',
+  'save_profile': 'Save Profile',
+  'invalid_name': 'Enter a valid name',
 };
