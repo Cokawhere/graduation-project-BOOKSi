@@ -80,7 +80,7 @@ class LoginView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      onPressed: controller.signIn,
+                      onPressed: controller.signInWithEmail,
                       child: Text(
                         'sign_in'.tr,
                         style: TextStyle(
@@ -125,7 +125,7 @@ class LoginView extends StatelessWidget {
                           controller.signInWithGoogle();
                         }),
                         const SizedBox(width: 70),
-                        _socialButton('assets/images/face.svg',(){}),
+                        _socialButton('assets/images/face.svg', () {}),
                       ],
                     ),
 
