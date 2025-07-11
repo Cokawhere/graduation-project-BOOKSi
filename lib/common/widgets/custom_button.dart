@@ -57,7 +57,7 @@ class CustomButton extends StatelessWidget {
           side: BorderSide(
             color: isEnabled
                 ? backgroundColor ?? AppColors.brown
-                : AppColors.olive.withOpacity(0.3),
+                : AppColors.olive,
             width: borderWidth,
           ),
         ),

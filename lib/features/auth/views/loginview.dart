@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../../common/styles/colors.dart';
 import '../controllers/logincontroller.dart';
+import 'sighup.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -10,6 +11,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(LoginController());
+
 
     return Scaffold(
       body: Stack(
@@ -47,7 +49,7 @@ class LoginView extends StatelessWidget {
                       'login_title'.tr,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 24,
+                        fontSize: 34,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -141,7 +143,7 @@ class LoginView extends StatelessWidget {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () => Get.toNamed('/signup'),
+                          onTap: () => Get.to(SignupView()),
                           child: const Text(
                             "Sign up",
                             style: TextStyle(
@@ -162,7 +164,7 @@ class LoginView extends StatelessWidget {
     );
   }
 
-  // Text Field Builder
+
   Widget _buildInputField({
     required String hint,
     required IconData icon,
