@@ -33,48 +33,106 @@ class SignupView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("BOOkSi°", style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold)),
-                    Text('Sign Up', style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w600)),
-                    Text('Create your account', style: TextStyle(color: Colors.white70, fontSize: 14)),
+                    Text(
+                      "BOOkSi°",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    Text(
+                      'signup_subtitle'.tr,
+                      style: TextStyle(
+                        color: const Color.fromARGB(227, 255, 255, 255),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     const SizedBox(height: 30),
-                    _buildInputField(hint: 'Full Name', icon: Icons.person, controller: controller.nameController),
+                    _buildInputField(
+                      hint: 'full_name'.tr,
+                      icon: Icons.person,
+                      controller: controller.nameController,
+                    ),
                     const SizedBox(height: 16),
-                    _buildInputField(hint: 'Email', icon: Icons.email_outlined, controller: controller.emailController),
+                    _buildInputField(
+                      hint: 'email'.tr,
+                      icon: Icons.email_outlined,
+                      controller: controller.emailController,
+                    ),
                     const SizedBox(height: 16),
-                    _buildInputField(hint: 'Password', icon: Icons.lock_outline, isPassword: true, controller: controller.passwordController),
+                    _buildInputField(
+                      hint: 'password'.tr,
+                      icon: Icons.lock_outline,
+                      isPassword: true,
+                      controller: controller.passwordController,
+                    ),
                     const SizedBox(height: 20),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.teaMilk,
                         minimumSize: Size(double.infinity, 50),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                       onPressed: controller.signUpWithEmail,
-                      child: Text('Sign Up', style: TextStyle(color: AppColors.black, fontSize: 20, fontWeight: FontWeight.bold)),
+                      child: Text(
+                        'sign_up'.tr,
+                        style: TextStyle(
+                          color: AppColors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 20),
-                    Row(children: [
-                      Expanded(child: Divider(color: Colors.white)),
-                      Padding(padding: EdgeInsets.symmetric(horizontal: 10), child: Text('or', style: TextStyle(color: Colors.white))),
-                      Expanded(child: Divider(color: Colors.white)),
-                    ]),
+                    Row(
+                      children: [
+                        Expanded(child: Divider(color: Colors.white)),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: Text(
+                            'or_continue_with'.tr,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        Expanded(child: Divider(color: Colors.white)),
+                      ],
+                    ),
                     const SizedBox(height: 20),
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      _socialButton('assets/images/SVG.svg', controller.signInWithGoogle),
-                      const SizedBox(width: 70),
-                      _socialButton('assets/images/face.svg', () {}),
-                    ]),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _socialButton(
+                          'assets/images/SVG.svg',
+                          controller.signInWithGoogle,
+                        ),
+                        const SizedBox(width: 70),
+                        _socialButton(
+                          'assets/images/face.svg',
+                          controller.signInWithFacebook,
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildInputField({required String hint, required IconData icon, bool isPassword = false, required TextEditingController controller}) {
+  Widget _buildInputField({
+    required String hint,
+    required IconData icon,
+    bool isPassword = false,
+    required TextEditingController controller,
+  }) {
     return TextField(
       controller: controller,
       obscureText: isPassword,
@@ -85,8 +143,14 @@ class SignupView extends StatelessWidget {
         prefixIcon: Icon(icon, color: Colors.white),
         filled: true,
         fillColor: Colors.transparent,
-        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.background), borderRadius: BorderRadius.circular(12)),
-        focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.orange), borderRadius: BorderRadius.circular(12)),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.background),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.orange),
+          borderRadius: BorderRadius.circular(12),
+        ),
       ),
     );
   }

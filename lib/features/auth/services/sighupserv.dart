@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -10,22 +11,7 @@ class AuthService {
     final userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
     final user = userCredential.user;
     if (user != null) {
-      await _firestore.collection("users").doc(user.uid).set({
-        "uid": user.uid,
-        "name": name,
-        "email": user.email ?? "",
-        "photoUrl": user.photoURL ?? "",
-        "bio": "",
-        "genres": [],
-        "profileIncomplete": true,
-        "listings": [],
-        "transactions": [],
-        "chatIds": [],
-        "notifications": [],
-        "blogPosts": [],
-        "createdAt": FieldValue.serverTimestamp(),
-        "updatedAt": FieldValue.serverTimestamp(),
-      });
+      await _createUserDoc(user, name);
     }
     return user;
   }
@@ -44,25 +30,66 @@ class AuthService {
     final userCredential = await _auth.signInWithCredential(credential);
     final user = userCredential.user;
 
-    final doc = await _firestore.collection("users").doc(user!.uid).get();
-    if (!doc.exists) {
-      await _firestore.collection("users").doc(user.uid).set({
-        "uid": user.uid,
-        "name": user.displayName ?? "No Name",
-        "email": user.email ?? "",
-        "photoUrl": user.photoURL ?? "",
-        "bio": "",
-        "genres": [],
-        "profileIncomplete": true,
-        "listings": [],
-        "transactions": [],
-        "chatIds": [],
-        "notifications": [],
-        "blogPosts": [],
-        "createdAt": FieldValue.serverTimestamp(),
-        "updatedAt": FieldValue.serverTimestamp(),
-      });
+    if (user != null) {
+      final doc = await _firestore.collection("users").doc(user.uid).get();
+      if (!doc.exists) {
+        await _createUserDoc(user, user.displayName ?? "No Name");
+      } else {
+        await _updateUserTimestamp(user.uid);
+      }
     }
     return user;
+  }
+
+  Future<User?> signInWithFacebook() async {
+    final LoginResult result = await FacebookAuth.instance.login();
+    if (result.status != LoginStatus.success) throw "Facebook Sign-in failed.";
+
+    final OAuthCredential credential = FacebookAuthProvider.credential(result.accessToken!.token);
+    final userCredential = await _auth.signInWithCredential(credential);
+    final user = userCredential.user;
+
+    if (user != null) {
+      final doc = await _firestore.collection("users").doc(user.uid).get();
+      if (!doc.exists) {
+        await _createUserDoc(user, user.displayName ?? "No Name");
+      } else {
+        await _updateUserTimestamp(user.uid);
+      }
+    }
+
+    return user;
+  }
+
+  Future<void> _createUserDoc(User user, String name) async {
+    await _firestore.collection("users").doc(user.uid).set({
+      "uid": user.uid,
+      "name": name,
+      "email": user.email ?? "",
+      "photoUrl": user.photoURL ?? "",
+      "bio": "",
+      "role": "reader", // Default role
+      "averageRating": 0.0,
+      "totalRatings": 0,
+      "verified": false,
+      "isBanned": false,
+      "profileIncomplete": true,
+      "genres": [],
+      "address": null, // Only for library
+      "website": null, // Only for library
+      "bookIds": [],
+      "transactionIds": [],
+      "chatIds": [],
+      "blogPostIds": [],
+      "notificationIds": [],
+      "createdAt": FieldValue.serverTimestamp(),
+      "updatedAt": FieldValue.serverTimestamp(),
+    });
+  }
+
+  Future<void> _updateUserTimestamp(String uid) async {
+    await _firestore.collection("users").doc(uid).update({
+      "updatedAt": FieldValue.serverTimestamp(),
+    });
   }
 }

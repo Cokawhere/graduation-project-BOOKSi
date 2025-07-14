@@ -13,6 +13,7 @@ const Map<String, String> en = {
   'or_continue_with': 'or continue with',
   'already_have_account': 'Already have an account?',
   'sign_in_now': 'Sign in',
+    "sign_up": "Sign Up",
 
   // Login
   'login_title': 'Welcome Back',

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../splash-screen/view.dart';
+import '../../shop/views/shopview.dart';
 import '../services/sighupserv.dart';
 
 
@@ -18,16 +18,24 @@ class SignupController extends GetxController {
     final name = nameController.text.trim();
 
     if (email.isEmpty || password.isEmpty || name.isEmpty) {
-      Get.snackbar("Error", "Please fill all fields", snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        "Error",
+        "Please fill all fields",
+        snackPosition: SnackPosition.BOTTOM,
+      );
       return;
     }
 
     isLoading.value = true;
     try {
       final user = await _authService.signUpWithEmail(email, password, name);
-      if (user != null) Get.to(() => SplashView());
+      if (user != null) Get.to(() => ShopView());
     } catch (e) {
-      Get.snackbar("Signup Failed", e.toString(), snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        "Signup Failed",
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+      );
     } finally {
       isLoading.value = false;
     }
@@ -36,9 +44,26 @@ class SignupController extends GetxController {
   void signInWithGoogle() async {
     try {
       final user = await _authService.signInWithGoogle();
-      if (user != null) Get.to(() => SplashView());
+      if (user != null) Get.to(() => ShopView());
     } catch (e) {
-      Get.snackbar("Google Sign-In Failed", e.toString(), snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+        "Google Sign-In Failed",
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
+  void signInWithFacebook() async {
+    try {
+      final user = await _authService.signInWithFacebook();
+      if (user != null) Get.to(() => ShopView());
+    } catch (e) {
+      Get.snackbar(
+        "Facebook Sign-In Failed",
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 }

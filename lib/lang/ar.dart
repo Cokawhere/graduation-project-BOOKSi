@@ -13,6 +13,7 @@ const Map<String, String> ar = {
   'or_continue_with': 'أو تابع باستخدام',
   'already_have_account': 'لديك حساب بالفعل؟',
   'sign_in_now': 'تسجيل الدخول',
+  "sign_up": "إنشاء حساب",
 
   // Login
   'login_title': 'مرحبًا بعودتك',

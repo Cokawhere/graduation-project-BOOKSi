@@ -37,22 +37,28 @@ class AuthService {
     final doc = await docRef.get();
 
     if (!doc.exists) {
-      await docRef.set({
-        "uid": user.uid,
-        "name": user.displayName ?? "No Name",
-        "email": user.email ?? "",
-        "photoUrl": user.photoURL ?? "",
-        "bio": "",
-        "genres": [],
-        "profileIncomplete": true,
-        "listings": [],
-        "transactions": [],
-        "chatIds": [],
-        "notifications": [],
-        "blogPosts": [],
-        "createdAt": FieldValue.serverTimestamp(),
-        "updatedAt": FieldValue.serverTimestamp(),
-      });
+    await docRef.set({
+      "uid": user.uid,
+      "name": user.displayName ?? "No Name",
+      "email": user.email ?? "",
+      "photoUrl": user.photoURL ?? "",
+      "bio": "",
+      "role": "reader", 
+      "totalRatings": 0,
+      "verified": false,
+      "isBanned": false,
+      "profileIncomplete": true,
+      "genres": [],
+      "address": null,
+      "website": null,
+      "bookIds": [],
+      "transactionIds": [],
+      "chatIds": [],
+      "blogPostIds": [],
+      "notificationIds": [],
+      "createdAt": FieldValue.serverTimestamp(),
+      "updatedAt": FieldValue.serverTimestamp(),
+    });
     } else {
       await docRef.update({"updatedAt": FieldValue.serverTimestamp()});
     }

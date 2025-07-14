@@ -25,7 +25,7 @@ class SplashView extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-               
+                
                 Text(
                   'BOOKSi°',
                   style: TextStyle(
@@ -89,7 +89,7 @@ class SplashView extends StatelessWidget {
           // Bottom Icon Button
           Positioned(
             bottom: 120,
-            right: 170,
+            right: 150,
             child: GestureDetector(
               onTap: controller.goToLogin,
               child: Obx(

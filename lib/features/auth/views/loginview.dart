@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../../common/styles/colors.dart';
 import '../controllers/logincontroller.dart';
+import '../controllers/sighupcontroller.dart';
 import 'sighup.dart';
 
 class LoginView extends StatelessWidget {
@@ -11,7 +12,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(LoginController());
-
+    final controlle = Get.put(SignupController());
 
     return Scaffold(
       body: Stack(
@@ -127,7 +128,9 @@ class LoginView extends StatelessWidget {
                           controller.signInWithGoogle();
                         }),
                         const SizedBox(width: 70),
-                        _socialButton('assets/images/face.svg', () {}),
+                        _socialButton('assets/images/face.svg', () {
+                          controlle.signInWithFacebook();
+                        }),
                       ],
                     ),
 
@@ -163,7 +166,6 @@ class LoginView extends StatelessWidget {
       ),
     );
   }
-
 
   Widget _buildInputField({
     required String hint,
