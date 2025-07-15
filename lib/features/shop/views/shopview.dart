@@ -49,16 +49,6 @@ class ShopView extends StatelessWidget {
                     fontSize: 30,
                   ),
                 ),
-                actions: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.shopping_cart,
-                      color: AppColors.brown,
-                      size: 30,
-                    ),
-                    onPressed: () {},
-                  ),
-                ],
               ),
             ),
           ),
