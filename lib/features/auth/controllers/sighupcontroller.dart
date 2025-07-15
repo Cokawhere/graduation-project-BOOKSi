@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../shop/views/shopview.dart';
+import '../../../Home/home_view.dart';
 import '../services/sighupserv.dart';
 
 class SignupController extends GetxController {
@@ -30,7 +30,7 @@ class SignupController extends GetxController {
     isLoading.value = true;
     try {
       final user = await _authService.signUpWithEmail(email, password, name);
-      if (user != null) Get.to(() => ShopView());
+      if (user != null) Get.to(() => HomeView());
     } catch (e) {
       Get.snackbar(
         "Signup Failed",
@@ -45,7 +45,7 @@ class SignupController extends GetxController {
   void signInWithGoogle() async {
     try {
       final user = await _authService.signInWithGoogle();
-      if (user != null) Get.to(() => ShopView());
+      if (user != null) Get.to(() => HomeView());
     } catch (e) {
       Get.snackbar(
         "Google Sign-In Failed",
@@ -58,7 +58,7 @@ class SignupController extends GetxController {
   void signInWithFacebook() async {
     try {
       final user = await _authService.signInWithFacebook();
-      if (user != null) Get.to(() => ShopView());
+      if (user != null) Get.to(() => HomeView());
     } catch (e) {
       Get.snackbar(
         "Facebook Sign-In Failed",

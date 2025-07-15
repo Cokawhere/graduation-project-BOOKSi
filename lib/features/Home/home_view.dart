@@ -1,27 +1,21 @@
 import 'package:booksi/common/styles/colors.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import '../../Home/home_view.dart';
+import '../cart/cart_view.dart';
+import '../shop/views/shopview.dart';
 
-import '../../../common/widgets/custom-book-cart.dart';
-import '../../cart/views/cartview.dart';
-
-class ShopController extends GetxController {
-  var selectedIndex = 0.obs;
-  void changeTab(int index) => selectedIndex.value = index;
-}
-
-class ShopView extends StatelessWidget {
-  final ShopController controller = Get.put(ShopController());
+class HomeView extends StatelessWidget {
+  final HomeController controller = Get.put(HomeController());
 
   final List<Widget> pages = [
-    ShopContent(),
+    ShopView(),
     Cartview(),
-    PlaceholderWidget("Notifications"),
     PlaceholderWidget("Blog"),
+    PlaceholderWidget("profile"),
   ];
 
-  ShopView({super.key});
+  HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +24,6 @@ class ShopView extends StatelessWidget {
         backgroundColor: AppColors.background,
         extendBodyBehindAppBar: false,
         drawer: _buildDrawer(context),
-
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(70),
           child: SafeArea(
@@ -166,81 +159,6 @@ class ShopView extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class ShopContent extends StatelessWidget {
-  const ShopContent({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        _buildSearchBar(),
-        const SizedBox(height: 24),
-        _buildSection("Best Selling"),
-        const SizedBox(height: 24),
-        _buildSection("Trending in Books"),
-        const SizedBox(height: 24),
-        _buildSection("New Arrivals"),
-      ],
-    );
-  }
-
-  Widget _buildSearchBar() {
-    return Row(
-      children: [
-        Expanded(
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: "Search books...",
-              prefixIcon: Icon(Icons.search),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(width: 10),
-        IconButton(icon: Icon(Icons.tune), onPressed: () {}),
-      ],
-    );
-  }
-
-  Widget _buildSection(String title) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            TextButton(onPressed: () {}, child: Text("See All")),
-          ],
-        ),
-        SizedBox(
-          height: 270,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: 5,
-            itemBuilder: (context, index) => BookCard(
-              index: index,
-              imageBase64: 'assets/images/MorganHousel.png',
-              title: 'The Psychology of Money',
-              author: 'Morgan Housel',
-              price: '19.99',
-              onAdd: () {
-                print("Add to cart");
-              },
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
