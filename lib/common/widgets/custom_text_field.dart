@@ -57,7 +57,7 @@ class CustomTextField extends StatelessWidget {
     // Use translation key if provided, otherwise fall back to static text
     final String hint = hintTextKey != null ? hintTextKey!.tr : hintText ?? '';
     final String? error = errorTextKey != null ? errorTextKey!.tr : errorText;
-    final String? semantics = semanticsLabelKey != null ? semanticsLabelKey!.tr : null;
+    final String? semantics = semanticsLabelKey?.tr;
 
     return Container(
       margin: margin ?? const EdgeInsets.symmetric(vertical: 8.0),
@@ -67,7 +67,7 @@ class CustomTextField extends StatelessWidget {
           controller: controller,
           onChanged: onChanged,
           validator: validator != null
-              ? (value) => validator!(value) != null ? validator!(value)!.tr : null
+              ? (value) => validator!(value)?.tr
               : null,
           enabled: isEnabled,
           keyboardType: keyboardType,

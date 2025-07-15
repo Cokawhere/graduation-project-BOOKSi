@@ -3,12 +3,13 @@ import 'package:get/get.dart';
 import '../../shop/views/shopview.dart';
 import '../services/sighupserv.dart';
 
-
 class SignupController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
   final isLoading = false.obs;
+
+  String? imageBase64;
 
   final _authService = AuthService();
 
@@ -65,5 +66,13 @@ class SignupController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
     }
+  }
+
+  @override
+  void onClose() {
+    emailController.dispose();
+    passwordController.dispose();
+    nameController.dispose();
+    super.onClose();
   }
 }

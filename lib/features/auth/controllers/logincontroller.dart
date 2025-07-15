@@ -22,9 +22,9 @@ class LoginController extends GetxController {
     isLoading.value = true;
     try {
       final user = await _authService.signInWithEmail(email, password);
-      if (user != null) Get.to(() =>ShopView());
+      if (user != null) Get.offAll(() => ShopView());
     } catch (error) {
-      Get.snackbar("Login Failed", error.toString(), snackPosition: SnackPosition.BOTTOM, );
+      Get.snackbar("Login Failed", error.toString(), snackPosition: SnackPosition.BOTTOM);
     } finally {
       isLoading.value = false;
     }
@@ -33,10 +33,23 @@ class LoginController extends GetxController {
   void signInWithGoogle() async {
     isLoading.value = true;
     try {
-      final user = await _authService.signInWithGoogle();
-      if (user != null) Get.to(() => ShopView());
+      // الصورة في جوجل وفيس بتكون متاحة في user.photoURL أصلاً
+      final user = await _authService.signInWithGoogle(""); // فاضي عشان السيرفيس تتصرف
+      if (user != null) Get.offAll(() => ShopView());
     } catch (error) {
-      Get.snackbar("Google Sign-In Failed", error.toString(), snackPosition: SnackPosition.BOTTOM, );
+      Get.snackbar("Google Sign-In Failed", error.toString(), snackPosition: SnackPosition.BOTTOM);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void signInWithFacebook() async {
+    isLoading.value = true;
+    try {
+      final user = await _authService.signInWithFacebook("");
+      if (user != null) Get.offAll(() => ShopView());
+    } catch (error) {
+      Get.snackbar("Facebook Sign-In Failed", error.toString(), snackPosition: SnackPosition.BOTTOM);
     } finally {
       isLoading.value = false;
     }

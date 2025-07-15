@@ -7,11 +7,13 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<User?> signUpWithEmail(String email, String password, String name) async {
-    final userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+  Future<User?> signUpWithEmail(
+      String email, String password, String name) async {
+    final userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email, password: password);
     final user = userCredential.user;
     if (user != null) {
-      await _createUserDoc(user, name);
+      await _createUserDoc(user, name, ""); // imageBase64 is empty on sign up
     }
     return user;
   }
@@ -33,7 +35,7 @@ class AuthService {
     if (user != null) {
       final doc = await _firestore.collection("users").doc(user.uid).get();
       if (!doc.exists) {
-        await _createUserDoc(user, user.displayName ?? "No Name");
+        await _createUserDoc(user, user.displayName ?? "No Name", "");
       } else {
         await _updateUserTimestamp(user.uid);
       }
@@ -45,14 +47,15 @@ class AuthService {
     final LoginResult result = await FacebookAuth.instance.login();
     if (result.status != LoginStatus.success) throw "Facebook Sign-in failed.";
 
-    final OAuthCredential credential = FacebookAuthProvider.credential(result.accessToken!.token);
+    final OAuthCredential credential =
+        FacebookAuthProvider.credential(result.accessToken!.token);
     final userCredential = await _auth.signInWithCredential(credential);
     final user = userCredential.user;
 
     if (user != null) {
       final doc = await _firestore.collection("users").doc(user.uid).get();
       if (!doc.exists) {
-        await _createUserDoc(user, user.displayName ?? "No Name");
+        await _createUserDoc(user, user.displayName ?? "No Name", "");
       } else {
         await _updateUserTimestamp(user.uid);
       }
@@ -61,22 +64,23 @@ class AuthService {
     return user;
   }
 
-  Future<void> _createUserDoc(User user, String name) async {
+  Future<void> _createUserDoc(
+      User user, String name, String imageBase64) async {
     await _firestore.collection("users").doc(user.uid).set({
       "uid": user.uid,
       "name": name,
       "email": user.email ?? "",
-      "photoUrl": user.photoURL ?? "",
+      "photoUrl": imageBase64,
       "bio": "",
-      "role": "reader", // Default role
+      "role": "reader",
       "averageRating": 0.0,
       "totalRatings": 0,
       "verified": false,
       "isBanned": false,
       "profileIncomplete": true,
       "genres": [],
-      "address": null, // Only for library
-      "website": null, // Only for library
+      "address": null,
+      "website": null,
       "bookIds": [],
       "transactionIds": [],
       "chatIds": [],

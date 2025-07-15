@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:booksi/common/styles/colors.dart';
 
 class BookCard extends StatelessWidget {
-  final String imageBase64; 
+  final String imageBase64;
   final String title;
   final String author;
   final String price;
@@ -41,7 +41,9 @@ class BookCard extends StatelessWidget {
                 topLeft: Radius.circular(12),
                 topRight: Radius.circular(12),
               ),
-              child: imageBase64.isNotEmpty
+              child:
+                  imageBase64.startsWith('data:image') ||
+                      imageBase64.length > 100
                   ? Image.memory(
                       base64Decode(imageBase64),
                       height: 160,
@@ -55,7 +57,7 @@ class BookCard extends StatelessWidget {
                       ),
                     )
                   : Container(
-                      height: 160,
+                      height: 140,
                       width: double.infinity,
                       color: AppColors.brown,
                       child: const Icon(Icons.book, color: AppColors.white),
@@ -99,15 +101,10 @@ class BookCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text(
-                        "EGP",
-                        style: const TextStyle(
-                          fontSize: 13,
-                        ),
-                      ),
+                      Text("EGP", style: const TextStyle(fontSize: 13)),
                       SizedBox(width: 3),
                       Text(
-                        "$price",
+                        price,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 14,

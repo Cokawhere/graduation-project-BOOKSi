@@ -42,7 +42,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     // Use translation key if provided, otherwise fall back to static text
     final String buttonText = textKey != null ? textKey!.tr : text ?? '';
-    final String? semantics = semanticsLabelKey != null ? semanticsLabelKey!.tr : null;
+    final String? semantics = semanticsLabelKey?.tr;
 
     return ElevatedButton(
       onPressed: isEnabled && !isLoading ? onPressed : null,
