@@ -230,7 +230,7 @@ class ShopContent extends StatelessWidget {
             itemCount: 5,
             itemBuilder: (context, index) => BookCard(
               index: index,
-              imageUrl: 'assets/images/MorganHousel.png',
+              imageBase64: 'assets/images/MorganHousel.png',
               title: 'The Psychology of Money',
               author: 'Morgan Housel',
               price: '19.99',

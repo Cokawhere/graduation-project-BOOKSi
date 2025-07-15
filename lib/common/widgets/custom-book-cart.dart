@@ -1,8 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:booksi/common/styles/colors.dart';
 
 class BookCard extends StatelessWidget {
-  final String imageUrl;
+  final String imageBase64; 
   final String title;
   final String author;
   final String price;
@@ -11,7 +13,7 @@ class BookCard extends StatelessWidget {
 
   const BookCard({
     super.key,
-    required this.imageUrl,
+    required this.imageBase64,
     required this.title,
     required this.author,
     required this.price,
@@ -34,21 +36,32 @@ class BookCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Book Cover
             ClipRRect(
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(12),
                 topRight: Radius.circular(12),
               ),
-              child: Image.asset(
-                imageUrl,
-                height: 160,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
+              child: imageBase64.isNotEmpty
+                  ? Image.memory(
+                      base64Decode(imageBase64),
+                      height: 160,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        height: 160,
+                        width: double.infinity,
+                        color: AppColors.brown,
+                        child: const Icon(Icons.error, color: AppColors.white),
+                      ),
+                    )
+                  : Container(
+                      height: 160,
+                      width: double.infinity,
+                      color: AppColors.brown,
+                      child: const Icon(Icons.book, color: AppColors.white),
+                    ),
             ),
 
-            // Title & Author
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
               child: Column(
@@ -78,7 +91,7 @@ class BookCard extends StatelessWidget {
 
             const Spacer(),
 
-            // Price & Add Button
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
               child: Row(
@@ -125,4 +138,5 @@ class BookCard extends StatelessWidget {
       ),
     );
   }
+
 }
