@@ -1,7 +1,10 @@
 import 'package:booksi/common/styles/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:get/get.dart';
+
+import '../../../common/widgets/custom-book-cart.dart';
+import '../../cart/views/cartview.dart';
 
 class ShopController extends GetxController {
   var selectedIndex = 0.obs;
@@ -13,7 +16,7 @@ class ShopView extends StatelessWidget {
 
   final List<Widget> pages = [
     ShopContent(),
-    PlaceholderWidget("Favorites"),
+    Cartview(),
     PlaceholderWidget("Notifications"),
     PlaceholderWidget("Blog"),
   ];
@@ -71,15 +74,15 @@ class ShopView extends StatelessWidget {
               label: "home",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite, size: 30),
-              label: "",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications, size: 30),
+              icon: Icon(Icons.shopping_cart, size: 30),
               label: "",
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.article, size: 30),
+              label: "",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person, size: 30),
               label: "",
             ),
           ],
@@ -221,53 +224,23 @@ class ShopContent extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: 230,
+          height: 270,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: 5,
-            itemBuilder: (context, index) => _buildBookCard(index),
+            itemBuilder: (context, index) => BookCard(
+              index: index,
+              imageUrl: 'assets/images/MorganHousel.png',
+              title: 'The Psychology of Money',
+              author: 'Morgan Housel',
+              price: '19.99',
+              onAdd: () {
+                print("Add to cart");
+              },
+            ),
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildBookCard(int index) {
-    return Container(
-      width: 140,
-      margin: const EdgeInsets.only(right: 12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: AppColors.teaMilk,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 160,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(12),
-                topRight: Radius.circular(12),
-              ),
-              image: DecorationImage(
-                image: AssetImage('assets/images/book_placeholder.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "Book Title",
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
