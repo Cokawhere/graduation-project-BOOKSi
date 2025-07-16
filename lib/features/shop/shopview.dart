@@ -1,7 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:booksi/common/styles/colors.dart';
 import 'package:booksi/common/widgets/custom-book-cart.dart';
+import 'package:get/get_utils/get_utils.dart';
 
 class ShopView extends StatelessWidget {
   const ShopView({super.key});
@@ -13,11 +12,11 @@ class ShopView extends StatelessWidget {
       children: [
         _buildSearchBar(),
         const SizedBox(height: 24),
-        _buildSection("Best Selling"),
+        _buildSection("best_selling".tr),
         const SizedBox(height: 24),
-        _buildSection("Trending in Books"),
+        _buildSection("trending_books".tr),
         const SizedBox(height: 24),
-        _buildSection("New Arrivals"),
+        _buildSection("new_arrivals".tr),
       ],
     );
   }
@@ -28,7 +27,7 @@ class ShopView extends StatelessWidget {
         Expanded(
           child: TextField(
             decoration: InputDecoration(
-              hintText: "Search books...",
+              hintText: "search_books".tr,
               prefixIcon: const Icon(Icons.search),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -53,7 +52,7 @@ class ShopView extends StatelessWidget {
               title,
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            TextButton(onPressed: () {}, child: const Text("See All")),
+            TextButton(onPressed: () {}, child: Text('see_all'.tr)),
           ],
         ),
         SizedBox(

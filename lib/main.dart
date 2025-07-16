@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'features/splash-screen/view.dart';
 import 'firebase_options.dart';
@@ -11,6 +12,8 @@ import 'lang/app_translations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await GetStorage.init();
+
   runApp(const MyApp());
 }
 
@@ -21,7 +24,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       translations: AppTranslations(),
-      locale: Locale('en', 'US'),
+      locale: GetStorage().read('lang') != null
+          ? Locale(GetStorage().read('lang'))
+          : const Locale('en'),
       fallbackLocale: Locale('en', 'US'),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

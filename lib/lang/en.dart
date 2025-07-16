@@ -13,7 +13,7 @@ const Map<String, String> en = {
   'or_continue_with': 'or continue with',
   'already_have_account': 'Already have an account?',
   'sign_in_now': 'Sign in',
-    "sign_up": "Sign Up",
+  "sign_up": "Sign Up",
 
   // Login
   'login_title': 'Welcome Back',
@@ -27,4 +27,24 @@ const Map<String, String> en = {
   'genres': 'Genres',
   'save_profile': 'Save Profile',
   'invalid_name': 'Enter a valid name',
+
+  //shop-home
+  "search_books": "Search books...",
+  "best_selling": "Best Selling",
+  "trending_books": "Trending in Books",
+  "new_arrivals": "New Arrivals",
+  "see_all": "See All",
+  "blog": "Blog",
+  "profile": "Profile",
+  "dark_mode": "Dark Mode",
+  "change_language": "Change Language",
+  "book_categories": "Book Categories",
+  "novels": "Novels",
+  "self_development": "Self Development",
+  "literature": "Literature",
+  "science": "Science",
+  "history": "History",
+  "religion": "Religion",
+  "business": "Business",
+  "logout": "Log Out",
 };

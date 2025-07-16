@@ -1,9 +1,9 @@
 import 'package:booksi/common/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../Home/home_view.dart';
 import '../cart/cart_view.dart';
-import '../shop/views/shopview.dart';
+import '../shop/shopview.dart';
+import 'home_controller.dart';
 
 class HomeView extends StatelessWidget {
   final HomeController controller = Get.put(HomeController());
@@ -86,6 +86,7 @@ class HomeView extends StatelessWidget {
 
   Drawer _buildDrawer(BuildContext context) {
     return Drawer(
+      width: MediaQuery.of(context).size.width * 0.7,
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -100,61 +101,70 @@ class HomeView extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.dark_mode),
-            title: Text('Dark Mode'),
+            title: Text('dark_mode'.tr),
             onTap: () {},
           ),
-          ListTile(
-            leading: Icon(Icons.translate),
-            title: Text('Change Language'),
-            onTap: () {},
+          Obx(
+            () => SwitchListTile(
+              secondary: const Icon(Icons.translate),
+              title: Text('change_language'.tr),
+              value: controller.currentLocale.value.languageCode == 'ar',
+              onChanged: controller.toggleLanguage,
+              subtitle: Text(
+                controller.currentLocale.value.languageCode == 'ar'
+                    ? "العربية"
+                    : "English",
+                style: const TextStyle(fontSize: 12),
+              ),
+            ),
           ),
           const Divider(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
-              "Book Categories",
+              "book_categories".tr,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           ListTile(
             leading: Icon(Icons.menu_book),
-            title: Text('Novels'),
+            title: Text('novels'.tr),
             onTap: () {},
           ),
           ListTile(
             leading: Icon(Icons.self_improvement),
-            title: Text('Self Development'),
+            title: Text('self_development'.tr),
             onTap: () {},
           ),
           ListTile(
             leading: Icon(Icons.nights_stay),
-            title: Text('Literature'),
+            title: Text('literature'.tr),
             onTap: () {},
           ),
           ListTile(
             leading: Icon(Icons.science),
-            title: Text('Science'),
+            title: Text('science'.tr),
             onTap: () {},
           ),
           ListTile(
             leading: Icon(Icons.history),
-            title: Text('History'),
+            title: Text('history'.tr),
             onTap: () {},
           ),
           ListTile(
             leading: Icon(Icons.auto_stories),
-            title: Text('Religion'),
+            title: Text('religion'.tr),
             onTap: () {},
           ),
           ListTile(
             leading: Icon(Icons.business_center),
-            title: Text('Business'),
+            title: Text('business'.tr),
             onTap: () {},
           ),
           const Divider(),
           ListTile(
             leading: Icon(Icons.logout, color: AppColors.orange),
-            title: Text('Log Out', style: TextStyle(color: AppColors.orange)),
+            title: Text('logout'.tr, style: TextStyle(color: AppColors.orange)),
             onTap: () {},
           ),
         ],

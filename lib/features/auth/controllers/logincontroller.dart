@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../Home/home_view.dart';
+import '../../Home/home_view.dart';
 import '../services/loginserv.dart';
 
 class LoginController extends GetxController {
