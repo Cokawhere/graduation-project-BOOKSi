@@ -21,13 +21,13 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColors.white,
 
         extendBody: true,
         extendBodyBehindAppBar: false,
         drawer: _buildDrawer(context),
         appBar: AppBar(
-          backgroundColor: AppColors.background,
+          backgroundColor: AppColors.white,
           elevation: 0,
           centerTitle: true,
           title: const Text(
@@ -42,7 +42,7 @@ class HomeView extends StatelessWidget {
 
         body: pages[controller.selectedIndex.value],
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(40),
             child: Container(
@@ -50,36 +50,40 @@ class HomeView extends StatelessWidget {
               child: BottomAppBar(
                 color: const Color.fromARGB(149, 0, 0, 0),
                 elevation: 0,
-                child: BottomNavigationBar(
-                  type: BottomNavigationBarType.fixed,
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  currentIndex: controller.selectedIndex.value,
-                  onTap: controller.changeTab,
-                  selectedItemColor: AppColors.brown,
-                  unselectedItemColor: AppColors.teaMilk,
-                  selectedFontSize: 0,
-                  unselectedFontSize: 0,
-                  showSelectedLabels: false,
-                  showUnselectedLabels: false,
-                  items: const [
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.home_filled, size: 30),
-                      label: "home",
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.shopping_cart, size: 30),
-                      label: "",
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.article, size: 30),
-                      label: "",
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.person, size: 30),
-                      label: "",
-                    ),
-                  ],
+                child: SizedBox(
+                  height: 30,
+                  width: double.infinity,
+                  child: BottomNavigationBar(
+                    type: BottomNavigationBarType.fixed,
+                    backgroundColor: const Color.fromARGB(0, 169, 81, 81),
+                    elevation: 0,
+                    currentIndex: controller.selectedIndex.value,
+                    onTap: controller.changeTab,
+                    selectedItemColor: AppColors.brown,
+                    unselectedItemColor: AppColors.teaMilk,
+                    selectedFontSize: 0,
+                    unselectedFontSize: 0,
+                    showSelectedLabels: false,
+                    showUnselectedLabels: false,
+                    items: const [
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.home_filled, size: 35),
+                        label: "home",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.shopping_cart, size: 35),
+                        label: "",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.article, size: 35),
+                        label: "",
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.person, size: 35),
+                        label: "",
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

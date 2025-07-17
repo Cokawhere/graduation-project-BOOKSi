@@ -25,12 +25,12 @@ class BookCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 140,
-      height: 250,
+      height: 230,
       child: Container(
         width: 140,
         margin: const EdgeInsets.only(right: 12),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: const Color.fromARGB(255, 242, 240, 236),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -78,7 +78,7 @@ class BookCard extends StatelessWidget {
                       fontSize: 13,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 6),
                   Text(
                     author,
                     style: const TextStyle(
@@ -92,7 +92,6 @@ class BookCard extends StatelessWidget {
             ),
 
             const Spacer(),
-
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
@@ -130,10 +129,10 @@ class BookCard extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(height: 10),
           ],
         ),
       ),
     );
   }
-
 }

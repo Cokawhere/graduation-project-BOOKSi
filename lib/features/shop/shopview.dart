@@ -12,8 +12,8 @@ class ShopView extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
       children: [
+        const SizedBox(height: 10),
         _buildSearchBar(),
-        const SizedBox(height: 20),
         _buildSection("best_selling".tr),
         const SizedBox(height: 20),
         _buildCategoriesSection(),
