@@ -1,11 +1,15 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class HomeController extends GetxController {
   var selectedIndex = 0.obs;
   var currentLocale = Locale(GetStorage().read('lang') ?? 'en').obs;
+  var isDarkMode = false.obs;
+  final _storage = GetStorage();
+  final String darkModeKey = 'isDarkMode';
 
   void changeTab(int index) => selectedIndex.value = index;
 
@@ -16,7 +20,19 @@ class HomeController extends GetxController {
     currentLocale.value = locale;
     Get.updateLocale(locale);
     GetStorage().write('lang', locale.languageCode);
-    Get.forceAppUpdate();
+    
     print("Language changed to ${locale.languageCode}");
+  }
+
+  @override
+  void getMood() {
+    isDarkMode.value = _storage.read(darkModeKey) ?? false;
+  }
+
+  void toggleDarkMode(bool value) {
+    isDarkMode.value = value;
+    _storage.write(darkModeKey, value);
+
+    Get.changeThemeMode(value ? ThemeMode.dark : ThemeMode.light);
   }
 }

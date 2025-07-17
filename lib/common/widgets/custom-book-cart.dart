@@ -73,9 +73,10 @@ class BookCard extends StatelessWidget {
                     title,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 13,
+                      color: AppColors.black,
                     ),
                   ),
                   const SizedBox(height: 6),
@@ -100,13 +101,20 @@ class BookCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text("EGP", style: const TextStyle(fontSize: 13)),
+                      Text(
+                        "EGP",
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: AppColors.black,
+                        ),
+                      ),
                       SizedBox(width: 3),
                       Text(
                         price,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
+                          color: AppColors.black,
                         ),
                       ),
                     ],

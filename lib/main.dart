@@ -22,17 +22,32 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = GetStorage().read('isDarkMode') ?? false;
+
     return GetMaterialApp(
+      themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
+      theme: ThemeData(
+        brightness: Brightness.light,
+        fontFamily: 'Inter',
+        scaffoldBackgroundColor: AppColors.white,
+        appBarTheme: AppBarTheme(
+          backgroundColor: AppColors.white,
+          elevation: 0,
+        ),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        fontFamily: 'Inter',
+        scaffoldBackgroundColor: Colors.black,
+        appBarTheme: AppBarTheme(backgroundColor: Colors.black, elevation: 0),
+      ),
       translations: AppTranslations(),
       locale: GetStorage().read('lang') != null
           ? Locale(GetStorage().read('lang'))
           : const Locale('en'),
-      fallbackLocale: Locale('en', 'US'),
+      fallbackLocale: const Locale('en', 'US'),
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: 'Inter',
-        scaffoldBackgroundColor: AppColors.background,
-      ),
+
       home: SplashView(),
     );
   }
