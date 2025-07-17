@@ -39,7 +39,7 @@ class HomeView extends StatelessWidget {
 
         body: pages[controller.selectedIndex.value],
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(40),
             child: Container(
@@ -48,6 +48,7 @@ class HomeView extends StatelessWidget {
               child: BottomAppBar(
                 color: const Color.fromARGB(149, 0, 0, 0),
                 elevation: 0,
+
                 child: BottomNavigationBar(
                   type: BottomNavigationBarType.fixed,
                   backgroundColor: const Color.fromARGB(0, 169, 81, 81),
