@@ -1,6 +1,9 @@
 import 'package:booksi/common/styles/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../auth/services/loginserv.dart';
+import '../auth/views/loginview.dart';
 import '../cart/cart_view.dart';
 import '../shop/shopview.dart';
 import 'home_controller.dart';
@@ -49,7 +52,7 @@ class HomeView extends StatelessWidget {
                 child: BottomAppBar(
                   color: const Color.fromARGB(149, 0, 0, 0),
                   elevation: 0,
-          
+
                   child: BottomNavigationBar(
                     type: BottomNavigationBarType.fixed,
                     backgroundColor: const Color.fromARGB(0, 169, 81, 81),
@@ -91,18 +94,34 @@ class HomeView extends StatelessWidget {
   }
 
   Drawer _buildDrawer(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+
     return Drawer(
       width: MediaQuery.of(context).size.width * 0.5,
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            decoration: BoxDecoration(color: AppColors.teaMilk),
-            accountName: Text("Mohamed Ahmed"),
-            accountEmail: Text("example@email.com"),
+            decoration: BoxDecoration(color: AppColors.white),
+            accountName: Text(
+              user?.displayName ?? "No Name",
+              style: TextStyle(
+                color: AppColors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            accountEmail: Text(
+              user?.email ?? "No Email",
+              style: TextStyle(color: AppColors.black),
+            ),
             currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
-              child: Icon(Icons.person, size: 40, color: AppColors.teaMilk),
+              backgroundImage: user?.photoURL != null
+                  ? NetworkImage(user!.photoURL!)
+                  : null,
+              child: user?.photoURL == null
+                  ? Icon(Icons.person, size: 40, color: AppColors.teaMilk)
+                  : null,
             ),
           ),
 
@@ -165,7 +184,11 @@ class HomeView extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.logout, color: AppColors.orange),
             title: Text('logout'.tr, style: TextStyle(color: AppColors.orange)),
-            onTap: () {},
+            onTap: () async {
+              print("88");
+              await AuthService().signOut();
+              Get.offAll(() => LoginView());
+            },
           ),
         ],
       ),

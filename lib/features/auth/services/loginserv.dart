@@ -7,8 +7,15 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<User?> signUpWithEmail(String email, String password, String name) async {
-    final userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+  Future<User?> signUpWithEmail(
+    String email,
+    String password,
+    String name,
+  ) async {
+    final userCredential = await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
     final user = userCredential.user;
     if (user != null) {
       await _createUserDoc(user, name);
@@ -17,7 +24,10 @@ class AuthService {
   }
 
   Future<User?> signInWithEmail(String email, String password) async {
-    final userCredential = await _auth.signInWithEmailAndPassword(email: email, password: password);
+    final userCredential = await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
     final user = userCredential.user;
     if (user != null) {
       final doc = await _firestore.collection("users").doc(user.uid).get();
@@ -60,7 +70,9 @@ class AuthService {
     final LoginResult result = await FacebookAuth.instance.login();
     if (result.status != LoginStatus.success) throw "Facebook Sign-in failed.";
 
-    final OAuthCredential credential = FacebookAuthProvider.credential(result.accessToken!.token);
+    final OAuthCredential credential = FacebookAuthProvider.credential(
+      result.accessToken!.token,
+    );
     final userCredential = await _auth.signInWithCredential(credential);
     final user = userCredential.user;
     if (user != null) {
@@ -104,5 +116,26 @@ class AuthService {
     await _firestore.collection("users").doc(uid).update({
       "updatedAt": FieldValue.serverTimestamp(),
     });
+  }
+
+  Future<void> signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+
+      try {
+        await GoogleSignIn().signOut();
+      } catch (_) {
+        print("Google signout failed");
+      }
+
+      try {
+        await FacebookAuth.instance.logOut();
+      } catch (_) {
+        print("Facebook signout failed");
+      }
+    } catch (e) {
+      print("General signout error: $e");
+      rethrow;
+    }
   }
 }
