@@ -77,7 +77,10 @@ class ShopView extends StatelessWidget {
               onTap: () {
                 Get.to(() => BooksView(title: title, books: books));
               },
-              child: Text('see_all'.tr, style: TextStyle(color: AppColors.brown)),
+              child: Text(
+                'see_all'.tr,
+                style: TextStyle(color: AppColors.brown),
+              ),
             ),
           ],
         ),
@@ -90,7 +93,7 @@ class ShopView extends StatelessWidget {
               final book = books[index];
               return BookCard(
                 index: index,
-                imageBase64: book.coverImage,
+                imageUrl: book.coverImage,
                 title: book.title,
                 author: book.author,
                 price: book.price?.toString() ?? '0',
@@ -106,12 +109,24 @@ class ShopView extends StatelessWidget {
   Widget _buildCategoriesSection() {
     final categories = [
       {'icon': Icons.menu_book, 'label': 'novels'.tr, 'genre': 'novels'},
-      {'icon': Icons.self_improvement, 'label': 'self_development'.tr, 'genre': 'self_development'},
-      {'icon': Icons.nights_stay, 'label': 'literature'.tr, 'genre': 'literature'},
+      {
+        'icon': Icons.self_improvement,
+        'label': 'self_development'.tr,
+        'genre': 'self_development',
+      },
+      {
+        'icon': Icons.nights_stay,
+        'label': 'literature'.tr,
+        'genre': 'literature',
+      },
       {'icon': Icons.science, 'label': 'science'.tr, 'genre': 'science'},
       {'icon': Icons.history, 'label': 'history'.tr, 'genre': 'history'},
       {'icon': Icons.auto_stories, 'label': 'religion'.tr, 'genre': 'religion'},
-      {'icon': Icons.business_center, 'label': 'business'.tr, 'genre': 'business'},
+      {
+        'icon': Icons.business_center,
+        'label': 'business'.tr,
+        'genre': 'business',
+      },
     ];
 
     return Column(
@@ -126,7 +141,6 @@ class ShopView extends StatelessWidget {
                 "book_categories".tr,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
-              
             ],
           ),
         ),
@@ -141,11 +155,20 @@ class ShopView extends StatelessWidget {
               return GestureDetector(
                 onTap: () {
                   final genre = item['genre'];
-                  final filteredBooks = controller.allBooks.where(
-                    (book) => book.genre.toLowerCase() == genre.toString().toLowerCase(),
-                  ).toList();
+                  final filteredBooks = controller.allBooks
+                      .where(
+                        (book) =>
+                            book.genre.toLowerCase() ==
+                            genre.toString().toLowerCase(),
+                      )
+                      .toList();
 
-                  Get.to(() => BooksView(title: item['label'] as String, books: filteredBooks));
+                  Get.to(
+                    () => BooksView(
+                      title: item['label'] as String,
+                      books: filteredBooks,
+                    ),
+                  );
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),

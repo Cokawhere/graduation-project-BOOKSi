@@ -8,9 +8,14 @@ class AuthService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<User?> signUpWithEmail(
-      String email, String password, String name) async {
+    String email,
+    String password,
+    String name,
+  ) async {
     final userCredential = await _auth.createUserWithEmailAndPassword(
-        email: email, password: password);
+      email: email,
+      password: password,
+    );
     final user = userCredential.user;
     if (user != null) {
       await _createUserDoc(user, name, ""); // imageBase64 is empty on sign up
@@ -47,8 +52,9 @@ class AuthService {
     final LoginResult result = await FacebookAuth.instance.login();
     if (result.status != LoginStatus.success) throw "Facebook Sign-in failed.";
 
-    final OAuthCredential credential =
-        FacebookAuthProvider.credential(result.accessToken!.token);
+    final OAuthCredential credential = FacebookAuthProvider.credential(
+      result.accessToken!.token,
+    );
     final userCredential = await _auth.signInWithCredential(credential);
     final user = userCredential.user;
 
@@ -64,13 +70,12 @@ class AuthService {
     return user;
   }
 
-  Future<void> _createUserDoc(
-      User user, String name, String imageBase64) async {
+  Future<void> _createUserDoc(User user, String name, String imageUrl) async {
     await _firestore.collection("users").doc(user.uid).set({
       "uid": user.uid,
       "name": name,
       "email": user.email ?? "",
-      "photoUrl": imageBase64,
+      "photoUrl": imageUrl,
       "bio": "",
       "role": "reader",
       "averageRating": 0.0,

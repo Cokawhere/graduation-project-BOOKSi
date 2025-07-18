@@ -1,10 +1,12 @@
-import 'dart:convert';
+
 
 import 'package:flutter/material.dart';
+
+
 import 'package:booksi/common/styles/colors.dart';
 
 class BookCard extends StatelessWidget {
-  final String imageBase64;
+  final String imageUrl;
   final String title;
   final String author;
   final String price;
@@ -13,7 +15,7 @@ class BookCard extends StatelessWidget {
 
   const BookCard({
     super.key,
-    required this.imageBase64,
+    required this.imageUrl,
     required this.title,
     required this.author,
     required this.price,
@@ -27,7 +29,7 @@ class BookCard extends StatelessWidget {
       width: 140,
       height: 230,
       child: Container(
-        width: 140,
+
         margin: const EdgeInsets.only(right: 12),
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 242, 240, 236),
@@ -41,27 +43,18 @@ class BookCard extends StatelessWidget {
                 topLeft: Radius.circular(12),
                 topRight: Radius.circular(12),
               ),
-              child:
-                  imageBase64.startsWith('data:image') ||
-                      imageBase64.length > 100
-                  ? Image.memory(
-                      base64Decode(imageBase64),
-                      height: 160,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Container(
-                        height: 160,
-                        width: double.infinity,
-                        color: AppColors.brown,
-                        child: const Icon(Icons.error, color: AppColors.white),
-                      ),
-                    )
-                  : Container(
-                      height: 140,
-                      width: double.infinity,
-                      color: AppColors.brown,
-                      child: const Icon(Icons.book, color: AppColors.white),
-                    ),
+              child: Image.network(
+                imageUrl,
+                height: 160,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  height: 160,
+                  width: double.infinity,
+                  color: AppColors.brown,
+                  child: const Icon(Icons.error, color: AppColors.white),
+                ),
+              ),
             ),
 
             Padding(
@@ -73,7 +66,7 @@ class BookCard extends StatelessWidget {
                     title,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 13,
                       color: AppColors.black,
@@ -101,14 +94,14 @@ class BookCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         "EGP",
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 13,
                           color: AppColors.black,
                         ),
                       ),
-                      SizedBox(width: 3),
+                      const SizedBox(width: 3),
                       Text(
                         price,
                         style: const TextStyle(
@@ -137,7 +130,7 @@ class BookCard extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
           ],
         ),
       ),
