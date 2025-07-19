@@ -1,9 +1,6 @@
-
-
 import 'package:flutter/material.dart';
 
-
-import 'package:booksi/common/styles/colors.dart';
+import '../styles/colors.dart';
 
 class BookCard extends StatelessWidget {
   final String imageUrl;
@@ -27,9 +24,8 @@ class BookCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 140,
-      height: 230,
+      height: 260, // ← زودنا الارتفاع شوية
       child: Container(
-
         margin: const EdgeInsets.only(right: 12),
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 242, 240, 236),
@@ -45,11 +41,11 @@ class BookCard extends StatelessWidget {
               ),
               child: Image.network(
                 imageUrl,
-                height: 160,
+                height: 140, // ↓ قللناها شوية علشان نكسب مساحة تحت
                 width: double.infinity,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) => Container(
-                  height: 160,
+                  height: 140,
                   width: double.infinity,
                   color: AppColors.brown,
                   child: const Icon(Icons.error, color: AppColors.white),
@@ -57,8 +53,9 @@ class BookCard extends StatelessWidget {
               ),
             ),
 
+            // 📝 عنوان و مؤلف
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -68,17 +65,19 @@ class BookCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 13,
+                      fontSize: 12,
                       color: AppColors.black,
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 4),
                   Text(
                     author,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: Colors.brown,
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
@@ -87,8 +86,9 @@ class BookCard extends StatelessWidget {
 
             const Spacer(),
 
+            // 💰 السعر + زر الإضافة
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -96,17 +96,14 @@ class BookCard extends StatelessWidget {
                     children: [
                       const Text(
                         "EGP",
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: AppColors.black,
-                        ),
+                        style: TextStyle(fontSize: 12, color: AppColors.black),
                       ),
                       const SizedBox(width: 3),
                       Text(
                         price,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                          fontSize: 16,
                           color: AppColors.black,
                         ),
                       ),
@@ -115,14 +112,14 @@ class BookCard extends StatelessWidget {
                   InkWell(
                     onTap: onAdd,
                     child: Container(
-                      padding: const EdgeInsets.all(6),
+                      padding: const EdgeInsets.all(5),
                       decoration: const BoxDecoration(
                         color: AppColors.brown,
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
                         Icons.add,
-                        size: 16,
+                        size: 18,
                         color: Colors.white,
                       ),
                     ),
@@ -130,7 +127,7 @@ class BookCard extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 5),
           ],
         ),
       ),

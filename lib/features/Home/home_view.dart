@@ -101,28 +101,50 @@ class HomeView extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          UserAccountsDrawerHeader(
-            decoration: BoxDecoration(color: AppColors.white),
-            accountName: Text(
-              user?.displayName ?? "No Name",
-              style: TextStyle(
-                color: AppColors.black,
-                fontWeight: FontWeight.bold,
+          Stack(
+            children: [
+              UserAccountsDrawerHeader(
+                decoration: const BoxDecoration(color: AppColors.white),
+                accountName: Text(
+                  user?.displayName ?? "No Name",
+                  style: const TextStyle(
+                    color: AppColors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                accountEmail: Text(
+                  user?.email ?? "No Email",
+                  style: const TextStyle(color: AppColors.black),
+                ),
+                currentAccountPicture: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  backgroundImage: user?.photoURL != null
+                      ? NetworkImage(user!.photoURL!)
+                      : null,
+                  child: user?.photoURL == null
+                      ? const Icon(
+                          Icons.person,
+                          size: 40,
+                          color: AppColors.teaMilk,
+                        )
+                      : null,
+                ),
               ),
-            ),
-            accountEmail: Text(
-              user?.email ?? "No Email",
-              style: TextStyle(color: AppColors.black),
-            ),
-            currentAccountPicture: CircleAvatar(
-              backgroundColor: Colors.white,
-              backgroundImage: user?.photoURL != null
-                  ? NetworkImage(user!.photoURL!)
-                  : null,
-              child: user?.photoURL == null
-                  ? Icon(Icons.person, size: 40, color: AppColors.teaMilk)
-                  : null,
-            ),
+              Positioned(
+                top: 50,
+                right: 5,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.notifications,
+                    color: AppColors.brown,
+                    size: 35,
+                  ),
+                  onPressed: () {
+                    // Get.to(() => NotificationsView());
+                  },
+                ),
+              ),
+            ],
           ),
 
           Row(
@@ -153,7 +175,9 @@ class HomeView extends StatelessWidget {
               ),
             ],
           ),
+
           const Divider(),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -179,13 +203,40 @@ class HomeView extends StatelessWidget {
               ),
             ],
           ),
-
+          const Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                'chat'.tr,
+                style: const TextStyle(
+                  color: AppColors.brown,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(width: 1),
+              GestureDetector(
+                onTap: () {
+                  // Get.to(() => ChatView());
+                },
+                child: const Icon(
+                  Icons.chat_bubble_outline,
+                  color: AppColors.brown,
+                  size: 40,
+                ),
+              ),
+            ],
+          ),
           const Divider(),
           ListTile(
-            leading: Icon(Icons.logout, color: AppColors.orange),
-            title: Text('logout'.tr, style: TextStyle(color: AppColors.orange)),
+            leading: const Icon(Icons.logout, color: AppColors.orange),
+            title: Text(
+              'logout'.tr,
+              style: const TextStyle(color: AppColors.orange),
+            ),
             onTap: () async {
-              print("88");
+              
               await AuthService().signOut();
               Get.offAll(() => LoginView());
             },

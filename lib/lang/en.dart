@@ -47,4 +47,5 @@ const Map<String, String> en = {
   "religion": "Religion",
   "business": "Business",
   "logout": "Log Out",
+  "all_books": "All Books",
 };

@@ -20,12 +20,12 @@ class ShopController extends GetxController {
   void fetchBooks() async {
     try {
       isLoading.value = true;
-      bestSellingBooks.value = await ShopServices.getBooksByTag("best");
-      trendingBooks.value = await ShopServices.getBooksByTag("trending");
-      newArrivalBooks.value = await ShopServices.getBooksByTag("new");
-      allBooks.value = [...bestSellingBooks, ...trendingBooks, ...newArrivalBooks];
+
+      bestSellingBooks.value = await ShopServices.getBestSellingBooks();
+      newArrivalBooks.value = await ShopServices.getNewArrivalBooks();
+      allBooks.value = await ShopServices.getAllApprovedBooks();
     } catch (e) {
-      print("Error fetching books: $e");
+      print(" Error fetching books: $e");
     } finally {
       isLoading.value = false;
     }
@@ -33,20 +33,27 @@ class ShopController extends GetxController {
 
   void filterBooks(String query) {
     if (query.isEmpty) {
-      bestSellingBooks.refresh();
-      trendingBooks.refresh();
-      newArrivalBooks.refresh();
+      fetchBooks();
     } else {
       final lower = query.toLowerCase();
 
-      bestSellingBooks.value = bestSellingBooks.where((book) =>
-        book.title.toLowerCase().contains(lower) || book.author.toLowerCase().contains(lower)).toList();
+      bestSellingBooks.value = bestSellingBooks
+          .where((book) =>
+              book.title.toLowerCase().contains(lower) ||
+              book.author.toLowerCase().contains(lower))
+          .toList();
 
-      trendingBooks.value = trendingBooks.where((book) =>
-        book.title.toLowerCase().contains(lower) || book.author.toLowerCase().contains(lower)).toList();
+      trendingBooks.value = trendingBooks
+          .where((book) =>
+              book.title.toLowerCase().contains(lower) ||
+              book.author.toLowerCase().contains(lower))
+          .toList();
 
-      newArrivalBooks.value = newArrivalBooks.where((book) =>
-        book.title.toLowerCase().contains(lower) || book.author.toLowerCase().contains(lower)).toList();
+      newArrivalBooks.value = newArrivalBooks
+          .where((book) =>
+              book.title.toLowerCase().contains(lower) ||
+              book.author.toLowerCase().contains(lower))
+          .toList();
     }
   }
 }

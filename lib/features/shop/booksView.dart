@@ -27,7 +27,7 @@ class BooksView extends StatelessWidget {
             imageUrl: book.coverImage,
             title: book.title,
             author: book.author,
-            price: book.price?.toString() ?? "0",
+            price: book.price.toString() ?? "0",
             onAdd: () {},
             index: index,
           );

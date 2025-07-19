@@ -26,10 +26,10 @@ class ShopView extends StatelessWidget {
           _buildSection("best_selling".tr, controller.bestSellingBooks),
           const SizedBox(height: 20),
           _buildCategoriesSection(),
-          const SizedBox(height: 20),
-          _buildSection("trending_books".tr, controller.trendingBooks),
-          const SizedBox(height: 20),
+          const SizedBox(height: 25),
           _buildSection("new_arrivals".tr, controller.newArrivalBooks),
+          const SizedBox(height: 20),
+          _buildSection("all_books".tr, controller.allBooks),
         ],
       );
     });
@@ -66,6 +66,7 @@ class ShopView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(height: 5),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -84,6 +85,7 @@ class ShopView extends StatelessWidget {
             ),
           ],
         ),
+        SizedBox(height: 20),
         SizedBox(
           height: 270,
           child: ListView.builder(
@@ -96,7 +98,7 @@ class ShopView extends StatelessWidget {
                 imageUrl: book.coverImage,
                 title: book.title,
                 author: book.author,
-                price: book.price?.toString() ?? '0',
+                price: book.price.toString() ?? '0',
                 onAdd: () {},
               );
             },
@@ -120,7 +122,7 @@ class ShopView extends StatelessWidget {
         'genre': 'literature',
       },
       {'icon': Icons.science, 'label': 'science'.tr, 'genre': 'science'},
-      {'icon': Icons.history, 'label': 'history'.tr, 'genre': 'history'},
+      {'icon': Icons.history, 'label': 'Historical'.tr, 'genre': 'Historical'},
       {'icon': Icons.auto_stories, 'label': 'religion'.tr, 'genre': 'religion'},
       {
         'icon': Icons.business_center,
@@ -146,7 +148,7 @@ class ShopView extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         SizedBox(
-          height: 80,
+          height: 95,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: categories.length,
@@ -183,6 +185,7 @@ class ShopView extends StatelessWidget {
                         child: Icon(
                           item['icon'] as IconData,
                           color: AppColors.brown,
+                          size: 35,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -190,6 +193,7 @@ class ShopView extends StatelessWidget {
                         item['label'] as String,
                         style: const TextStyle(fontSize: 12),
                       ),
+                      const SizedBox(height: 10),
                     ],
                   ),
                 ),

@@ -47,4 +47,5 @@ const Map<String, String> ar = {
   "religion": "الدين",
   "business": "الأعمال",
   "logout": "تسجيل الخروج",
+  "all_books":"كل الكتب"
 };
