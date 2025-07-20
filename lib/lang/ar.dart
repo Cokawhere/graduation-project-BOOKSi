@@ -47,5 +47,7 @@ const Map<String, String> ar = {
   "religion": "الدين",
   "business": "الأعمال",
   "logout": "تسجيل الخروج",
-  "all_books":"كل الكتب"
+  "all_books":"كل الكتب",
+  "chat":"الرسائل",
+  "no_results_found":"مفبش كتاب عندنا  بالسم دا اسفين"
 };

@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:booksi/common/widgets/custom-book-cart.dart';
 import 'package:get/get.dart';
 import '../../common/styles/colors.dart';
-import 'package:booksi/features/shop/shop_controller.dart';
+
 
 import 'BooksView.dart';
 import 'book_model.dart';
+import 'shop_controller.dart';
 
 class ShopView extends StatelessWidget {
   final ShopController controller = Get.put(ShopController());
@@ -18,18 +19,58 @@ class ShopView extends StatelessWidget {
       if (controller.isLoading.value) {
         return const Center(child: CircularProgressIndicator());
       }
-      return ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+
+      bool isSearching = controller.searchQuery.value.isNotEmpty;
+
+      return Column(
         children: [
           const SizedBox(height: 10),
           _buildSearchBar(),
-          _buildSection("best_selling".tr, controller.bestSellingBooks),
-          const SizedBox(height: 20),
-          _buildCategoriesSection(),
-          const SizedBox(height: 25),
-          _buildSection("new_arrivals".tr, controller.newArrivalBooks),
-          const SizedBox(height: 20),
-          _buildSection("all_books".tr, controller.allBooks),
+          Expanded(
+            child: isSearching
+                ? controller.filteredBooks.isEmpty
+                      ? Center(child: Text("no_results_found".tr))
+                      : GridView.builder(
+                          padding: const EdgeInsets.all(12),
+                          itemCount: controller.filteredBooks.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 16,
+                                crossAxisSpacing: 12,
+                                childAspectRatio: 0.65,
+                              ),
+                          itemBuilder: (context, index) {
+                            final book = controller.filteredBooks[index];
+                            return BookCard(
+                              index: index,
+                              imageUrl: book.coverImage,
+                              title: book.title,
+                              author: book.author,
+                              price: book.price.toString(),
+                              onAdd: () {},
+                            );
+                          },
+                        )
+                : ListView(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    children: [
+                      _buildSection(
+                        "best_selling".tr,
+                        controller.bestSellingBooks,
+                      ),
+                      const SizedBox(height: 20),
+                      _buildCategoriesSection(),
+                      const SizedBox(height: 25),
+                      _buildSection(
+                        "new_arrivals".tr,
+                        controller.newArrivalBooks,
+                      ),
+                      const SizedBox(height: 20),
+                      _buildSection("all_books".tr, controller.allBooks),
+                    ],
+                  ),
+          ),
         ],
       );
     });
@@ -107,6 +148,7 @@ class ShopView extends StatelessWidget {
       ],
     );
   }
+
 
   Widget _buildCategoriesSection() {
     final categories = [

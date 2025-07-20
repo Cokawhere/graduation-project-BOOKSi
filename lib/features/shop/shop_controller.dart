@@ -11,13 +11,16 @@ class ShopController extends GetxController {
   var newArrivalBooks = <Book>[].obs;
   var allBooks = <Book>[].obs;
 
+  var searchQuery = ''.obs;
+  var filteredBooks = <Book>[].obs;
+
   @override
   void onInit() {
     super.onInit();
     fetchBooks();
   }
 
-  void fetchBooks() async {
+ void fetchBooks() async {
     try {
       isLoading.value = true;
 
@@ -32,28 +35,16 @@ class ShopController extends GetxController {
   }
 
   void filterBooks(String query) {
+    searchQuery.value = query;
+
     if (query.isEmpty) {
-      fetchBooks();
+      filteredBooks.clear();
     } else {
       final lower = query.toLowerCase();
 
-      bestSellingBooks.value = bestSellingBooks
-          .where((book) =>
-              book.title.toLowerCase().contains(lower) ||
-              book.author.toLowerCase().contains(lower))
-          .toList();
-
-      trendingBooks.value = trendingBooks
-          .where((book) =>
-              book.title.toLowerCase().contains(lower) ||
-              book.author.toLowerCase().contains(lower))
-          .toList();
-
-      newArrivalBooks.value = newArrivalBooks
-          .where((book) =>
-              book.title.toLowerCase().contains(lower) ||
-              book.author.toLowerCase().contains(lower))
-          .toList();
+      filteredBooks.value = allBooks.where((book) =>
+        book.title.toLowerCase().contains(lower) ||
+        book.author.toLowerCase().contains(lower)).toList();
     }
   }
 }

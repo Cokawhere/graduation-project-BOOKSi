@@ -48,4 +48,7 @@ const Map<String, String> en = {
   "business": "Business",
   "logout": "Log Out",
   "all_books": "All Books",
+  "chat":"Chat",
+  "no_results_found":"No results Found sorry"
 };
+

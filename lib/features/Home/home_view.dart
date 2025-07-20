@@ -26,7 +26,13 @@ class HomeView extends StatelessWidget {
       () => Scaffold(
         extendBody: true,
         extendBodyBehindAppBar: false,
-        drawer: _buildDrawer(context),
+        drawer: controller.currentLocale.value.languageCode == 'ar'
+            ? null
+            : _buildDrawer(context),
+        endDrawer: controller.currentLocale.value.languageCode == 'ar'
+            ? _buildDrawer(context)
+            : null,
+
         appBar: AppBar(
           elevation: 0,
           centerTitle: true,
@@ -93,155 +99,157 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Drawer _buildDrawer(BuildContext context) {
+  Widget _buildDrawer(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
 
-    return Drawer(
-      width: MediaQuery.of(context).size.width * 0.5,
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          Stack(
-            children: [
-              UserAccountsDrawerHeader(
-                decoration: const BoxDecoration(color: AppColors.white),
-                accountName: Text(
-                  user?.displayName ?? "No Name",
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Drawer(
+        width: MediaQuery.of(context).size.width * 0.5,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            Stack(
+              children: [
+                UserAccountsDrawerHeader(
+                  decoration: const BoxDecoration(color: AppColors.white),
+                  accountName: Text(
+                    user?.displayName ?? "No Name",
+                    style: const TextStyle(
+                      color: AppColors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  accountEmail: Text(
+                    user?.email ?? "No Email",
+                    style: const TextStyle(color: AppColors.black),
+                  ),
+                  currentAccountPicture: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    backgroundImage: user?.photoURL != null
+                        ? NetworkImage(user!.photoURL!)
+                        : null,
+                    child: user?.photoURL == null
+                        ? const Icon(
+                            Icons.person,
+                            size: 40,
+                            color: AppColors.teaMilk,
+                          )
+                        : null,
+                  ),
+                ),
+                Positioned(
+                  top: 50,
+                  right: 5,
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.notifications,
+                      color: AppColors.brown,
+                      size: 35,
+                    ),
+                    onPressed: () {
+                      // Get.to(() => NotificationsView());
+                    },
+                  ),
+                ),
+              ],
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Obx(() {
+                  bool isDark = controller.isDarkMode.value;
+                  return Row(
+                    children: [
+                      Icon(
+                        isDark ? Icons.dark_mode : Icons.wb_sunny,
+                        color: AppColors.brown,
+                        size: 30,
+                      ),
+                      const SizedBox(width: 10),
+                    ],
+                  );
+                }),
+                Obx(
+                  () => Switch(
+                    value: controller.isDarkMode.value,
+                    onChanged: controller.toggleDarkMode,
+                    activeColor: AppColors.teaMilk,
+                    activeTrackColor: AppColors.brown,
+                    inactiveThumbColor: AppColors.background,
+                    inactiveTrackColor: AppColors.brown,
+                  ),
+                ),
+              ],
+            ),
+
+            const Divider(),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  controller.currentLocale.value.languageCode == 'ar'
+                      ? "AR"
+                      : "EN",
                   style: const TextStyle(
-                    color: AppColors.black,
+                    fontSize: 25,
+                    color: AppColors.brown,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Obx(
+                  () => Switch(
+                    value: controller.currentLocale.value.languageCode == 'ar',
+                    onChanged: controller.toggleLanguage,
+                    activeColor: AppColors.teaMilk,
+                    activeTrackColor: AppColors.brown,
+                    inactiveThumbColor: AppColors.background,
+                    inactiveTrackColor: AppColors.brown,
+                  ),
+                ),
+              ],
+            ),
+            const Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  'chat'.tr,
+                  style: const TextStyle(
+                    color: AppColors.brown,
+                    fontSize: 25,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                accountEmail: Text(
-                  user?.email ?? "No Email",
-                  style: const TextStyle(color: AppColors.black),
-                ),
-                currentAccountPicture: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  backgroundImage: user?.photoURL != null
-                      ? NetworkImage(user!.photoURL!)
-                      : null,
-                  child: user?.photoURL == null
-                      ? const Icon(
-                          Icons.person,
-                          size: 40,
-                          color: AppColors.teaMilk,
-                        )
-                      : null,
-                ),
-              ),
-              Positioned(
-                top: 50,
-                right: 5,
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.notifications,
-                    color: AppColors.brown,
-                    size: 35,
-                  ),
-                  onPressed: () {
-                    // Get.to(() => NotificationsView());
+                const SizedBox(width: 1),
+                GestureDetector(
+                  onTap: () {
+                    // Get.to(() => ChatView());
                   },
+                  child: const Icon(
+                    Icons.chat_bubble_outline,
+                    color: AppColors.brown,
+                    size: 40,
+                  ),
                 ),
-              ),
-            ],
-          ),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Obx(() {
-                bool isDark = controller.isDarkMode.value;
-                return Row(
-                  children: [
-                    Icon(
-                      isDark ? Icons.dark_mode : Icons.wb_sunny,
-                      color: AppColors.brown,
-                      size: 30,
-                    ),
-                    const SizedBox(width: 10),
-                  ],
-                );
-              }),
-              Obx(
-                () => Switch(
-                  value: controller.isDarkMode.value,
-                  onChanged: controller.toggleDarkMode,
-                  activeColor: AppColors.teaMilk,
-                  activeTrackColor: AppColors.brown,
-                  inactiveThumbColor: AppColors.background,
-                  inactiveTrackColor: AppColors.brown,
-                ),
-              ),
-            ],
-          ),
-
-          const Divider(),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(
-                controller.currentLocale.value.languageCode == 'ar'
-                    ? "AR"
-                    : "EN",
-                style: const TextStyle(
-                  fontSize: 25,
-                  color: AppColors.brown,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Obx(
-                () => Switch(
-                  value: controller.currentLocale.value.languageCode == 'ar',
-                  onChanged: controller.toggleLanguage,
-                  activeColor: AppColors.teaMilk,
-                  activeTrackColor: AppColors.brown,
-                  inactiveThumbColor: AppColors.background,
-                  inactiveTrackColor: AppColors.brown,
-                ),
-              ),
-            ],
-          ),
-          const Divider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(
-                'chat'.tr,
-                style: const TextStyle(
-                  color: AppColors.brown,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(width: 1),
-              GestureDetector(
-                onTap: () {
-                  // Get.to(() => ChatView());
-                },
-                child: const Icon(
-                  Icons.chat_bubble_outline,
-                  color: AppColors.brown,
-                  size: 40,
-                ),
-              ),
-            ],
-          ),
-          const Divider(),
-          ListTile(
-            leading: const Icon(Icons.logout, color: AppColors.orange),
-            title: Text(
-              'logout'.tr,
-              style: const TextStyle(color: AppColors.orange),
+              ],
             ),
-            onTap: () async {
-              
-              await AuthService().signOut();
-              Get.offAll(() => LoginView());
-            },
-          ),
-        ],
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.logout, color: AppColors.orange),
+              title: Text(
+                'logout'.tr,
+                style: const TextStyle(color: AppColors.orange),
+              ),
+              onTap: () async {
+                await AuthService().signOut();
+                Get.offAll(() => LoginView());
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
