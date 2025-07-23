@@ -3,7 +3,6 @@ import 'package:booksi/common/widgets/custom-book-cart.dart';
 import 'package:get/get.dart';
 import '../../common/styles/colors.dart';
 
-
 import 'BooksView.dart';
 import 'book_model.dart';
 import 'shop_controller.dart';
@@ -24,7 +23,7 @@ class ShopView extends StatelessWidget {
 
       return Column(
         children: [
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           _buildSearchBar(),
           Expanded(
             child: isSearching
@@ -59,14 +58,14 @@ class ShopView extends StatelessWidget {
                         "best_selling".tr,
                         controller.bestSellingBooks,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       _buildCategoriesSection(),
-                      const SizedBox(height: 25),
+                      const SizedBox(height: 10),
                       _buildSection(
                         "new_arrivals".tr,
                         controller.newArrivalBooks,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       _buildSection("all_books".tr, controller.allBooks),
                     ],
                   ),
@@ -78,16 +77,15 @@ class ShopView extends StatelessWidget {
 
   Widget _buildSearchBar() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
       child: Row(
         children: [
-          const Icon(Icons.search, size: 28, color: Colors.grey),
-          const SizedBox(width: 10),
+          const SizedBox(width: 20),
           Expanded(
             child: TextField(
               onChanged: controller.filterBooks,
-              style: const TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 22),
               decoration: InputDecoration(
                 hintText: "search_books".tr,
                 border: InputBorder.none,
@@ -95,7 +93,7 @@ class ShopView extends StatelessWidget {
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.tune, color: Colors.grey),
+            icon: const Icon(Icons.tune, color: AppColors.brown, size: 27),
             onPressed: () {},
           ),
         ],
@@ -107,13 +105,13 @@ class ShopView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 5),
+        SizedBox(height: 2),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               title,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             GestureDetector(
               onTap: () {
@@ -121,12 +119,16 @@ class ShopView extends StatelessWidget {
               },
               child: Text(
                 'see_all'.tr,
-                style: TextStyle(color: AppColors.brown),
+                style: TextStyle(
+                  color: AppColors.brown,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
         ),
-        SizedBox(height: 20),
+        SizedBox(height: 11),
         SizedBox(
           height: 270,
           child: ListView.builder(
@@ -148,7 +150,6 @@ class ShopView extends StatelessWidget {
       ],
     );
   }
-
 
   Widget _buildCategoriesSection() {
     final categories = [

@@ -22,38 +22,39 @@ class BookCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 160,
-      height: 260,
-      child: Container(
-        margin: const EdgeInsets.only(right: 12),
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 242, 240, 236),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(12),
-                topRight: Radius.circular(12),
-              ),
-              child: Image.network(
-                imageUrl,
+    return Container(
+      width: 180,
+      height: 900,
+
+      margin: const EdgeInsets.all(3),
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 242, 240, 236),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(12),
+              topRight: Radius.circular(12),
+            ),
+            child: Image.network(
+              imageUrl,
+              height: 140,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(
                 height: 140,
                 width: double.infinity,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  height: 140,
-                  width: double.infinity,
-                  color: AppColors.brown,
-                  child: const Icon(Icons.error, color: AppColors.white),
-                ),
+                color: AppColors.brown,
+                child: const Icon(Icons.error, color: AppColors.white),
               ),
             ),
+          ),
 
-            Padding(
+          Expanded(
+            child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,55 +80,53 @@ class BookCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ],
-              ),
-            ),
-
-            const Spacer(),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                  const Spacer(),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      const Text(
-                        "EGP",
-                        style: TextStyle(fontSize: 14, color: AppColors.black),
+                      Row(
+                        children: [
+                          const Text(
+                            "EGP",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: AppColors.black,
+                            ),
+                          ),
+                          Text(
+                            price,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: AppColors.black,
+                            ),
+                          ),
+                          const SizedBox(width: 33),
+                        ],
                       ),
-                      const SizedBox(width: 3),
-                      Text(
-                        price,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: AppColors.black,
+                      InkWell(
+                        onTap: onAdd,
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: const BoxDecoration(
+                            color: AppColors.brown,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.add,
+                            size: 24,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  InkWell(
-                    onTap: onAdd,
-                    child: Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: const BoxDecoration(
-                        color: AppColors.brown,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.add,
-                        size: 22,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+                  SizedBox(height: 6),
                 ],
               ),
             ),
-            SizedBox(height: 5),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

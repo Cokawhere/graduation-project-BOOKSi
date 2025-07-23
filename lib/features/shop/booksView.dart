@@ -1,3 +1,4 @@
+import 'package:booksi/common/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,27 +16,43 @@ class BooksView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 14),
+          child: IconButton(
+            icon: Icon(Icons.arrow_back_ios, color: Colors.black87, size: 30),
+            onPressed: () => Get.back(),
+          ),
+        ),
         title: Text(
           title,
-          style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            fontSize: 27,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.shopping_cart, size: 30),
-            onPressed: () {
-              Get.to(() => Cartview());
-            },
+          Padding(
+            padding: const EdgeInsets.only(right: 14),
+            child: IconButton(
+              icon: Icon(Icons.shopping_cart, color: Colors.black87, size: 33),
+              onPressed: () {
+                Get.to(() => Cartview());
+              },
+            ),
           ),
         ],
       ),
       body: GridView.builder(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         itemCount: books.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisSpacing: 16,
-          crossAxisSpacing: 12,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 7,
           childAspectRatio: 0.65,
         ),
         itemBuilder: (context, index) {

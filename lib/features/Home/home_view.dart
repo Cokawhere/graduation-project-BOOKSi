@@ -44,6 +44,35 @@ class HomeView extends StatelessWidget {
               fontSize: 35,
             ),
           ),
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(
+                Icons.menu, 
+                size: 30,
+                color: AppColors.brown,
+              ),
+              onPressed: () {
+                controller.currentLocale.value.languageCode == 'ar'
+                    ? Scaffold.of(context).openEndDrawer()
+                    : Scaffold.of(context).openDrawer();
+              },
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: IconButton(
+                icon: Icon(
+                  Icons.notifications_none,
+                  color: AppColors.brown,
+                  size: 30,
+                ),
+                onPressed: () {
+                  // Get.to(() => NotificationsView());
+                },
+              ),
+            ),
+          ],
         ),
 
         body: pages[controller.selectedIndex.value],
@@ -136,20 +165,6 @@ class HomeView extends StatelessWidget {
                             color: AppColors.teaMilk,
                           )
                         : null,
-                  ),
-                ),
-                Positioned(
-                  top: 50,
-                  right: 5,
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.notifications,
-                      color: AppColors.brown,
-                      size: 35,
-                    ),
-                    onPressed: () {
-                      // Get.to(() => NotificationsView());
-                    },
                   ),
                 ),
               ],
