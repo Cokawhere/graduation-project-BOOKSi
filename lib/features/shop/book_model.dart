@@ -73,8 +73,8 @@ class Book {
       price: (map['price'] ?? 0).toDouble(),
     );
   } catch (e) {
-    print("🔥 Error parsing book: $e");
-    print("🧩 Data: $map");
+    print(" Error parsing book: $e");
+    print(" Data: $map");
     rethrow;
   }
 }

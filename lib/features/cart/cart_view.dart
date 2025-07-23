@@ -5,6 +5,17 @@ class Cartview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("Cart", style: TextStyle(fontSize: 22)));
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Cart"),
+        centerTitle: true,
+      ),
+      body: const Center(
+        child: Text(
+          "Cart",
+          style: TextStyle(fontSize: 22),
+        ),
+      ),
+    );
   }
 }

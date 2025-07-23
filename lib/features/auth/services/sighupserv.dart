@@ -70,12 +70,12 @@ class AuthService {
     return user;
   }
 
-  Future<void> _createUserDoc(User user, String name, String imageUrl) async {
+  Future<void> _createUserDoc(User user, String name, [String? imageFileId]) async {
     await _firestore.collection("users").doc(user.uid).set({
       "uid": user.uid,
       "name": name,
       "email": user.email ?? "",
-      "photoUrl": imageUrl,
+      "photoUrl": user.photoURL ?? "",
       "bio": "",
       "role": "reader",
       "averageRating": 0.0,
@@ -91,6 +91,7 @@ class AuthService {
       "chatIds": [],
       "blogPostIds": [],
       "notificationIds": [],
+      "imageFileId": imageFileId ?? null,
       "createdAt": FieldValue.serverTimestamp(),
       "updatedAt": FieldValue.serverTimestamp(),
     });

@@ -23,8 +23,8 @@ class BookCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 140,
-      height: 260, // ← زودنا الارتفاع شوية
+      width: 160,
+      height: 260,
       child: Container(
         margin: const EdgeInsets.only(right: 12),
         decoration: BoxDecoration(
@@ -41,7 +41,7 @@ class BookCard extends StatelessWidget {
               ),
               child: Image.network(
                 imageUrl,
-                height: 140, // ↓ قللناها شوية علشان نكسب مساحة تحت
+                height: 140,
                 width: double.infinity,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) => Container(
@@ -53,7 +53,6 @@ class BookCard extends StatelessWidget {
               ),
             ),
 
-            // 📝 عنوان و مؤلف
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: Column(
@@ -65,7 +64,7 @@ class BookCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 12,
+                      fontSize: 16,
                       color: AppColors.black,
                     ),
                   ),
@@ -76,8 +75,8 @@ class BookCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: Colors.brown,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
@@ -86,7 +85,6 @@ class BookCard extends StatelessWidget {
 
             const Spacer(),
 
-            // 💰 السعر + زر الإضافة
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: Row(
@@ -96,7 +94,7 @@ class BookCard extends StatelessWidget {
                     children: [
                       const Text(
                         "EGP",
-                        style: TextStyle(fontSize: 12, color: AppColors.black),
+                        style: TextStyle(fontSize: 14, color: AppColors.black),
                       ),
                       const SizedBox(width: 3),
                       Text(
@@ -119,7 +117,7 @@ class BookCard extends StatelessWidget {
                       ),
                       child: const Icon(
                         Icons.add,
-                        size: 18,
+                        size: 22,
                         color: Colors.white,
                       ),
                     ),
