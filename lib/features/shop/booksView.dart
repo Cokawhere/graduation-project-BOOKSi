@@ -10,7 +10,7 @@ class BooksView extends StatelessWidget {
   final String title;
   final List<Book> books;
 
-  BooksView({super.key, required this.title, required this.books});
+  const BooksView({super.key, required this.title, required this.books});
 
   @override
   Widget build(BuildContext context) {

@@ -117,7 +117,7 @@ class AuthService {
       "chatIds": [],
       "blogPostIds": [],
       "notificationIds": [],
-      "imageFileId": imageFileId ?? null,
+      "imageFileId": imageFileId,
       "createdAt": FieldValue.serverTimestamp(),
       "updatedAt": FieldValue.serverTimestamp(),
     });
