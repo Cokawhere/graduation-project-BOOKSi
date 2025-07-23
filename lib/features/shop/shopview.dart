@@ -67,7 +67,7 @@ class ShopView extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       _buildSection("all_books".tr, controller.allBooks),
-                      const SizedBox(height: 100),
+                      const SizedBox(height: 80),
                     ],
                   ),
           ),
