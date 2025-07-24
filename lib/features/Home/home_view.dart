@@ -1,4 +1,5 @@
 import 'package:booksi/common/styles/colors.dart';
+import 'package:booksi/features/profile/views/profile_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +16,7 @@ class HomeView extends StatelessWidget {
     ShopView(),
     Cartview(),
     PlaceholderWidget("Blog"),
-    PlaceholderWidget("profile"),
+    ProfilePage(),
   ];
 
   HomeView({super.key});
