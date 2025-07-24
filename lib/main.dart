@@ -1,3 +1,6 @@
+import 'package:booksi/features/profile/controllers/book_controllers.dart';
+import 'package:booksi/features/profile/controllers/imagekit_controller.dart';
+import 'package:booksi/features/profile/controllers/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,6 +16,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await GetStorage.init();
+  Get.put(ProfileController(), permanent: true);
+  Get.put(BookController(), permanent: true);
+  Get.put(ImageKitController(), permanent: true);
 
   runApp(const MyApp());
 }
