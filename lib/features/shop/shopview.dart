@@ -237,7 +237,7 @@ class ShopView extends StatelessWidget {
                         item['label'] as String,
                         style: const TextStyle(fontSize: 12),
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 7),
                     ],
                   ),
                 ),
