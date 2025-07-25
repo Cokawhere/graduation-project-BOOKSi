@@ -22,17 +22,22 @@ class BookCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String formatPrice(String price) {
+    String cleanPrice = price.split(".").first;
+      if (cleanPrice.length > 4) {
+        return '${cleanPrice.substring(0, 4)}+';
+      }
+      return cleanPrice;
+    }
+
     return Container(
       width: 180,
-      height: 900,
-
-      margin: const EdgeInsets.all(3),
+      margin: const EdgeInsets.all(6),
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 242, 240, 236),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.only(
@@ -55,7 +60,7 @@ class BookCard extends StatelessWidget {
 
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -65,45 +70,48 @@ class BookCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 15,
                       color: AppColors.black,
                     ),
                   ),
                   const SizedBox(height: 4),
+
                   Text(
                     author,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: Colors.brown,
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
+
                   const Spacer(),
+
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
                           const Text(
-                            "EGP",
+                            "EGP ",
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               color: AppColors.black,
                             ),
                           ),
                           Text(
-                            price,
+                            formatPrice(price),
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 20,
+                              fontSize: 17,
                               color: AppColors.black,
                             ),
                           ),
-                          const SizedBox(width: 33),
                         ],
                       ),
+
                       InkWell(
                         onTap: onAdd,
                         child: Container(
@@ -114,14 +122,13 @@ class BookCard extends StatelessWidget {
                           ),
                           child: const Icon(
                             Icons.add,
-                            size: 24,
+                            size: 25,
                             color: Colors.white,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 6),
                 ],
               ),
             ),
