@@ -22,7 +22,7 @@ class SignupController extends GetxController {
       Get.snackbar(
         "Error",
         "Please fill all fields",
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
       );
       return;
     }
@@ -35,7 +35,7 @@ class SignupController extends GetxController {
       Get.snackbar(
         "Signup Failed",
         e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
       );
     } finally {
       isLoading.value = false;
@@ -50,7 +50,7 @@ class SignupController extends GetxController {
       Get.snackbar(
         "Google Sign-In Failed",
         e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
       );
     }
   }
@@ -63,7 +63,7 @@ class SignupController extends GetxController {
       Get.snackbar(
         "Facebook Sign-In Failed",
         e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
       );
     }
   }

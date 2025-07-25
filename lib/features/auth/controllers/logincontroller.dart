@@ -15,7 +15,7 @@ class LoginController extends GetxController {
     final password = passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      Get.snackbar("Error", "Please enter both email and password", snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Error", "Please enter both email and password", snackPosition: SnackPosition.TOP);
       return;
     }
 
@@ -24,7 +24,7 @@ class LoginController extends GetxController {
       final user = await _authService.signInWithEmail(email, password);
       if (user != null) Get.offAll(() => HomeView());
     } catch (error) {
-      Get.snackbar("Login Failed", error.toString(), snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Login Failed", error.toString(), snackPosition: SnackPosition.TOP);
     } finally {
       isLoading.value = false;
     }
@@ -36,7 +36,7 @@ class LoginController extends GetxController {
       final user = await _authService.signInWithGoogle("");  
       if (user != null) Get.offAll(() => HomeView());
     } catch (error) {
-      Get.snackbar("Google Sign-In Failed", error.toString(), snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Google Sign-In Failed", error.toString(), snackPosition: SnackPosition.TOP);
     } finally {
       isLoading.value = false;
     }
@@ -48,7 +48,7 @@ class LoginController extends GetxController {
       final user = await _authService.signInWithFacebook("");
       if (user != null) Get.offAll(() => ());
     } catch (error) {
-      Get.snackbar("Facebook Sign-In Failed", error.toString(), snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Facebook Sign-In Failed", error.toString(), snackPosition: SnackPosition.TOP);
     } finally {
       isLoading.value = false;
     }

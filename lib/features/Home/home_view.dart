@@ -47,11 +47,7 @@ class HomeView extends StatelessWidget {
           ),
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(
-                Icons.menu, 
-                size: 30,
-                color: AppColors.brown,
-              ),
+              icon: Icon(Icons.menu, size: 30, color: AppColors.brown),
               onPressed: () {
                 controller.currentLocale.value.languageCode == 'ar'
                     ? Scaffold.of(context).openEndDrawer()
@@ -135,7 +131,7 @@ class HomeView extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Drawer(
-        width: MediaQuery.of(context).size.width * 0.5,
+        width: MediaQuery.of(context).size.width * 0.7,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
