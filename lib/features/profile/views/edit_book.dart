@@ -38,11 +38,28 @@ class _EditBookViewState extends State<EditBookView> {
   final List<String> genres = [
     "Fiction",
     "Fantasy",
+    "Adventure",
+    "Dystopian",
+    "Historical Fiction",
+    "Literary Fiction",
+    "Mystery",
+    "Paranormal",
+    "Philosophy",
+    "Poetry",
+    "Psychology",
+    "Religion & Spirituality",
+    "Drama",
+    "Science",
     "Science Fiction",
+    "Self-Help",
+    "Spirituality",
+    "Suspense",
+    "Thriller",
+    "Travel",
+    "Young Adult",
     "Mystery & Thriller",
     "Romance",
     "Historical",
-    "Young Adult",
     "Horror",
     "Biography",
     "Personal Growth",
@@ -59,7 +76,7 @@ class _EditBookViewState extends State<EditBookView> {
     _priceController = TextEditingController(
       text: book.price?.toString() ?? '',
     );
-    _selectedGenre = book.genre;
+    _selectedGenre = genres.contains(book.genre) ? book.genre : null;
     _condition = book.condition;
     _availableFor = List<String>.from(book.availableFor);
   }

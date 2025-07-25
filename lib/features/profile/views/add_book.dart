@@ -252,9 +252,9 @@ class _AddBookViewState extends State<AddBookView> {
                           value: _availableFor.contains('Sale'),
                           onChanged: (val) => setState(() {
                             if (val == true) {
-                              _availableFor.add('Sale');
+                              _availableFor.add('sell');
                             } else {
-                              _availableFor.remove('Sale');
+                              _availableFor.remove('sell');
                             }
                           }),
                           title: Text('sale'.tr), 
@@ -265,12 +265,12 @@ class _AddBookViewState extends State<AddBookView> {
                           value: _availableFor.contains('Trade'),
                           onChanged: (val) => setState(() {
                             if (val == true) {
-                              _availableFor.add('Trade');
+                              _availableFor.add('swap');
                             } else {
-                              _availableFor.remove('Trade');
+                              _availableFor.remove('swap');
                             }
                           }),
-                          title: Text('trade'.tr), 
+                          title: Text('Trade'.tr), 
                           activeColor: AppColors.orange,
                           controlAffinity: ListTileControlAffinity.leading,
                         ),
