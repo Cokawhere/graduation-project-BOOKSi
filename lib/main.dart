@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
-// import 'features/auth/views/loginview.dart';
+import 'package:get_storage/get_storage.dart';
+
+import 'features/profile/controllers/book_controllers.dart';
+import 'features/profile/controllers/imagekit_controller.dart';
+import 'features/profile/controllers/profile_controller.dart';
 import 'features/splash-screen/view.dart';
 import 'firebase_options.dart';
 
@@ -11,6 +15,11 @@ import 'lang/app_translations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await GetStorage.init();
+  Get.put(ProfileController(), permanent: true);
+  Get.put(BookController(), permanent: true);
+  Get.put(ImageKitController(), permanent: true);
+
   runApp(const MyApp());
 }
 
@@ -19,15 +28,32 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = GetStorage().read('isDarkMode') ?? false;
+
     return GetMaterialApp(
-      translations: AppTranslations(),
-      locale: Locale('en', 'US'),
-      fallbackLocale: Locale('en', 'US'),
-      debugShowCheckedModeBanner: false,
+      themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(
+        brightness: Brightness.light,
         fontFamily: 'Inter',
-        scaffoldBackgroundColor: AppColors.background,
+        scaffoldBackgroundColor: AppColors.white,
+        appBarTheme: AppBarTheme(
+          backgroundColor: AppColors.white,
+          elevation: 0,
+        ),
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        fontFamily: 'Inter',
+        scaffoldBackgroundColor: Colors.black,
+        appBarTheme: AppBarTheme(backgroundColor: Colors.black, elevation: 0),
+      ),
+      translations: AppTranslations(),
+      locale: GetStorage().read('lang') != null
+          ? Locale(GetStorage().read('lang'))
+          : const Locale('en'),
+      fallbackLocale: const Locale('en', 'US'),
+      debugShowCheckedModeBanner: false,
+
       home: SplashView(),
     );
   }

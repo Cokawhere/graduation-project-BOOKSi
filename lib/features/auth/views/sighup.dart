@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../../common/styles/colors.dart';
-import '../controllers/logincontroller.dart';
 import '../controllers/sighupcontroller.dart';
-import 'sighup.dart';
 
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+class SignupView extends StatelessWidget {
+  const SignupView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LoginController());
-    final controlle = Get.put(SignupController());
+    final controller = Get.put(SignupController());
 
     return Scaffold(
       body: Stack(
@@ -23,11 +20,10 @@ class LoginView extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-
           Center(
             child: Container(
               width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.70,
+              height: MediaQuery.of(context).size.height * 0.75,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
               decoration: BoxDecoration(
                 color: const Color.fromARGB(153, 43, 39, 39),
@@ -41,24 +37,26 @@ class LoginView extends StatelessWidget {
                       "BOOkSi°",
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 32,
+                        fontSize: 40,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
 
                     Text(
-                      'login_title'.tr,
+                      'signup_subtitle'.tr,
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 34,
-                        fontWeight: FontWeight.w600,
+                        color: const Color.fromARGB(227, 255, 255, 255),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(
-                      'login_subtitle'.tr,
-                      style: TextStyle(color: Colors.white70, fontSize: 14),
-                    ),
                     const SizedBox(height: 30),
+                    _buildInputField(
+                      hint: 'full_name'.tr,
+                      icon: Icons.person,
+                      controller: controller.nameController,
+                    ),
+                    const SizedBox(height: 16),
                     _buildInputField(
                       hint: 'email'.tr,
                       icon: Icons.email_outlined,
@@ -71,21 +69,18 @@ class LoginView extends StatelessWidget {
                       isPassword: true,
                       controller: controller.passwordController,
                     ),
-
                     const SizedBox(height: 20),
-
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.teaMilk,
                         minimumSize: Size(double.infinity, 50),
-
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      onPressed: controller.signInWithEmail,
+                      onPressed: controller.signUpWithEmail,
                       child: Text(
-                        'sign_in'.tr,
+                        'sign_up'.tr,
                         style: TextStyle(
                           color: AppColors.black,
                           fontSize: 20,
@@ -96,64 +91,29 @@ class LoginView extends StatelessWidget {
                     const SizedBox(height: 20),
                     Row(
                       children: [
-                        Expanded(
-                          child: Divider(
-                            color: Color.fromARGB(202, 255, 255, 255),
-                          ),
-                        ),
+                        Expanded(child: Divider(color: Colors.white)),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10),
                           child: Text(
                             'or_continue_with'.tr,
-                            style: TextStyle(
-                              color: const Color.fromARGB(255, 255, 255, 255),
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
-                        Expanded(
-                          child: Divider(
-                            color: const Color.fromARGB(202, 255, 255, 255),
-                          ),
-                        ),
+                        Expanded(child: Divider(color: Colors.white)),
                       ],
                     ),
                     const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        _socialButton('assets/images/SVG.svg', () {
-                          controller.signInWithGoogle();
-                        }),
-                        const SizedBox(width: 70),
-                        _socialButton('assets/images/face.svg', () {
-                          controlle.signInWithFacebook();
-                        }),
-                      ],
-                    ),
-
-                    const SizedBox(height: 30),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'signup_subtitle'.tr,
-                          style: TextStyle(
-                            color: const Color.fromARGB(255, 255, 255, 255),
-                          ),
+                        _socialButton(
+                          'assets/images/SVG.svg',
+                          controller.signInWithGoogle,
                         ),
-                        GestureDetector(
-                          onTap: () => Get.to(SignupView()),
-                          child: const Text(
-                            "Sign up",
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                        const SizedBox(width: 70),
+                        _socialButton(
+                          'assets/images/face.svg',
+                          controller.signInWithFacebook,
                         ),
                       ],
                     ),
@@ -176,11 +136,11 @@ class LoginView extends StatelessWidget {
     return TextField(
       controller: controller,
       obscureText: isPassword,
-      style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255)),
+      style: TextStyle(color: Colors.white),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: TextStyle(color: const Color.fromARGB(233, 255, 255, 255)),
-        prefixIcon: Icon(icon, color: const Color.fromARGB(249, 255, 255, 255)),
+        hintStyle: TextStyle(color: Colors.white70),
+        prefixIcon: Icon(icon, color: Colors.white),
         filled: true,
         fillColor: Colors.transparent,
         enabledBorder: OutlineInputBorder(
@@ -188,7 +148,7 @@ class LoginView extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.orange.shade400),
+          borderSide: BorderSide(color: Colors.orange),
           borderRadius: BorderRadius.circular(12),
         ),
       ),

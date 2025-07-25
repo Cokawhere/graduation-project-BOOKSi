@@ -1,7 +1,6 @@
-import 'package:booksi/common/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../splash-screen/view.dart';
+import '../../Home/home_view.dart';
 import '../services/loginserv.dart';
 
 class LoginController extends GetxController {
@@ -11,53 +10,47 @@ class LoginController extends GetxController {
 
   final _authService = AuthService();
 
-  void signIn() async {
-    final email = emailController.text;
-    final password = passwordController.text;
+  void signInWithEmail() async {
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      Get.snackbar(
-        "Error",
-        "Please enter both email and password",
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Get.snackbar("Error", "Please enter both email and password", snackPosition: SnackPosition.TOP);
       return;
     }
 
     isLoading.value = true;
-
     try {
       final user = await _authService.signInWithEmail(email, password);
-      if (user != null) {
-        Get.to(SplashView());
-      }
+      if (user != null) Get.offAll(() => HomeView());
     } catch (error) {
-      Get.snackbar(
-        "Login Failed",
-        error.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.teaMilk,
-        colorText: Colors.white,
-      );
+      Get.snackbar("Login Failed", error.toString(), snackPosition: SnackPosition.TOP);
     } finally {
       isLoading.value = false;
     }
   }
 
   void signInWithGoogle() async {
+    isLoading.value = true;
     try {
-      final user = await _authService.signInWithGoogle();
-      if (user != null) {
-        Get.to(SplashView());
-      }
+      final user = await _authService.signInWithGoogle("");  
+      if (user != null) Get.offAll(() => HomeView());
     } catch (error) {
-      Get.snackbar(
-        "Google Sign-In Failed",
-        error.toString(),
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.olive,
-        colorText: Colors.white,
-      );
+      Get.snackbar("Google Sign-In Failed", error.toString(), snackPosition: SnackPosition.TOP);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void signInWithFacebook() async {
+    isLoading.value = true;
+    try {
+      final user = await _authService.signInWithFacebook("");
+      if (user != null) Get.offAll(() => ());
+    } catch (error) {
+      Get.snackbar("Facebook Sign-In Failed", error.toString(), snackPosition: SnackPosition.TOP);
+    } finally {
+      isLoading.value = false;
     }
   }
 

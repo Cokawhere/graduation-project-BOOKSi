@@ -7,46 +7,25 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  
-  Future<User?> signUpWithEmail(String email, String password, String name) async {
+  Future<User?> signUpWithEmail(
+    String email,
+    String password,
+    String name,
+  ) async {
     final userCredential = await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
     final user = userCredential.user;
-
     if (user != null) {
-      await _createUserDoc(user, name);
+      await _createUserDoc(user, name, ""); // imageBase64 is empty on sign up
     }
-
     return user;
   }
 
-
-  Future<User?> signInWithEmail(String email, String password) async {
-    final userCredential = await _auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    final user = userCredential.user;
-
-    if (user != null) {
-      final doc = await _firestore.collection("users").doc(user.uid).get();
-
-      if (!doc.exists) {
-        await _createUserDoc(user, user.displayName ?? "No Name");
-      } else {
-        await _updateUserTimestamp(user.uid);
-      }
-    }
-
-    return user;
-  }
-
-  Future<User?> signInWithGoogle([String? imageFileId]) async {
+  Future<User?> signInWithGoogle() async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final googleUser = await googleSignIn.signIn();
-
     if (googleUser == null) throw "Sign-in aborted.";
 
     final googleAuth = await googleUser.authentication;
@@ -60,34 +39,29 @@ class AuthService {
 
     if (user != null) {
       final doc = await _firestore.collection("users").doc(user.uid).get();
-
       if (!doc.exists) {
-        await _createUserDoc(user, user.displayName ?? "No Name", imageFileId);
+        await _createUserDoc(user, user.displayName ?? "No Name", "");
       } else {
         await _updateUserTimestamp(user.uid);
       }
     }
-
     return user;
   }
 
-  Future<User?> signInWithFacebook([String? imageFileId]) async {
+  Future<User?> signInWithFacebook() async {
     final LoginResult result = await FacebookAuth.instance.login();
-
     if (result.status != LoginStatus.success) throw "Facebook Sign-in failed.";
 
     final OAuthCredential credential = FacebookAuthProvider.credential(
       result.accessToken!.token,
     );
-
     final userCredential = await _auth.signInWithCredential(credential);
     final user = userCredential.user;
 
     if (user != null) {
       final doc = await _firestore.collection("users").doc(user.uid).get();
-
       if (!doc.exists) {
-        await _createUserDoc(user, user.displayName ?? "No Name", imageFileId);
+        await _createUserDoc(user, user.displayName ?? "No Name", "");
       } else {
         await _updateUserTimestamp(user.uid);
       }
@@ -123,32 +97,9 @@ class AuthService {
     });
   }
 
- 
   Future<void> _updateUserTimestamp(String uid) async {
     await _firestore.collection("users").doc(uid).update({
       "updatedAt": FieldValue.serverTimestamp(),
     });
-  }
-
-
-  Future<void> signOut() async {
-    try {
-      await _auth.signOut();
-
-      try {
-        await GoogleSignIn().signOut();
-      } catch (_) {
-        print("Google signout failed");
-      }
-
-      try {
-        await FacebookAuth.instance.logOut();
-      } catch (_) {
-        print("Facebook signout failed");
-      }
-    } catch (e) {
-      print("General signout error: $e");
-      rethrow;
-    }
   }
 }
