@@ -1,5 +1,6 @@
 import 'package:booksi/common/styles/colors.dart';
 import 'package:booksi/features/profile/views/profile_view.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -47,11 +48,7 @@ class HomeView extends StatelessWidget {
           ),
           leading: Builder(
             builder: (context) => IconButton(
-              icon: Icon(
-                Icons.menu, 
-                size: 30,
-                color: AppColors.brown,
-              ),
+              icon: Icon(Icons.menu, size: 30, color: AppColors.brown),
               onPressed: () {
                 controller.currentLocale.value.languageCode == 'ar'
                     ? Scaffold.of(context).openEndDrawer()
@@ -130,43 +127,85 @@ class HomeView extends StatelessWidget {
   }
 
   Widget _buildDrawer(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
+    final uid = FirebaseAuth.instance.currentUser?.uid;
 
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Drawer(
-        width: MediaQuery.of(context).size.width * 0.5,
+        width: MediaQuery.of(context).size.width * 0.7,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             Stack(
               children: [
-                UserAccountsDrawerHeader(
-                  decoration: const BoxDecoration(color: AppColors.white),
-                  accountName: Text(
-                    user?.displayName ?? "No Name",
-                    style: const TextStyle(
-                      color: AppColors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  accountEmail: Text(
-                    user?.email ?? "No Email",
-                    style: const TextStyle(color: AppColors.black),
-                  ),
-                  currentAccountPicture: CircleAvatar(
-                    backgroundColor: Colors.white,
-                    backgroundImage: user?.photoURL != null
-                        ? NetworkImage(user!.photoURL!)
-                        : null,
-                    child: user?.photoURL == null
-                        ? const Icon(
-                            Icons.person,
-                            size: 40,
-                            color: AppColors.teaMilk,
-                          )
-                        : null,
-                  ),
+                FutureBuilder<DocumentSnapshot>(
+                  future: FirebaseFirestore.instance
+                      .collection("users")
+                      .doc(uid)
+                      .get(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const UserAccountsDrawerHeader(
+                        decoration: BoxDecoration(color: AppColors.white),
+                        accountName: Text(
+                          "Loading...",
+                          style: TextStyle(color: AppColors.black),
+                        ),
+                        accountEmail: Text(
+                          "Loading...",
+                          style: TextStyle(color: AppColors.black),
+                        ),
+                      );
+                    }
+
+                    if (!snapshot.hasData || !snapshot.data!.exists) {
+                      return const UserAccountsDrawerHeader(
+                        decoration: BoxDecoration(color: AppColors.white),
+                        accountName: Text(
+                          "No Name",
+                          style: TextStyle(color: AppColors.black),
+                        ),
+                        accountEmail: Text(
+                          "No Email",
+                          style: TextStyle(color: AppColors.black),
+                        ),
+                      );
+                    }
+
+                    final userData =
+                        snapshot.data!.data() as Map<String, dynamic>;
+                    return UserAccountsDrawerHeader(
+                      decoration: const BoxDecoration(color: AppColors.white),
+                      accountName: Text(
+                        userData["name"] ?? "No Name",
+                        style: const TextStyle(
+                          color: AppColors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      accountEmail: Text(
+                        userData["email"] ?? "No Email",
+                        style: const TextStyle(color: AppColors.black),
+                      ),
+                      currentAccountPicture: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        backgroundImage:
+                            userData["photoUrl"] != null &&
+                                userData["photoUrl"] != ""
+                            ? NetworkImage(userData["photoUrl"])
+                            : null,
+                        child:
+                            userData["photoUrl"] == null ||
+                                userData["photoUrl"] == ""
+                            ? const Icon(
+                                Icons.person,
+                                size: 40,
+                                color: AppColors.teaMilk,
+                              )
+                            : null,
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -210,7 +249,7 @@ class HomeView extends StatelessWidget {
                       ? "AR"
                       : "EN",
                   style: const TextStyle(
-                    fontSize: 25,
+                    fontSize: 23,
                     color: AppColors.brown,
                     fontWeight: FontWeight.w600,
                   ),
@@ -235,17 +274,17 @@ class HomeView extends StatelessWidget {
                   'chat'.tr,
                   style: const TextStyle(
                     color: AppColors.brown,
-                    fontSize: 25,
+                    fontSize: 23,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(width: 1),
+
                 GestureDetector(
                   onTap: () {
                     // Get.to(() => ChatView());
                   },
                   child: const Icon(
-                    Icons.chat_bubble_outline,
+                    Icons.chat_bubble,
                     color: AppColors.brown,
                     size: 40,
                   ),
@@ -254,10 +293,18 @@ class HomeView extends StatelessWidget {
             ),
             const Divider(),
             ListTile(
-              leading: const Icon(Icons.logout, color: AppColors.orange),
+              leading: const Icon(
+                Icons.logout,
+                color: AppColors.orange,
+                size: 30,
+              ),
               title: Text(
                 'logout'.tr,
-                style: const TextStyle(color: AppColors.orange),
+                style: const TextStyle(
+                  color: AppColors.brown,
+                  fontSize: 23,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               onTap: () async {
                 await AuthService().signOut();
