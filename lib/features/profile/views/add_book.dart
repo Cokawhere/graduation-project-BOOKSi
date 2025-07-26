@@ -11,7 +11,7 @@ import '../models/profile.dart';
 import 'package:uuid/uuid.dart';
 
 class AddBookView extends StatefulWidget {
-  const AddBookView({Key? key}) : super(key: key);
+  const AddBookView({super.key});
 
   @override
   State<AddBookView> createState() => _AddBookViewState();
@@ -31,7 +31,7 @@ class _AddBookViewState extends State<AddBookView> {
 
   String? _selectedGenre;
   String _condition = 'New';
-  List<String> _availableFor = [];
+  final List<String> _availableFor = [];
   File? _coverImage;
   bool _isUploading = false;
 
@@ -281,10 +281,12 @@ class _AddBookViewState extends State<AddBookView> {
                             keyboardType: TextInputType.number,
                             validator: (v) {
                               if (!_availableFor.contains('Sale')) return null;
-                              if (v == null || v.trim().isEmpty)
-                                return 'enter_price'.tr; 
-                              if (double.tryParse(v.trim()) == null)
-                                return 'invalid_price'.tr; 
+                              if (v == null || v.trim().isEmpty) {
+                                return 'enter_price'.tr;
+                              } 
+                              if (double.tryParse(v.trim()) == null) {
+                                return 'invalid_price'.tr;
+                              } 
                               return null;
                             },
                           ),

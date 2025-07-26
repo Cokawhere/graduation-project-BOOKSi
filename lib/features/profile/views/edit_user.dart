@@ -9,7 +9,7 @@ import '../controllers/imagekit_controller.dart';
 import 'dart:io';
 
 class EditUser extends StatefulWidget {
-  const EditUser({Key? key}) : super(key: key);
+  const EditUser({super.key});
 
   @override
   State<EditUser> createState() => _EditUserState();
@@ -96,7 +96,7 @@ class _EditUserState extends State<EditUser> {
       Get.snackbar('success'.tr, 'profile_updated'.tr);
     } catch (e) {
       setState(() {
-        _errorText = 'update_failed'.tr + ': $e';
+        _errorText = '${'update_failed'.tr}: $e';
       });
     } finally {
       setState(() {

@@ -17,9 +17,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await GetStorage.init();
-  Get.put(ProfileController(), permanent: true);
-  Get.put(BookController(), permanent: true);
-  Get.put(ImageKitController(), permanent: true);
+  Get.lazyPut(() => ProfileController(), fenix: true);
+  Get.lazyPut(() => BookController(), fenix: true);
+  Get.lazyPut(() => ImageKitController(), fenix: true);
 
   runApp(const MyApp());
 }
