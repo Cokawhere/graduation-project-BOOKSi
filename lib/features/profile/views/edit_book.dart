@@ -38,6 +38,18 @@ class _EditBookViewState extends State<EditBookView> {
   final List<String> genres = [
     "Fiction",
     "Fantasy",
+    "Adventure",
+    "Dystopian",
+    "Historical Fiction",
+    "Literary Fiction",
+    "Mystery",
+    "Paranormal",
+    "Philosophy",
+    "Poetry",
+    "Psychology",
+    "Religion & Spirituality",
+    "Drama",
+    "Science",
     "Science Fiction",
     "Self-Help",
     "Spirituality",
@@ -296,10 +308,8 @@ class _EditBookViewState extends State<EditBookView> {
                               if (!_availableFor.contains('sell')) return null;
                               if (v == null || v.trim().isEmpty)
                                 return 'enter_price'.tr;
-                              }
-                              if (double.tryParse(v.trim()) == null) {
+                              if (double.tryParse(v.trim()) == null)
                                 return 'invalid_price'.tr;
-                              }
                               return null;
                             },
                           ),
