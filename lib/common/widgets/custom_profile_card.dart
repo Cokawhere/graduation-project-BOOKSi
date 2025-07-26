@@ -27,6 +27,13 @@ class BookProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String formatPrice(String price) {
+    String cleanPrice = price.split(".").first;
+      if (cleanPrice.length > 4) {
+        return '${cleanPrice.substring(0, 4)}+';
+      }
+      return cleanPrice;
+    }
     return SizedBox(
       width: width ?? 150,
       height: height ?? 240,
@@ -72,7 +79,7 @@ class BookProfileCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    maxLines: 2,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
@@ -93,7 +100,7 @@ class BookProfileCard extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'EGP $price',
+                        'EGP ${formatPrice(price)}',
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,

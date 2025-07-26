@@ -10,8 +10,9 @@ import '../controllers/imagekit_controller.dart';
 import 'edit_book.dart';
 
 class ProfilePage extends StatelessWidget {
-  final ProfileController profileController = Get.put(ProfileController());
-  final BookController bookController = Get.put(BookController());
+  final BookController bookController = Get.find<BookController>();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final ImageKitController imageKitController = Get.find<ImageKitController>();
 
   ProfilePage({super.key});
 

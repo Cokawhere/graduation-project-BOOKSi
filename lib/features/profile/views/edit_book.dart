@@ -39,10 +39,15 @@ class _EditBookViewState extends State<EditBookView> {
     "Fiction",
     "Fantasy",
     "Science Fiction",
+    "Self-Help",
+    "Spirituality",
+    "Suspense",
+    "Thriller",
+    "Travel",
+    "Young Adult",
     "Mystery & Thriller",
     "Romance",
     "Historical",
-    "Young Adult",
     "Horror",
     "Biography",
     "Personal Growth",
@@ -59,7 +64,7 @@ class _EditBookViewState extends State<EditBookView> {
     _priceController = TextEditingController(
       text: book.price?.toString() ?? '',
     );
-    _selectedGenre = book.genre;
+    _selectedGenre = genres.contains(book.genre) ? book.genre : null;
     _condition = book.condition;
     _availableFor = List<String>.from(book.availableFor);
   }
@@ -100,7 +105,7 @@ class _EditBookViewState extends State<EditBookView> {
       location = user.address;
     }
     double? price;
-    if (_availableFor.contains('Sale')) {
+    if (_availableFor.contains('sell')) {
       if (_priceController.text.trim().isEmpty) {
         Get.snackbar('Error', 'Please enter a price for sale');
         setState(() {
@@ -257,12 +262,12 @@ class _EditBookViewState extends State<EditBookView> {
                           ),
                         ),
                         CheckboxListTile(
-                          value: _availableFor.contains('Sale'),
+                          value: _availableFor.contains('sell'),
                           onChanged: (val) => setState(() {
                             if (val == true) {
-                              _availableFor.add('Sale');
+                              _availableFor.add('sell');
                             } else {
-                              _availableFor.remove('Sale');
+                              _availableFor.remove('sell');
                             }
                           }),
                           title: Text('sale'.tr),
@@ -270,26 +275,26 @@ class _EditBookViewState extends State<EditBookView> {
                           controlAffinity: ListTileControlAffinity.leading,
                         ),
                         CheckboxListTile(
-                          value: _availableFor.contains('Trade'),
+                          value: _availableFor.contains('swap'),
                           onChanged: (val) => setState(() {
                             if (val == true) {
-                              _availableFor.add('Trade');
+                              _availableFor.add('swap');
                             } else {
-                              _availableFor.remove('Trade');
+                              _availableFor.remove('swap');
                             }
                           }),
                           title: Text('trade'.tr),
                           activeColor: AppColors.orange,
                           controlAffinity: ListTileControlAffinity.leading,
                         ),
-                        if (_availableFor.contains('Sale'))
+                        if (_availableFor.contains('sell'))
                           CustomTextField(
                             controller: _priceController,
                             hintText: 'price'.tr,
                             keyboardType: TextInputType.number,
                             validator: (v) {
-                              if (!_availableFor.contains('Sale')) return null;
-                              if (v == null || v.trim().isEmpty) {
+                              if (!_availableFor.contains('sell')) return null;
+                              if (v == null || v.trim().isEmpty)
                                 return 'enter_price'.tr;
                               }
                               if (double.tryParse(v.trim()) == null) {

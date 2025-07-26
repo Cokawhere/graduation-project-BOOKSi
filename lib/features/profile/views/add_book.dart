@@ -88,7 +88,7 @@ class _AddBookViewState extends State<AddBookView> {
       location = user.address;
     }
     double? price;
-    if (_availableFor.contains('Sale')) {
+    if (_availableFor.contains('sell')) {
       if (_priceController.text.trim().isEmpty) {
         Get.snackbar('Error', 'Please enter a price for sale');
         setState(() {
@@ -108,7 +108,7 @@ class _AddBookViewState extends State<AddBookView> {
     final book = Book(
       id: Uuid().v4(),
       ownerId: user?.uid ?? '',
-      ownerType: 'user',
+      ownerType: 'reader',
       title: _titleController.text.trim(),
       author: _authorController.text.trim(),
       isbn: '',
@@ -168,8 +168,7 @@ class _AddBookViewState extends State<AddBookView> {
                       children: [
                         CustomTextField(
                           controller: _titleController,
-                          hintText:
-                              'book_name'.tr,
+                          hintText: 'book_name'.tr,
                           validator: (v) => v == null || v.trim().isEmpty
                               ? 'enter_book_name'.tr
                               : null,
@@ -194,20 +193,19 @@ class _AddBookViewState extends State<AddBookView> {
                           onChanged: (val) =>
                               setState(() => _selectedGenre = val),
                           decoration: InputDecoration(
-                            labelText: 'genre'.tr, 
+                            labelText: 'genre'.tr,
                             border: const OutlineInputBorder(),
                             contentPadding: const EdgeInsets.symmetric(
                               horizontal: 12,
                               vertical: 8,
                             ),
                           ),
-                          validator: (v) => v == null
-                              ? 'select_genre'.tr
-                              : null, 
+                          validator: (v) =>
+                              v == null ? 'select_genre'.tr : null,
                         ),
                         CustomTextField(
                           controller: _descriptionController,
-                          hintText: 'description'.tr, 
+                          hintText: 'description'.tr,
                           validator: (v) => v == null || v.trim().isEmpty
                               ? 'enter_description'.tr
                               : null,
@@ -219,7 +217,7 @@ class _AddBookViewState extends State<AddBookView> {
                             fontWeight: FontWeight.bold,
                             fontSize: media.size.width * 0.04,
                           ),
-                        ), 
+                        ),
                         Row(
                           children: [
                             Radio<String>(
@@ -229,7 +227,7 @@ class _AddBookViewState extends State<AddBookView> {
                                   setState(() => _condition = val!),
                               activeColor: AppColors.orange,
                             ),
-                            Text('new'.tr), 
+                            Text('new'.tr),
                             Radio<String>(
                               value: 'Used',
                               groupValue: _condition,
@@ -247,46 +245,44 @@ class _AddBookViewState extends State<AddBookView> {
                             fontWeight: FontWeight.bold,
                             fontSize: media.size.width * 0.04,
                           ),
-                        ), 
+                        ),
                         CheckboxListTile(
-                          value: _availableFor.contains('Sale'),
+                          value: _availableFor.contains('sell'),
                           onChanged: (val) => setState(() {
                             if (val == true) {
-                              _availableFor.add('Sale');
+                              _availableFor.add('sell');
                             } else {
-                              _availableFor.remove('Sale');
+                              _availableFor.remove('sell');
                             }
                           }),
-                          title: Text('sale'.tr), 
+                          title: Text('sale'.tr),
                           activeColor: AppColors.orange,
                           controlAffinity: ListTileControlAffinity.leading,
                         ),
                         CheckboxListTile(
-                          value: _availableFor.contains('Trade'),
+                          value: _availableFor.contains('swap'),
                           onChanged: (val) => setState(() {
                             if (val == true) {
-                              _availableFor.add('Trade');
+                              _availableFor.add('swap');
                             } else {
-                              _availableFor.remove('Trade');
+                              _availableFor.remove('swap');
                             }
                           }),
-                          title: Text('trade'.tr), 
+                          title: Text('trade'.tr),
                           activeColor: AppColors.orange,
                           controlAffinity: ListTileControlAffinity.leading,
                         ),
-                        if (_availableFor.contains('Sale'))
+                        if (_availableFor.contains('sell'))
                           CustomTextField(
                             controller: _priceController,
                             hintText: 'price'.tr,
                             keyboardType: TextInputType.number,
                             validator: (v) {
-                              if (!_availableFor.contains('Sale')) return null;
-                              if (v == null || v.trim().isEmpty) {
+                              if (!_availableFor.contains('sell')) return null;
+                              if (v == null || v.trim().isEmpty)
                                 return 'enter_price'.tr;
-                              } 
-                              if (double.tryParse(v.trim()) == null) {
+                              if (double.tryParse(v.trim()) == null)
                                 return 'invalid_price'.tr;
-                              } 
                               return null;
                             },
                           ),
@@ -297,7 +293,7 @@ class _AddBookViewState extends State<AddBookView> {
                             fontWeight: FontWeight.bold,
                             fontSize: media.size.width * 0.04,
                           ),
-                        ), 
+                        ),
                         SizedBox(height: media.size.height * 0.01),
                         _coverImage == null
                             ? CustomButton(
@@ -322,14 +318,14 @@ class _AddBookViewState extends State<AddBookView> {
                         if (user?.address == null || user!.address!.isEmpty)
                           CustomTextField(
                             controller: _locationController,
-                            hintText: 'location'.tr, 
+                            hintText: 'location'.tr,
                             validator: (v) => v == null || v.trim().isEmpty
                                 ? 'enter_location'.tr
-                                : null, 
+                                : null,
                           ),
                         SizedBox(height: media.size.height * 0.03),
                         CustomButton(
-                          text: 'add_book'.tr, 
+                          text: 'add_book'.tr,
                           onPressed: _isUploading ? null : _submit,
                           isLoading: _isUploading,
                           backgroundColor: AppColors.brown,
