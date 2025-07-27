@@ -132,7 +132,7 @@ class HomeView extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Drawer(
-        width: MediaQuery.of(context).size.width * 0.7,
+        width: MediaQuery.of(context).size.width * 0.6,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -161,13 +161,14 @@ class HomeView extends StatelessWidget {
                     if (!snapshot.hasData || !snapshot.data!.exists) {
                       return const UserAccountsDrawerHeader(
                         decoration: BoxDecoration(color: AppColors.white),
+
                         accountName: Text(
                           "No Name",
-                          style: TextStyle(color: AppColors.black),
+                          style: TextStyle(color: AppColors.white),
                         ),
                         accountEmail: Text(
                           "No Email",
-                          style: TextStyle(color: AppColors.black),
+                          style: TextStyle(color: AppColors.white),
                         ),
                       );
                     }
@@ -209,7 +210,7 @@ class HomeView extends StatelessWidget {
                 ),
               ],
             ),
-
+            SizedBox(height: 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -238,9 +239,7 @@ class HomeView extends StatelessWidget {
                 ),
               ],
             ),
-
-            const Divider(),
-
+            SizedBox(height: 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -266,7 +265,7 @@ class HomeView extends StatelessWidget {
                 ),
               ],
             ),
-            const Divider(),
+            SizedBox(height: 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -278,7 +277,6 @@ class HomeView extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-
                 GestureDetector(
                   onTap: () {
                     // Get.to(() => ChatView());
@@ -291,7 +289,7 @@ class HomeView extends StatelessWidget {
                 ),
               ],
             ),
-            const Divider(),
+            SizedBox(height: 40),
             ListTile(
               leading: const Icon(
                 Icons.logout,

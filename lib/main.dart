@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'features/filter/filter_controller.dart';
 import 'features/profile/controllers/book_controllers.dart';
 import 'features/profile/controllers/imagekit_controller.dart';
 import 'features/profile/controllers/profile_controller.dart';
@@ -19,6 +20,7 @@ void main() async {
   Get.lazyPut(() => ProfileController(), fenix: true);
   Get.lazyPut(() => BookController(), fenix: true);
   Get.lazyPut(() => ImageKitController(), fenix: true);
+
 
   runApp(const MyApp());
 }

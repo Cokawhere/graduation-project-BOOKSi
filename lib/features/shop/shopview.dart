@@ -3,17 +3,25 @@ import 'package:booksi/common/widgets/custom-book-cart.dart';
 import 'package:get/get.dart';
 import '../../common/styles/colors.dart';
 
+import '../filter/filter_view.dart';
 import 'BooksView.dart';
 import 'book_model.dart';
 import 'shop_controller.dart';
 
 class ShopView extends StatelessWidget {
+  final Map<String, dynamic> filters = Get.arguments ?? {};
   final ShopController controller = Get.put(ShopController());
 
   ShopView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (filters.isNotEmpty) {
+        controller.applyFilters(filters);
+      }
+    });
+
     return Obx(() {
       if (controller.isLoading.value) {
         return const Center(child: CircularProgressIndicator());
@@ -86,7 +94,7 @@ class ShopView extends StatelessWidget {
           Expanded(
             child: TextField(
               onChanged: controller.filterBooks,
-              style: const TextStyle(fontSize: 22),
+              style: const TextStyle(fontSize: 18),
               decoration: InputDecoration(
                 hintText: "search_books".tr,
                 border: InputBorder.none,
@@ -95,7 +103,9 @@ class ShopView extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.tune, color: AppColors.brown, size: 27),
-            onPressed: () {},
+            onPressed: () {
+              Get.to(() => FilterView());
+            },
           ),
         ],
       ),

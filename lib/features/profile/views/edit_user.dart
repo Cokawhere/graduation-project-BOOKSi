@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:booksi/features/profile/controllers/profile_controller.dart';
-import 'package:booksi/features/profile/models/profile.dart';
 import '../../../common/widgets/custom_text_field.dart';
 import '../../../common/widgets/custom_button.dart';
 import '../../../common/styles/colors.dart';
