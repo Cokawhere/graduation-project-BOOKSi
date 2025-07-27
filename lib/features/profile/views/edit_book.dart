@@ -11,7 +11,7 @@ import '../models/profile.dart';
 
 class EditBookView extends StatefulWidget {
   final Book book;
-  const EditBookView({super.key, required this.book});
+  const EditBookView({Key? key, required this.book}) : super(key: key);
 
   @override
   State<EditBookView> createState() => _EditBookViewState();
