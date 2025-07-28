@@ -10,6 +10,8 @@ class ShopController extends GetxController {
   var filteredBooks = <Book>[].obs;
   var originalFilteredBooks = <Book>[];
   var searchQuery = ''.obs;
+  var currentFilters = <String, dynamic>{}.obs;
+  RxBool isFilteringActive = false.obs;
 
   @override
   void onInit() {
@@ -19,6 +21,14 @@ class ShopController extends GetxController {
     ShopServices.getAllApprovedBooksStream().listen((books) {
       allBooks.value = books;
       isLoading.value = false;
+
+      print("onInit: isFilteringActive: ${isFilteringActive.value}");
+      if (isFilteringActive.value) {
+        filteredBooks.value = _applyFilterLogic(allBooks, currentFilters);
+      } else {
+        filteredBooks.clear();
+      }
+      filteredBooks.refresh(); 
       if (searchQuery.value.isNotEmpty) {
         filterBooks(searchQuery.value);
       }
@@ -35,22 +45,43 @@ class ShopController extends GetxController {
 
   void filterBooks(String query) {
     searchQuery.value = query;
-    if (query.isEmpty) {
+    if (query.isEmpty && !isFilteringActive.value) {
       filteredBooks.clear();
     } else {
-      final lower = query.toLowerCase();
-      filteredBooks.value = allBooks
-          .where(
-            (book) =>
-                book.title.toLowerCase().contains(lower) ||
-                book.author.toLowerCase().contains(lower),
-          )
-          .toList();
+      List<Book> temp = allBooks;
+      if (isFilteringActive.value) {
+        temp = _applyFilterLogic(allBooks, currentFilters);
+      }
+      if (query.isNotEmpty) {
+        final lower = query.toLowerCase();
+        temp = temp
+            .where(
+              (book) =>
+                  book.title.toLowerCase().contains(lower) ||
+                  book.author.toLowerCase().contains(lower),
+            )
+            .toList();
+      }
+      filteredBooks.value = temp;
     }
   }
 
-  void applyFilters(Map filters) {
-    List<Book> temp = allBooks;
+  void applyFilters(Map<String, dynamic>? filters) {
+    if (filters == null) {
+      isFilteringActive.value = false;
+      currentFilters.clear();
+      filteredBooks.clear();
+      searchQuery.value = '';
+    } else {
+      currentFilters.value = Map<String, dynamic>.from(filters);
+      isFilteringActive.value = true;
+      filteredBooks.value = _applyFilterLogic(allBooks, filters);
+      originalFilteredBooks = filteredBooks.toList();
+    }
+  }
+
+  List<Book> _applyFilterLogic(List<Book> books, Map<String, dynamic> filters) {
+    List<Book> temp = books;
 
     if ((filters['governorate'] ?? '').isNotEmpty) {
       temp = temp.where((b) => b.location == filters['governorate']).toList();
@@ -83,12 +114,6 @@ class ShopController extends GetxController {
           .toList();
     }
 
-    if ((filters['status'] as List).isNotEmpty) {
-      temp = temp
-          .where((b) => (filters['status'] as List).contains(b.status))
-          .toList();
-    }
-
     if ((filters['rating'] ?? '').isNotEmpty) {
       final ratingStr = filters['rating'];
       final double minRating =
@@ -99,24 +124,6 @@ class ShopController extends GetxController {
       temp = temp.where((b) => b.averageRating >= minRating).toList();
     }
 
-    filteredBooks.value = temp;
-    originalFilteredBooks = temp;
-
-    void filterBooks(String query) {
-      searchQuery.value = query;
-
-      if (query.isEmpty) {
-        filteredBooks.value = originalFilteredBooks;
-      } else {
-        final lower = query.toLowerCase();
-        filteredBooks.value = originalFilteredBooks
-            .where(
-              (b) =>
-                  b.title.toLowerCase().contains(lower) ||
-                  b.author.toLowerCase().contains(lower),
-            )
-            .toList();
-      }
-    }
+    return temp;
   }
 }

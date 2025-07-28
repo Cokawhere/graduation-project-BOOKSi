@@ -8,7 +8,10 @@ import 'filter_controller.dart';
 class FilterView extends StatelessWidget {
   FilterView({super.key});
 
-  final FilterController controller = Get.put(FilterController());
+  final FilterController controller = Get.put(
+    FilterController(),
+    tag: "filter",
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -376,62 +379,6 @@ class FilterView extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-            const Text(
-              "Status",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            SizedBox(
-              height: 50,
-              child: Obx(() {
-                final selected = controller.selectedStatus.value;
-                return ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: controller.statusOptions.length,
-                  itemBuilder: (context, index) {
-                    final item = controller.statusOptions[index];
-                    final isSelected = selected.contains(item);
-
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 6,
-                      ),
-                      child: GestureDetector(
-                        onTap: () => controller.toggleStatus(item),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 25,
-                            vertical: 5,
-                          ),
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                spreadRadius: 1,
-                                blurRadius: 6,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                            color: isSelected
-                                ? AppColors.brown
-                                : AppColors.background,
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          child: Text(
-                            item,
-                            style: TextStyle(
-                              color: isSelected ? Colors.white : Colors.black,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              }),
-            ),
             const SizedBox(height: 16),
           ],
         ),
@@ -467,7 +414,8 @@ class FilterView extends StatelessWidget {
                     borderRadius: BorderRadius.circular(40),
                   ),
                   child: OutlinedButton(
-                    onPressed: ()=> controller.resetFilters() ,
+                    onPressed: () => controller.resetFilters(),
+
                     style: OutlinedButton.styleFrom(
                       backgroundColor: AppColors.white,
                       side: const BorderSide(

@@ -11,54 +11,47 @@ import 'shop_controller.dart';
 class ShopView extends StatelessWidget {
   final Map<String, dynamic> filters = Get.arguments ?? {};
   final ShopController controller = Get.put(ShopController());
+  final TextEditingController _searchController = TextEditingController();
 
   ShopView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (filters.isNotEmpty) {
-        controller.applyFilters(filters);
-      }
-    });
-
     return Obx(() {
       if (controller.isLoading.value) {
         return const Center(child: CircularProgressIndicator());
       }
 
-      bool isSearching = controller.searchQuery.value.isNotEmpty;
+      bool hasFilters = controller.filteredBooks.isNotEmpty;
 
       return Column(
         children: [
           const SizedBox(height: 5),
-          _buildSearchBar(),
+          _buildSearchBar(context),
           Expanded(
-            child: isSearching
-                ? controller.filteredBooks.isEmpty
-                      ? Center(child: Text("no_results_found".tr))
-                      : GridView.builder(
-                          padding: const EdgeInsets.all(12),
-                          itemCount: controller.filteredBooks.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                mainAxisSpacing: 16,
-                                crossAxisSpacing: 12,
-                                childAspectRatio: 0.65,
-                              ),
-                          itemBuilder: (context, index) {
-                            final book = controller.filteredBooks[index];
-                            return BookCard(
-                              index: index,
-                              imageUrl: book.coverImage,
-                              title: book.title,
-                              author: book.author,
-                              price: book.price.toString(),
-                              onAdd: () {},
-                            );
-                          },
-                        )
+            child: hasFilters
+                ? GridView.builder(
+                    padding: const EdgeInsets.all(6),
+                    itemCount: controller.filteredBooks.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 1,
+                          crossAxisSpacing: 1,
+                          childAspectRatio: 0.65,
+                        ),
+                    itemBuilder: (context, index) {
+                      final book = controller.filteredBooks[index];
+                      return BookCard(
+                        index: index,
+                        imageUrl: book.coverImage,
+                        title: book.title,
+                        author: book.author,
+                        price: book.price.toString(),
+                        onAdd: () {},
+                      );
+                    },
+                  )
                 : ListView(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     children: [
@@ -84,30 +77,65 @@ class ShopView extends StatelessWidget {
     });
   }
 
-  Widget _buildSearchBar() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-      child: Row(
-        children: [
-          const SizedBox(width: 20),
-          Expanded(
-            child: TextField(
-              onChanged: controller.filterBooks,
-              style: const TextStyle(fontSize: 18),
-              decoration: InputDecoration(
-                hintText: "search_books".tr,
-                border: InputBorder.none,
-              ),
+  Widget _buildSearchBar(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 242, 240, 236),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            const SizedBox(width: 10),
+            Icon(Icons.search, color: AppColors.brown, size: 27),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Obx(() {
+                if (_searchController.text != controller.searchQuery.value) {
+                  _searchController.text = controller.searchQuery.value;
+                }
+                return TextField(
+                  controller: _searchController,
+                  onChanged: (value) {
+                    controller.filterBooks(value);
+                  },
+                  style: const TextStyle(fontSize: 18),
+                  decoration: InputDecoration(
+                    hintText: "search_books".tr,
+                    border: InputBorder.none,
+                    hintStyle: TextStyle(color: Colors.grey.withOpacity(0.7)),
+                  ),
+                );
+              }),
             ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.tune, color: AppColors.brown, size: 27),
-            onPressed: () {
-              Get.to(() => FilterView());
-            },
-          ),
-        ],
+            IconButton(
+              icon: const Icon(Icons.tune, color: AppColors.brown, size: 27),
+              onPressed: () async {
+                final result = await Get.to(
+                  () => FilterView(),
+                  arguments: controller.currentFilters,
+                );
+                print("FilterView returned result: $result");
+                controller.applyFilters(result);
+                if (result == null) {
+                  controller.searchQuery.value = '';
+                  _searchController.clear();
+                }
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.clear, color: AppColors.brown, size: 27),
+              onPressed: () {
+                print("Clear button pressed");
+                controller.applyFilters(null);
+                controller.searchQuery.value = '';
+                _searchController.clear();
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
