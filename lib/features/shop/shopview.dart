@@ -79,7 +79,7 @@ class ShopView extends StatelessWidget {
 
   Widget _buildSearchBar(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
         decoration: BoxDecoration(
