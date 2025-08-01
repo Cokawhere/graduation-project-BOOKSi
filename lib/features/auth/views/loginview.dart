@@ -18,9 +18,20 @@ class LoginView extends StatelessWidget {
       body: Stack(
         children: [
           Positioned.fill(
-            child: Image.asset(
-              'assets/images/splashbackground.jpg',
-              fit: BoxFit.cover,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    AppColors.brown,
+                    AppColors.teaMilk,
+                    AppColors.brown,
+                    AppColors.teaMilk,
+                    AppColors.brown,
+                  ],
+                ),
+              ),
             ),
           ),
 
@@ -30,7 +41,7 @@ class LoginView extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 0.70,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
               decoration: BoxDecoration(
-                color: const Color.fromARGB(153, 43, 39, 39),
+                color: const Color.fromARGB(188, 43, 39, 39),
                 borderRadius: BorderRadius.circular(30),
               ),
               child: SingleChildScrollView(

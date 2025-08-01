@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../common/styles/colors.dart';
 import '../shop/shop_controller.dart';
 
 class FilterController extends GetxController {
@@ -128,7 +127,6 @@ class FilterController extends GetxController {
       ScaffoldMessenger.of(Get.context!).showSnackBar(
         SnackBar(
           content: Text("All filters have been cleared"),
-          backgroundColor: AppColors.brown,
           duration: Duration(seconds: 3),
         ),
       );
@@ -137,7 +135,6 @@ class FilterController extends GetxController {
       ScaffoldMessenger.of(Get.context!).showSnackBar(
         SnackBar(
           content: Text("Error resetting filters: $e"),
-          backgroundColor: Colors.red,
           duration: Duration(seconds: 3),
         ),
       );
@@ -159,8 +156,7 @@ class FilterController extends GetxController {
       "Success",
       "Filters applied successfully!",
       snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: AppColors.brown,
-      colorText: AppColors.white,
+    
     );
   }
 }

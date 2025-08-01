@@ -125,71 +125,90 @@ class HomeView extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildDrawer(BuildContext context) {
-    final uid = FirebaseAuth.instance.currentUser?.uid;
+Widget _buildDrawer(BuildContext context) {
+  final uid = FirebaseAuth.instance.currentUser?.uid;
+  final HomeController controller = Get.put(HomeController());
 
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Drawer(
-        width: MediaQuery.of(context).size.width * 0.6,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            Stack(
-              children: [
-                FutureBuilder<DocumentSnapshot>(
-                  future: FirebaseFirestore.instance
-                      .collection("users")
-                      .doc(uid)
-                      .get(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const UserAccountsDrawerHeader(
-                        decoration: BoxDecoration(color: AppColors.white),
-                        accountName: Text(
-                          "Loading...",
-                          style: TextStyle(color: AppColors.black),
+  return Directionality(
+    textDirection: TextDirection.ltr,
+    child: Drawer(
+      width: MediaQuery.of(context).size.width * 0.75,
+      child: Obx(
+        () => Container(
+          color: controller.isDarkMode.value
+              ? AppColors.black
+              : AppColors.white,
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              FutureBuilder<DocumentSnapshot>(
+                future: FirebaseFirestore.instance
+                    .collection("users")
+                    .doc(uid)
+                    .get(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Column(
+                      children: [
+                        SizedBox(height: 40),
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundColor: AppColors.teaMilk,
+                          child: Icon(
+                            Icons.person,
+                            color: AppColors.brown,
+                            size: 60,
+                          ),
                         ),
-                        accountEmail: Text(
-                          "Loading...",
-                          style: TextStyle(color: AppColors.black),
+                        Text(
+                          "Hello Loading...",
+                          style: TextStyle(
+                            color: AppColors.brown,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
                         ),
-                      );
-                    }
+                      ],
+                    );
+                  }
 
-                    if (!snapshot.hasData || !snapshot.data!.exists) {
-                      return const UserAccountsDrawerHeader(
-                        decoration: BoxDecoration(color: AppColors.white),
+                  if (!snapshot.hasData || !snapshot.data!.exists) {
+                    return Column(
+                      children: [
+                        SizedBox(height: 40),
 
-                        accountName: Text(
-                          "No Name",
-                          style: TextStyle(color: AppColors.white),
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundColor: AppColors.teaMilk,
+                          child: Icon(
+                            Icons.person,
+                            color: AppColors.brown,
+                            size: 60,
+                          ),
                         ),
-                        accountEmail: Text(
-                          "No Email",
-                          style: TextStyle(color: AppColors.white),
+                        Text(
+                          "Hello No Name",
+                          style: TextStyle(
+                            color: AppColors.brown,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
                         ),
-                      );
-                    }
+                      ],
+                    );
+                  }
 
-                    final userData =
-                        snapshot.data!.data() as Map<String, dynamic>;
-                    return UserAccountsDrawerHeader(
-                      decoration: const BoxDecoration(color: AppColors.white),
-                      accountName: Text(
-                        userData["name"] ?? "No Name",
-                        style: const TextStyle(
-                          color: AppColors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      accountEmail: Text(
-                        userData["email"] ?? "No Email",
-                        style: const TextStyle(color: AppColors.black),
-                      ),
-                      currentAccountPicture: CircleAvatar(
-                        backgroundColor: Colors.white,
+                  final userData =
+                      snapshot.data!.data() as Map<String, dynamic>;
+                  return Column(
+                    children: [
+                      SizedBox(height: 40),
+                      CircleAvatar(
+                        radius: 50,
+
+                        backgroundColor: AppColors.teaMilk,
                         backgroundImage:
                             userData["photoUrl"] != null &&
                                 userData["photoUrl"] != ""
@@ -198,36 +217,45 @@ class HomeView extends StatelessWidget {
                         child:
                             userData["photoUrl"] == null ||
                                 userData["photoUrl"] == ""
-                            ? const Icon(
+                            ? Icon(
                                 Icons.person,
-                                size: 40,
-                                color: AppColors.teaMilk,
+                                size: 60,
+                                color: AppColors.brown,
                               )
                             : null,
                       ),
-                    );
-                  },
-                ),
-              ],
-            ),
-            SizedBox(height: 40),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Obx(() {
-                  bool isDark = controller.isDarkMode.value;
-                  return Row(
-                    children: [
-                      Icon(
-                        isDark ? Icons.dark_mode : Icons.wb_sunny,
-                        color: AppColors.brown,
-                        size: 30,
+                      SizedBox(height: 10),
+
+                      Text(
+                        "Hello ${userData["name"] ?? "No Name"}",
+                        style: TextStyle(
+                          color: AppColors.brown,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
-                      const SizedBox(width: 10),
                     ],
                   );
-                }),
-                Obx(
+                },
+              ),
+              SizedBox(height: 20),
+              ListTile(
+                leading: Icon(
+                  Icons.brightness_6,
+                  color: AppColors.brown,
+                  size: 25,
+                ),
+                title: Obx(
+                  () => Text(
+                    controller.isDarkMode.value ? 'Dark Theme' : 'Light Theme',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: AppColors.brown,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                trailing: Obx(
                   () => Switch(
                     value: controller.isDarkMode.value,
                     onChanged: controller.toggleDarkMode,
@@ -237,23 +265,22 @@ class HomeView extends StatelessWidget {
                     inactiveTrackColor: AppColors.brown,
                   ),
                 ),
-              ],
-            ),
-            SizedBox(height: 40),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  controller.currentLocale.value.languageCode == 'ar'
-                      ? "AR"
-                      : "EN",
-                  style: const TextStyle(
-                    fontSize: 23,
-                    color: AppColors.brown,
-                    fontWeight: FontWeight.w600,
+              ),
+              ListTile(
+                leading: Icon(Icons.language, color: AppColors.brown, size: 25),
+                title: Obx(
+                  () => Text(
+                    controller.currentLocale.value.languageCode == 'ar'
+                        ? 'العربية'
+                        : 'English',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: AppColors.brown,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
-                Obx(
+                trailing: Obx(
                   () => Switch(
                     value: controller.currentLocale.value.languageCode == 'ar',
                     onChanged: controller.toggleLanguage,
@@ -263,57 +290,55 @@ class HomeView extends StatelessWidget {
                     inactiveTrackColor: AppColors.brown,
                   ),
                 ),
-              ],
-            ),
-            SizedBox(height: 40),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  'chat'.tr,
-                  style: const TextStyle(
+              ),
+              ListTile(
+                leading: Icon(Icons.person, color: AppColors.brown, size: 25),
+                title: Text(
+                  'Profile',
+                  style: TextStyle(
+                    fontSize: 18,
                     color: AppColors.brown,
-                    fontSize: 23,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    // Get.to(() => ChatView());
-                  },
-                  child: const Icon(
-                    Icons.chat_bubble,
+                onTap: () => Get.to(() => ProfilePage()),
+              ),
+              ListTile(
+                leading: Icon(Icons.mail, color: AppColors.brown, size: 25),
+                title: Text(
+                  'Messages',
+                  style: TextStyle(
+                    fontSize: 18,
                     color: AppColors.brown,
-                    size: 40,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-              ],
-            ),
-            SizedBox(height: 40),
-            ListTile(
-              leading: const Icon(
-                Icons.logout,
-                color: AppColors.orange,
-                size: 30,
+                onTap: () {
+                  // Get.to(() => MessagesView());
+                },
               ),
-              title: Text(
-                'logout'.tr,
-                style: const TextStyle(
-                  color: AppColors.brown,
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold,
+              SizedBox(height: 50),
+              ListTile(
+                leading: Icon(Icons.logout, color: AppColors.orange, size: 25),
+                title: Text(
+                  'Logout',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: AppColors.orange,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
+                onTap: () async {
+                  await AuthService().signOut();
+                  Get.offAll(() => LoginView());
+                },
               ),
-              onTap: () async {
-                await AuthService().signOut();
-                Get.offAll(() => LoginView());
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    );
-  }
+    ),
+  );
 }
 
 class PlaceholderWidget extends StatelessWidget {

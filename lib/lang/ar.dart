@@ -1,7 +1,7 @@
 const Map<String, String> ar = {
   // Splash
   'splash_title': 'بوكسي',
-  'splash_subtitle': 'شارك · تبادل · تواصل',
+  'splash_subtitle': 'شارك · تبادل .شراء .بيع',
 
   // Signup
   'signup_title': 'انضم إلى بوكسي',
@@ -80,5 +80,12 @@ const Map<String, String> ar = {
   "logout": "تسجيل الخروج",
   "all_books":"كل الكتب",
   "chat":"الرسائل",
-  "no_results_found":"مفبش كتاب عندنا  بالسم دا اسفين"
+  "no_results_found":"مفبش كتاب عندنا  بالسم دا اسفين",
+  "error": "خطأ",
+  "please_enter_email_and_password": "يرجى إدخال البريد الإلكتروني وكلمة المرور",
+  "login_failed": "فشل تسجيل الدخول",
+  "sign_in_aborted": "تم إلغاء تسجيل الدخول",
+  "google_sign_in_failed": "فشل تسجيل الدخول بجوجل",
+  "facebook_sign_in_failed": "فشل تسجيل الدخول بفيسبوك",
+  "account_banned": "حسابك ممنوع من الدخول"
 };

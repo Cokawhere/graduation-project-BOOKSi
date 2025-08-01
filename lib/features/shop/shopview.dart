@@ -196,7 +196,7 @@ class ShopView extends StatelessWidget {
       {
         'icon': Icons.self_improvement,
         'label': 'self_development'.tr,
-        'genre': 'self_development',
+        'genre': "Personal Growth",
       },
       {
         'icon': Icons.nights_stay,

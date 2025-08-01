@@ -1,7 +1,7 @@
 const Map<String, String> en = {
   // Splash
   'splash_title': 'BOOKSi',
-  'splash_subtitle': 'SHARE · SWAP · CONNECT',
+  'splash_subtitle': 'SHARE · SWAP · TRADE ',
 
   // Signup
   'signup_title': 'Join BOOKSi',
@@ -57,7 +57,7 @@ const Map<String, String> en = {
   'location': 'Location',
   'enter_location': 'Enter location',
   'edit_profile_form_coming_soon': 'Edit Profile Form Coming Soon...',
-  'edit_book' : 'Edit book',
+  'edit_book': 'Edit book',
 
   //shop-home
   "search_books": "Search books...",
@@ -70,15 +70,12 @@ const Map<String, String> en = {
   "dark_mode": "Dark Mode",
   "change_language": "Change Language",
   "book_categories": "Book Categories",
-  "novels": "Novels",
-  "self_development": "Self Development",
-  "literature": "Literature",
-  "science": "Science",
-  "history": "History",
-  "religion": "Religion",
-  "business": "Business",
-  "logout": "Log Out",
-  "all_books": "All Books",
-  "chat": "Chat",
+  "error": "Error",
+  "please_enter_email_and_password": "Please enter both email and password",
+  "login_failed": "Login Failed",
+  "sign_in_aborted": "Sign-in aborted",
+  "google_sign_in_failed": "Google Sign-In Failed",
+  "facebook_sign_in_failed": "Facebook Sign-In Failed",
+  "account_banned": "Your account is banned",
   "no_results_found": "No results Found sorry",
 };
