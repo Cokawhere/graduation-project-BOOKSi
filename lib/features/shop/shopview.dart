@@ -191,27 +191,31 @@ class ShopView extends StatelessWidget {
   }
 
   Widget _buildCategoriesSection() {
-    final categories = [
-      {'icon': Icons.menu_book, 'label': 'novels'.tr, 'genre': 'novels'},
-      {
-        'icon': Icons.self_improvement,
-        'label': 'self_development'.tr,
-        'genre': "Personal Growth",
-      },
-      {
-        'icon': Icons.nights_stay,
-        'label': 'literature'.tr,
-        'genre': 'literature',
-      },
-      {'icon': Icons.science, 'label': 'science'.tr, 'genre': 'science'},
-      {'icon': Icons.history, 'label': 'Historical'.tr, 'genre': 'Historical'},
-      {'icon': Icons.auto_stories, 'label': 'religion'.tr, 'genre': 'religion'},
-      {
-        'icon': Icons.business_center,
-        'label': 'business'.tr,
-        'genre': 'business',
-      },
+    const genreOptions = [
+      'Fiction',
+      'Fantasy',
+      'Science Fiction',
+      'Mystery & Thriller',
+      'Romance',
+      'Historical',
+      'Young Adult',
+      'Horror',
+      'Biography',
+      'Personal Growth',
     ];
+
+    final categoryIcons = {
+      'Fiction': Icons.menu_book,
+      'Fantasy': Icons.auto_stories,
+      'Science Fiction': Icons.science,
+      'Mystery & Thriller': Icons.dangerous,
+      'Romance': Icons.favorite,
+      'Historical': Icons.history,
+      'Young Adult': Icons.people,
+      'Horror': Icons.nights_stay,
+      'Biography': Icons.book,
+      'Personal Growth': Icons.self_improvement,
+    };
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -233,23 +237,25 @@ class ShopView extends StatelessWidget {
           height: 95,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: categories.length,
+            itemCount: genreOptions.length,
             itemBuilder: (context, index) {
-              final item = categories[index];
+              final genre = genreOptions[index].toLowerCase().replaceAll(
+                ' ',
+                '_',
+              );
               return GestureDetector(
                 onTap: () {
-                  final genre = item['genre'];
                   final filteredBooks = controller.allBooks
                       .where(
                         (book) =>
                             book.genre.toLowerCase() ==
-                            genre.toString().toLowerCase(),
+                            genreOptions[index].toLowerCase(),
                       )
                       .toList();
 
                   Get.to(
                     () => BooksView(
-                      title: item['label'] as String,
+                      title: genreOptions[index],
                       books: filteredBooks,
                     ),
                   );
@@ -265,15 +271,16 @@ class ShopView extends StatelessWidget {
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
-                          item['icon'] as IconData,
+                          categoryIcons[genreOptions[index]] ?? Icons.book,
                           color: AppColors.brown,
                           size: 35,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        item['label'] as String,
+                        genre.tr, 
                         style: const TextStyle(fontSize: 12),
+                        textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 7),
                     ],
