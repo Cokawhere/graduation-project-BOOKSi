@@ -61,8 +61,10 @@ class BooksView extends StatelessWidget {
             title: book.title,
             author: book.author,
             price: book.price.toString(),
-            onAdd: () {},
             index: index,
+            ownerId: book.ownerId,
+            averageRating: book.averageRating,
+            availableFor: book.availableFor,
           );
         },
       ),

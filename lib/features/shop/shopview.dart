@@ -43,12 +43,14 @@ class ShopView extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final book = controller.filteredBooks[index];
                       return BookCard(
-                        index: index,
                         imageUrl: book.coverImage,
                         title: book.title,
                         author: book.author,
                         price: book.price.toString(),
-                        onAdd: () {},
+                        index: index,
+                        ownerId: book.ownerId,
+                        averageRating: book.averageRating,
+                        availableFor: book.availableFor,
                       );
                     },
                   )
@@ -176,12 +178,14 @@ class ShopView extends StatelessWidget {
             itemBuilder: (context, index) {
               final book = books[index];
               return BookCard(
-                index: index,
                 imageUrl: book.coverImage,
                 title: book.title,
                 author: book.author,
-                price: book.price.toString() ?? '0',
-                onAdd: () {},
+                price: book.price.toString(),
+                index: index,
+                ownerId: book.ownerId,
+                averageRating: book.averageRating,
+                availableFor: book.availableFor,
               );
             },
           ),
@@ -278,7 +282,7 @@ class ShopView extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        genre.tr, 
+                        genre.tr,
                         style: const TextStyle(fontSize: 12),
                         textAlign: TextAlign.center,
                       ),

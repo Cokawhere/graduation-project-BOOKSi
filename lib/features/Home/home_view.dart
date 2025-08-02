@@ -134,7 +134,7 @@ Widget _buildDrawer(BuildContext context) {
   return Directionality(
     textDirection: TextDirection.ltr,
     child: Drawer(
-      width: MediaQuery.of(context).size.width * 0.75,
+      width: MediaQuery.of(context).size.width * 0.68,
       child: Obx(
         () => Container(
           color: controller.isDarkMode.value
