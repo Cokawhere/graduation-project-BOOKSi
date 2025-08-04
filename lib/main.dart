@@ -1,3 +1,5 @@
+import 'package:booksi/features/book_details/book_details_view.dart'
+    show BookDetailsView;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -34,6 +36,15 @@ class MyApp extends StatelessWidget {
     final bool isDark = GetStorage().read('isDarkMode') ?? false;
 
     return GetMaterialApp(
+      getPages: [
+        GetPage(
+          name: '/book-details',
+          page: () {
+            final bookId = Get.arguments?['bookId'] as String?;
+            return BookDetailsView(bookId: bookId);
+          },
+        ),
+      ],
       themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(
         brightness: Brightness.light,

@@ -3,9 +3,10 @@ import 'package:get/get.dart';
 import '../shop/book_model.dart';
 import 'book_details_model.dart';
 import 'book_details_services.dart';
+import 'review_model.dart';
 
 class BookDetailsController extends GetxController {
- final String bookId;
+  final String bookId;
 
   BookDetailsController(this.bookId);
 
@@ -17,49 +18,43 @@ class BookDetailsController extends GetxController {
   var ownerName = ''.obs;
   var ownerPhotoUrl = ''.obs;
   var youAlsoMayLike = <Book>[].obs;
+  var reviews = <Review>[].obs;
+  final Map<String, Map<String, dynamic>> _userCache = {};
 
-
-    @override
+  @override
   void onInit() {
     super.onInit();
     fetchBookDetails();
   }
 
-
-  
-
-
- void fetchBookDetails() async {
-  if (bookId.isEmpty) {
-    print("Error: bookId is empty");
-    Get.snackbar("Error", "Invalid book ID");
-    isLoading.value = false;
-    return;
-  }
-  isLoading.value = true;
-  try {
-    final bookData = await BookDetailsService.getBookDetailsById(bookId);
-    print("Fetched book data: ${bookData.title}, ID: ${bookData.id}");
-    book.value = bookData;
-
-    if (bookData.images.isEmpty) {
-      images.value = List.generate(4, (_) => bookData.coverImage);
-    } else {
-      images.value = bookData.images;
+  void fetchBookDetails() async {
+    if (bookId.isEmpty) {
+      Get.snackbar("Error", "Invalid book ID");
+      isLoading.value = false;
+      return;
     }
-
-    if (bookData.ownerId.isNotEmpty) {
-      await fetchOwnerData(bookData.ownerId);
+    isLoading.value = true;
+    try {
+      final bookData = await BookDetailsService.getBookDetailsById(bookId);
+      book.value = bookData;
+      if (bookData.images.isEmpty) {
+        images.value = List.generate(4, (_) => bookData.coverImage);
+      } else {
+        images.value = bookData.images;
+      }
+      if (bookData.ownerId.isNotEmpty) {
+        await fetchOwnerData(bookData.ownerId);
+      }
+      await fetchSimilarBooks(bookData.genre);
+      await fetchReviews();
+      update();
+    } catch (e) {
+      Get.snackbar("Error", "Failed to load book details: $e");
+    } finally {
+      isLoading.value = false;
+      print("Loading complete");
     }
-
-    await fetchSimilarBooks(bookData.genre);
-  } catch (e) {
-    print("Error fetching book details: $e");
-    Get.snackbar("Error", "Failed to load book details: $e");
-  } finally {
-    isLoading.value = false;
   }
-}
 
   Future<void> fetchOwnerData(String ownerId) async {
     try {
@@ -80,10 +75,64 @@ class BookDetailsController extends GetxController {
   Future<void> fetchSimilarBooks(String genre) async {
     try {
       final books = await BookDetailsService.getBooksByGenre(genre);
-      youAlsoMayLike.value = books.where((book) => book.id != bookId).toList();
+      youAlsoMayLike.value = books
+          .where((book) => book.id != bookId && !book.isDeleted)
+          .toList();
     } catch (e) {
       print('Error fetching similar books: $e');
     }
+  }
+
+  Future<void> fetchReviews() async {
+    try {
+      print("🔍 Starting fetchReviews for bookId: $bookId");
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('reviews')
+          .where('targetId', isEqualTo: bookId)
+          .get();
+      print("🔍 QuerySnapshot docs count: ${querySnapshot.docs.length}");
+      final reviewDocs = querySnapshot.docs;
+      final reviewerIds = reviewDocs
+          .map((doc) => Review.fromMap(doc.data()).reviewerId)
+          .toSet();
+      await _fetchUsersData(reviewerIds);
+      final fetchedReviews = reviewDocs.map((doc) {
+        print("🔍 Review raw data: ${doc.data()}");
+        final review = Review.fromMap(doc.data());
+        return review;
+      }).toList();
+      reviews.value = fetchedReviews;
+      print(" Fetched ${reviews.length} reviews for bookId: $bookId");
+    } catch (e) {
+      print(" Error fetching reviews: $e");
+    }
+  }
+
+  Future<void> _fetchUsersData(Set<String> userIds) async {
+    try {
+      final userDocs = await Future.wait(
+        userIds.map(
+          (userId) =>
+              FirebaseFirestore.instance.collection('users').doc(userId).get(),
+        ),
+      );
+      for (var doc in userDocs) {
+        if (doc.exists) {
+          _userCache[doc.id] = doc.data() ?? {};
+        }
+      }
+      update();
+    } catch (e) {
+      print(" Error fetching users data: $e");
+    }
+  }
+
+  String getUserName(String userId) {
+    return _userCache[userId]?['name'] ?? 'Unknown';
+  }
+
+  String getUserPhotoUrl(String userId) {
+    return _userCache[userId]?['photoUrl'] ?? '';
   }
 
   void toggleDescription() {

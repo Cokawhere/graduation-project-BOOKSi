@@ -30,9 +30,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-    
+
   cupertino_icons: ^1.0.8
   get:
+  share_plus: ^7.0.0
+  intl: ^0.18.0
   firebase_core: ^2.27.0
   firebase_auth: ^4.17.0
   flutter_facebook_auth: ^5.0.8
@@ -52,7 +54,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -69,10 +70,6 @@ flutter:
 
   assets:
     - assets/images/
-
-
-
-
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

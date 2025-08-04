@@ -1,19 +1,48 @@
-// 📁 book_details_view.dart
+import 'package:booksi/features/shop/shopview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:booksi/common/styles/colors.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../common/widgets/custom-book-cart.dart';
+import '../Home/home_view.dart';
 import '../shop/book_model.dart';
 import 'book_details_conroller.dart';
+import 'package:intl/intl.dart';
 
-class BookDetailsView extends StatelessWidget {
-  final String bookId;
-  const BookDetailsView({super.key, required this.bookId});
+import 'review_model.dart';
+
+class BookDetailsView extends StatefulWidget {
+  final String? bookId;
+  const BookDetailsView({super.key, this.bookId});
+
+  @override
+  State<BookDetailsView> createState() => _BookDetailsViewState();
+}
+
+class _BookDetailsViewState extends State<BookDetailsView> {
+  late final BookDetailsController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    final bookId = Get.arguments?['bookId'] ?? widget.bookId;
+    if (bookId == null || bookId.isEmpty) {
+      print("Error: No valid bookId provided");
+      Get.snackbar("Error", "Invalid book ID");
+      return;
+    }
+    print("🔄 Initializing BookDetailsView with bookId: $bookId");
+    controller = Get.put(BookDetailsController(bookId), tag: bookId);
+  }
+
+  @override
+  void dispose() {
+    Get.delete<BookDetailsController>(tag: widget.bookId);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(BookDetailsController(bookId));
-
     return Scaffold(
       body: Obx(() {
         if (controller.isLoading.value) {
@@ -177,7 +206,45 @@ class BookDetailsView extends StatelessWidget {
                       ],
                     ),
                   ),
+                  SizedBox(height: 2),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 19),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Condition :  ', style: TextStyle(fontSize: 20)),
+                        SizedBox(width: 5),
+                        Text(
+                          controller.book.value!.condition,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 3),
 
+                  if (!controller.isLibraryOwner())
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 19),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                        children: [
+                          Text('Location  :', style: TextStyle(fontSize: 20)),
+                          SizedBox(width: 16),
+                          Text(
+                            controller.book.value!.location,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   const SizedBox(height: 14),
                   if (controller.book.value!.availableFor.contains('swap'))
                     Container(
@@ -295,7 +362,7 @@ class BookDetailsView extends StatelessWidget {
                         ),
                       ),
                     ),
-                  const SizedBox(height: 1),
+                  const SizedBox(height: 10),
 
                   Row(
                     children: [
@@ -338,50 +405,87 @@ class BookDetailsView extends StatelessWidget {
                     ],
                   ),
 
-                  SizedBox(height: 2),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: [
-                        Text('Condition :  ', style: TextStyle(fontSize: 20)),
-                        SizedBox(width: 5),
-                        Text(
-                          controller.book.value!.condition,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 3),
-
-                  if (!controller.isLibraryOwner())
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(
-                        children: [
-                          Text('Location  :', style: TextStyle(fontSize: 20)),
-                          SizedBox(width: 16),
-                          Text(
-                            controller.book.value!.location,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  SizedBox(height: 5),
-
+                  SizedBox(height: 15),
                   _buildSection(
                     "You might also like",
                     controller.youAlsoMayLike,
                   ),
 
-                  SizedBox(height: 300),
+                  if (controller.book.value!.ownerRole == 'library')
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 10,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Reviews',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.brown,
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Get.snackbar(
+                                    "Info",
+                                    "Write Review feature will be available after Payment Cart implementation",
+                                  );
+                                },
+                                child: Text(
+                                  'See all',
+                                  style: TextStyle(
+                                    color: AppColors.brown,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          ...controller.reviews
+                              .map((review) => _buildReviewCard(review))
+                              .toList(),
+                          SizedBox(height: 10),
+                          Center(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Get.snackbar(
+                                  "Info",
+                                  "Write Review feature will be available after Payment Cart implementation",
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.brown,
+                                foregroundColor: AppColors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 5,
+                                  horizontal: 100,
+                                ),
+                              ),
+                              child: Text(
+                                'Write a Review',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                  SizedBox(height: 100),
                 ],
               ),
             ),
@@ -391,15 +495,15 @@ class BookDetailsView extends StatelessWidget {
               left: 12,
               child: SafeArea(
                 child: CircleAvatar(
-                  radius: 25,
+                  radius: 22,
                   backgroundColor: AppColors.white,
                   child: IconButton(
                     icon: const Icon(
                       Icons.arrow_back,
                       color: AppColors.black,
-                      size: 30,
+                      size: 27,
                     ),
-                    onPressed: () => Get.back(),
+                    onPressed: () => Get.off(HomeView()),
                   ),
                 ),
               ),
@@ -409,15 +513,27 @@ class BookDetailsView extends StatelessWidget {
               right: 12,
               child: SafeArea(
                 child: CircleAvatar(
-                  radius: 25,
+                  radius: 22,
                   backgroundColor: AppColors.white,
                   child: IconButton(
                     icon: const Icon(
                       Icons.share,
                       color: AppColors.black,
-                      size: 30,
+                      size: 27,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      final book = controller.book.value;
+                      if (book != null) {
+                        final shareText =
+                            'Check out this book!\n'
+                            'Title: ${book.title}\n'
+                            'Author: ${book.author}\n'
+                            'Price: EGP ${book.price}\n'
+                            'Genre: ${book.genre}\n'
+                            'Link: [Add a link if available]';
+                        Share.share(shareText);
+                      }
+                    },
                   ),
                 ),
               ),
@@ -425,88 +541,126 @@ class BookDetailsView extends StatelessWidget {
           ],
         );
       }),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: const BoxDecoration(
-          color: AppColors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              offset: Offset(0, -1),
-              blurRadius: 6,
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: Row(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.background,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        spreadRadius: 1,
-                        blurRadius: 6,
-                        offset: const Offset(1, 3),
+      bottomNavigationBar: Obx(() {
+        final availableFor = controller.book.value?.availableFor ?? [];
+        final isSwapOnly =
+            availableFor.contains('swap') && !availableFor.contains('sell');
+        final isSellOrBoth =
+            availableFor.contains('sell') ||
+            (availableFor.contains('swap') && availableFor.contains('sell'));
+
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          decoration: const BoxDecoration(
+            color: Color.fromARGB(0, 255, 255, 255),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 5),
+            child: isSwapOnly
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.brown,
+                            foregroundColor: AppColors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 16,
+                              horizontal: 40,
+                            ),
+                          ),
+                          child: const Text(
+                            'Chat with Owner',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
                       ),
                     ],
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  child: OutlinedButton(
-                    onPressed: () {}, // Add to cart logic
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: AppColors.white,
-                      side: const BorderSide(
-                        color: Color.fromRGBO(177, 116, 87, 0),
-                        width: 2,
+                  )
+                : Row(
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        height: 60,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.background,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                spreadRadius: 1,
+                                blurRadius: 6,
+                                offset: const Offset(1, 3),
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: OutlinedButton(
+                            onPressed: () {},
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: AppColors.white,
+                              fixedSize: Size(20, 20),
+                              side: const BorderSide(
+                                color: Color.fromRGBO(177, 116, 87, 0),
+                                width: 2,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.shopping_cart,
+                              color: AppColors.brown,
+                              size: 40,
+                            ),
+                          ),
+                        ),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40),
+                      const SizedBox(width: 12),
+                      SizedBox(
+                        height: 60,
+                        width: 240,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color.fromRGBO(
+                              177,
+                              116,
+                              87,
+                              1,
+                            ),
+
+                            padding: EdgeInsets.symmetric(
+                              vertical: 5,
+                              horizontal: 5,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          child: Text(
+                            "Buy Now",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.white,
+                            ),
+                          ),
+                        ),
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    child: const Text(
-                      "Add to Cart",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.brown,
-                      ),
-                    ),
+                    ],
                   ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {}, // Buy now logic
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.brown,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 16,
-                      horizontal: 25,
-                    ),
-                  ),
-                  child: const Text(
-                    "Buy Now",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ],
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 
@@ -515,7 +669,7 @@ class BookDetailsView extends StatelessWidget {
       return const SizedBox.shrink();
     }
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -542,8 +696,10 @@ class BookDetailsView extends StatelessWidget {
                 final book = books[index];
                 return GestureDetector(
                   onTap: () {
-                    print(book.title);
-                    Get.to(() => BookDetailsView(bookId: book.id));
+                    Get.toNamed(
+                      '/book-details',
+                      arguments: {'bookId': book.id},
+                    );
                   },
                   child: BookCard(
                     id: book.id,
@@ -558,6 +714,62 @@ class BookDetailsView extends StatelessWidget {
                   ),
                 );
               },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReviewCard(Review review) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CircleAvatar(
+            radius: 25,
+            backgroundImage:
+                controller.getUserPhotoUrl(review.reviewerId).isNotEmpty
+                ? NetworkImage(controller.getUserPhotoUrl(review.reviewerId))
+                : null,
+            child: controller.getUserPhotoUrl(review.reviewerId).isEmpty
+                ? const Icon(Icons.person)
+                : null,
+          ),
+          SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      controller.getUserName(review.reviewerId),
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(width: 10),
+                    Row(
+                      children: List.generate(
+                        5,
+                        (index) => Icon(
+                          index < review.rating
+                              ? Icons.star
+                              : Icons.star_border,
+                          color: AppColors.orange,
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 5),
+                Text(review.comment, style: TextStyle(fontSize: 16)),
+                Text(
+                  ' ${DateFormat('MMM dd, yyyy').format(review.createdAt.toDate())}',
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+              ],
             ),
           ),
         ],
