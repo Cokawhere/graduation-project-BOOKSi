@@ -57,6 +57,7 @@ class BooksView extends StatelessWidget {
         itemBuilder: (context, index) {
           final book = books[index];
           return BookCard(
+            id:book.id,
             imageUrl: book.coverImage,
             title: book.title,
             author: book.author,

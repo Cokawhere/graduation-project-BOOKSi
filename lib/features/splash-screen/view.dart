@@ -16,13 +16,7 @@ class SplashView extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              AppColors.brown,
-              AppColors.teaMilk,
-              AppColors.brown,
-              AppColors.teaMilk,
-              AppColors.brown,
-            ],
+            colors: [AppColors.white, AppColors.white, AppColors.white],
           ),
         ),
         child: Center(

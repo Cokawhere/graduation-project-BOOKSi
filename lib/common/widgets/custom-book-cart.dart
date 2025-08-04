@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+
+import '../../features/book_details/book_details_conroller.dart';
+import '../../features/book_details/book_details_view.dart';
 import '../styles/colors.dart';
 
 class BookCard extends StatelessWidget {
+  final String id;
   final String imageUrl;
   final String title;
   final String author;
@@ -15,6 +19,7 @@ class BookCard extends StatelessWidget {
 
   const BookCard({
     super.key,
+    required this.id,
     required this.imageUrl,
     required this.title,
     required this.author,
@@ -62,20 +67,25 @@ class BookCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(12),
-                ),
-                child: Image.network(
-                  imageUrl,
-                  height: 160,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Container(
+              GestureDetector(
+                onTap: () {
+                  Get.to(() => BookDetailsView(bookId: id));
+                },
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(12),
+                  ),
+                  child: Image.network(
+                    imageUrl,
                     height: 160,
                     width: double.infinity,
-                    color: AppColors.brown,
-                    child: const Icon(Icons.error, color: AppColors.white),
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Container(
+                      height: 160,
+                      width: double.infinity,
+                      color: AppColors.brown,
+                      child: const Icon(Icons.error, color: AppColors.white),
+                    ),
                   ),
                 ),
               ),
@@ -88,25 +98,35 @@ class BookCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: AppColors.black,
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(() => BookDetailsView(bookId: id));
+                        },
+                        child: Text(
+                          title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: AppColors.black,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 4),
-                      Text(
-                        author,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Colors.brown,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(() => BookDetailsView(bookId: id));
+                        },
+                        child: Text(
+                          author,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Colors.brown,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                       const Spacer(),
@@ -137,13 +157,6 @@ class BookCard extends StatelessWidget {
                             FutureBuilder<bool>(
                               future: _checkLibraryRole(ownerId),
                               builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return CircularProgressIndicator(
-                                    strokeWidth: 2.0,
-                                    color: AppColors.brown,
-                                  );
-                                }
                                 if (snapshot.hasError || !snapshot.hasData) {
                                   return SizedBox.shrink();
                                 }

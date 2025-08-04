@@ -1,14 +1,31 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../Home/home_view.dart';
 import '../services/loginserv.dart';
 
 class LoginController extends GetxController {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final isLoading = false.obs;
 
   final _authService = AuthService();
+
+
+  Future<void> login(String email, String password) async {
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    }
+  }
+
+  String? get userId => _auth.currentUser?.uid;
+
+  Future<void> logout() async {
+    await _auth.signOut();
+  }
 
   void signInWithEmail() async {
     final email = emailController.text.trim();

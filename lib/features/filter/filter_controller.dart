@@ -51,6 +51,7 @@ class FilterController extends GetxController {
     "Matruh",
     "Luxor",
     "Qena",
+    'Sohag',
     "North Sinai",
   ];
 
