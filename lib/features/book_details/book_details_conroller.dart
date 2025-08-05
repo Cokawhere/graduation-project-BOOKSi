@@ -1,11 +1,7 @@
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 import '../shop/book_model.dart';
 import 'book_details_model.dart';
 import 'book_details_services.dart';
@@ -158,7 +154,7 @@ class BookDetailsController extends GetxController {
       uriPrefix: 'https://booksi.page.link',
       link: Uri.parse('https://booksi.page.link/book?id=$bookId'),
       androidParameters: AndroidParameters(
-        packageName: 'com.example.booksi', // استبدلي بـ packageName بتاعك لو مختلف
+        packageName: 'com.example.booksi',
         minimumVersion: 1,
       ),
     );

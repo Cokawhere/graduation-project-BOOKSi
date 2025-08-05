@@ -1,4 +1,3 @@
-import 'package:booksi/features/shop/shopview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:booksi/common/styles/colors.dart';
@@ -31,7 +30,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
       Get.snackbar("Error", "Invalid book ID");
       return;
     }
-    print("🔄 Initializing BookDetailsView with bookId: $bookId");
+    print(" Initializing BookDetailsView with bookId: $bookId");
     controller = Get.put(BookDetailsController(bookId), tag: bookId);
   }
 
@@ -495,7 +494,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                       ),
                       ...controller.reviews
                           .map((review) => _buildReviewCard(review))
-                          .toList(),
+                          ,
                       SizedBox(height: 10),
                       Center(
                         child: ElevatedButton(

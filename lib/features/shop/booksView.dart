@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../common/widgets/custom-book-cart.dart';
-import '../cart/cart_view.dart';
 import '../shop/book_model.dart';
 
 class BooksView extends StatelessWidget {

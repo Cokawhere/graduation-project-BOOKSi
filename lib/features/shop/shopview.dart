@@ -27,7 +27,6 @@ class ShopView extends StatelessWidget {
       return Column(
         children: [
           const SizedBox(height: 5),
-          _buildSearchBar(context),
           Expanded(
             child: hasFilters
                 ? GridView.builder(
@@ -59,6 +58,7 @@ class ShopView extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     children: [
                       const SizedBox(height: 10),
+                      _buildSearchBar(context),
 
                       _buildSection(
                         "best_selling".tr,
@@ -84,17 +84,17 @@ class ShopView extends StatelessWidget {
 
   Widget _buildSearchBar(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 8),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 5),
         decoration: BoxDecoration(
-          color: const Color.fromARGB(184, 1, 1, 1),
+          color: const Color.fromARGB(255, 242, 240, 236),
           borderRadius: BorderRadius.circular(40),
         ),
         child: Row(
           children: [
             const SizedBox(width: 10),
-            Icon(Icons.search, color: AppColors.teaMilk, size: 27),
+            Icon(Icons.search, color: AppColors.brown, size: 27),
             const SizedBox(width: 10),
             Expanded(
               child: Obx(() {
@@ -110,13 +110,13 @@ class ShopView extends StatelessWidget {
                   decoration: InputDecoration(
                     hintText: "search_books".tr,
                     border: InputBorder.none,
-                    hintStyle: TextStyle(color: AppColors.white),
+                    hintStyle: TextStyle(color: AppColors.brown),
                   ),
                 );
               }),
             ),
             IconButton(
-              icon: const Icon(Icons.tune, color: AppColors.teaMilk, size: 27),
+              icon: const Icon(Icons.tune, color: AppColors.brown, size: 27),
               onPressed: () async {
                 final result = await Get.to(
                   () => FilterView(),
@@ -131,7 +131,7 @@ class ShopView extends StatelessWidget {
               },
             ),
             IconButton(
-              icon: const Icon(Icons.clear, color: AppColors.teaMilk, size: 27),
+              icon: const Icon(Icons.clear, color: AppColors.brown, size: 27),
               onPressed: () {
                 print("Clear button pressed");
                 controller.applyFilters(null);

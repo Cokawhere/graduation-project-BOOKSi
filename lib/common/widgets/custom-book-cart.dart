@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
-import '../../features/book_details/book_details_conroller.dart';
 import '../../features/book_details/book_details_view.dart';
 import '../styles/colors.dart';
 
