@@ -33,17 +33,6 @@ class BooksView extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 14),
-            child: IconButton(
-              icon: Icon(Icons.shopping_cart, color: Colors.black87, size: 33),
-              onPressed: () {
-                Get.to(() => Cartview());
-              },
-            ),
-          ),
-        ],
       ),
       body: GridView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -57,7 +46,7 @@ class BooksView extends StatelessWidget {
         itemBuilder: (context, index) {
           final book = books[index];
           return BookCard(
-            id:book.id,
+            id: book.id,
             imageUrl: book.coverImage,
             title: book.title,
             author: book.author,

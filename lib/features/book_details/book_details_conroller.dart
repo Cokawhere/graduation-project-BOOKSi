@@ -1,5 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import '../shop/book_model.dart';
 import 'book_details_model.dart';
 import 'book_details_services.dart';
@@ -125,6 +131,39 @@ class BookDetailsController extends GetxController {
     } catch (e) {
       print(" Error fetching users data: $e");
     }
+  }
+
+
+  // Future<String> uploadImageToStorage(String bookId, String imageUrl) async {
+  //   try {
+  //     final storageRef = firebase_storage.FirebaseStorage.instance.ref().child('book_images/$bookId.jpg');
+  //     final tempDir = await getTemporaryDirectory();
+  //     final file = File('${tempDir.path}/temp_book_image.jpg');
+  //     await file.writeAsBytes((await http.get(Uri.parse(imageUrl))).bodyBytes); // تحميل الصورة
+  //     await storageRef.putFile(file);
+  //     return await storageRef.getDownloadURL();
+  //   } catch (e) {
+  //     print("Error uploading image: $e");
+  //     return '';
+  //   }
+  // }
+
+ Future<String> uploadImageToStorage(String bookId, String imageUrl) async {
+    // بما إن الصورة موجودة كـ URL، نرجعها مباشرة
+    return imageUrl.isNotEmpty ? imageUrl : '';
+  }
+
+  Future<String> createDynamicLink(String bookId) async {
+    final dynamicLinkParams = DynamicLinkParameters(
+      uriPrefix: 'https://booksi.page.link',
+      link: Uri.parse('https://booksi.page.link/book?id=$bookId'),
+      androidParameters: AndroidParameters(
+        packageName: 'com.example.booksi', // استبدلي بـ packageName بتاعك لو مختلف
+        minimumVersion: 1,
+      ),
+    );
+    final dynamicLink = await FirebaseDynamicLinks.instance.buildShortLink(dynamicLinkParams);
+    return dynamicLink.shortUrl.toString();
   }
 
   String getUserName(String userId) {

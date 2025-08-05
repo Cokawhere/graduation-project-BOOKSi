@@ -76,19 +76,19 @@ class HomeView extends StatelessWidget {
         body: pages[controller.selectedIndex.value],
         bottomNavigationBar: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(40),
               child: Container(
                 height: 70,
-                color: const Color.fromARGB(85, 0, 0, 0),
+                color: const Color.fromARGB(144, 0, 0, 0),
                 child: BottomAppBar(
-                  color: const Color.fromARGB(149, 0, 0, 0),
+                  color: const Color.fromARGB(144, 0, 0, 0),
                   elevation: 0,
 
                   child: BottomNavigationBar(
                     type: BottomNavigationBarType.fixed,
-                    backgroundColor: const Color.fromARGB(0, 169, 81, 81),
+                    backgroundColor: const Color.fromARGB(0, 233, 229, 219),
                     elevation: 0,
                     currentIndex: controller.selectedIndex.value,
                     onTap: controller.changeTab,
