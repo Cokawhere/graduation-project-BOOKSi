@@ -22,7 +22,6 @@ class _AddBookViewState extends State<AddBookView> {
   final _titleController = TextEditingController();
   final _authorController = TextEditingController();
   final _descriptionController = TextEditingController();
-  final _locationController = TextEditingController();
   final _priceController = TextEditingController();
 
   final BookController _bookController = Get.put(BookController());
@@ -30,9 +29,11 @@ class _AddBookViewState extends State<AddBookView> {
   final ProfileController _profileController = Get.put(ProfileController());
 
   String? _selectedGenre;
+  String? _selectedLocation;
   String _condition = 'New';
   final List<String> _availableFor = [];
   File? _coverImage;
+  List<File> _additionalImages = [];
   bool _isUploading = false;
 
   final List<String> genres = [
@@ -48,6 +49,36 @@ class _AddBookViewState extends State<AddBookView> {
     "Personal Growth",
   ];
 
+  final List<String> egyptGovernorates = [
+    "Cairo",
+    "Giza",
+    "Alexandria",
+    "Dakahlia",
+    "Red Sea",
+    "Beheira",
+    "Fayoum",
+    "Gharbia",
+    "Ismailia",
+    "Monufia",
+    "Minya",
+    "Qalyubia",
+    "New Valley",
+    "Suez",
+    "Aswan",
+    "Assiut",
+    "Beni Suef",
+    "Port Said",
+    "Damietta",
+    "Sharqia",
+    "South Sinai",
+    "Kafr El Sheikh",
+    "Sohag",
+    "Matruh",
+    "Luxor",
+    "Qena",
+    "North Sinai",
+  ];
+
   void _pickCoverImage() async {
     final picked = await _imageKitController.pickImageFromGallery();
     if (picked != null) {
@@ -55,6 +86,21 @@ class _AddBookViewState extends State<AddBookView> {
         _coverImage = picked;
       });
     }
+  }
+
+  void _pickAdditionalImages() async {
+    final picked = await _imageKitController.pickImageFromGallery();
+    if (picked != null) {
+      setState(() {
+        _additionalImages.add(picked);
+      });
+    }
+  }
+
+  void _removeAdditionalImage(int index) {
+    setState(() {
+      _additionalImages.removeAt(index);
+    });
   }
 
   void _submit() async {
@@ -75,9 +121,10 @@ class _AddBookViewState extends State<AddBookView> {
       _isUploading = true;
     });
     final user = _profileController.user.value;
-    String? location = _locationController.text.trim();
-    if ((user?.address == null || user!.address!.isEmpty) && location.isEmpty) {
-      Get.snackbar('Error', 'Please enter your location');
+    String? location = _selectedLocation;
+    if ((user?.address == null || user!.address!.isEmpty) &&
+        (location == null || location.isEmpty)) {
+      Get.snackbar('Error', 'Please select your location');
       setState(() {
         _isUploading = false;
       });
@@ -105,6 +152,31 @@ class _AddBookViewState extends State<AddBookView> {
         return;
       }
     }
+
+    // Upload cover image first
+    String? coverImageUrl = await _imageKitController.uploadImageAndGetUrl(
+      _coverImage!,
+    );
+    if (coverImageUrl == null) {
+      Get.snackbar('Error', 'Failed to upload cover image');
+      setState(() {
+        _isUploading = false;
+      });
+      return;
+    }
+
+    // Upload additional images
+    List<String> additionalImageUrls = [];
+    for (File image in _additionalImages) {
+      String? imageUrl = await _imageKitController.uploadImageAndGetUrl(image);
+      if (imageUrl != null) {
+        additionalImageUrls.add(imageUrl);
+      }
+    }
+
+    // Combine cover image with additional images
+    List<String> allImages = [coverImageUrl, ...additionalImageUrls];
+
     final book = Book(
       id: Uuid().v4(),
       ownerId: user?.uid ?? '',
@@ -121,15 +193,16 @@ class _AddBookViewState extends State<AddBookView> {
       approval: 'pending',
       isDeleted: false,
       status: 'available',
-      coverImage: '',
-      images: [],
+      coverImage: coverImageUrl,
+      images: allImages,
       location: location,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       price: price,
       imageFileId: null,
     );
-    await _imageKitController.uploadBookImageAndSave(book, _coverImage!);
+
+    await _bookController.addBook(book);
     setState(() {
       _isUploading = false;
     });
@@ -317,14 +390,88 @@ class _AddBookViewState extends State<AddBookView> {
                                 ],
                               ),
                         SizedBox(height: media.size.height * 0.015),
-                        if (user?.address == null || user!.address!.isEmpty)
-                          CustomTextField(
-                            controller: _locationController,
-                            hintText: 'location'.tr,
-                            validator: (v) => v == null || v.trim().isEmpty
-                                ? 'enter_location'.tr
-                                : null,
+                        Text(
+                          'additional_images'.tr,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: media.size.width * 0.04,
                           ),
+                        ),
+                        SizedBox(height: media.size.height * 0.01),
+                        CustomButton(
+                          text: 'add_more_images'.tr,
+                          onPressed: _pickAdditionalImages,
+                          backgroundColor: AppColors.orange,
+                        ),
+                        if (_additionalImages.isNotEmpty) ...[
+                          SizedBox(height: media.size.height * 0.01),
+                          Container(
+                            height: media.size.height * 0.15,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: _additionalImages.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  margin: const EdgeInsets.only(right: 8),
+                                  child: Stack(
+                                    children: [
+                                      Image.file(
+                                        _additionalImages[index],
+                                        height: media.size.height * 0.12,
+                                        width: media.size.width * 0.3,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      Positioned(
+                                        top: 4,
+                                        right: 4,
+                                        child: GestureDetector(
+                                          onTap: () =>
+                                              _removeAdditionalImage(index),
+                                          child: Container(
+                                            padding: const EdgeInsets.all(4),
+                                            decoration: BoxDecoration(
+                                              color: Colors.red,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: Icon(
+                                              Icons.close,
+                                              color: Colors.white,
+                                              size: 16,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                        SizedBox(height: media.size.height * 0.015),
+                        DropdownButtonFormField<String>(
+                          value: _selectedLocation,
+                          items: egyptGovernorates
+                              .map(
+                                (location) => DropdownMenuItem(
+                                  value: location,
+                                  child: Text(location),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (val) =>
+                              setState(() => _selectedLocation = val),
+                          decoration: InputDecoration(
+                            labelText: 'location'.tr,
+                            border: const OutlineInputBorder(),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
+                          ),
+                          validator: (v) =>
+                              v == null ? 'select_location'.tr : null,
+                        ),
                         SizedBox(height: media.size.height * 0.03),
                         CustomButton(
                           text: 'add_book'.tr,

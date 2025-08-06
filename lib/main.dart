@@ -1,3 +1,4 @@
+import 'package:booksi/features/blog/controllers/blog_controller.dart';
 import 'package:booksi/features/book_details/book_details_view.dart'
     show BookDetailsView;
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ void main() async {
   Get.lazyPut(() => ProfileController(), fenix: true);
   Get.lazyPut(() => BookController(), fenix: true);
   Get.lazyPut(() => ImageKitController(), fenix: true);
+  Get.lazyPut(() => BlogController(), fenix: true);
   Get.put(LoginController());
   Get.put(CartController()); 
 
