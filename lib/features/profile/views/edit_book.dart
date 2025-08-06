@@ -248,7 +248,7 @@ class _EditBookViewState extends State<EditBookView> {
                         Row(
                           children: [
                             Radio<String>(
-                              value: 'New',
+                              value: 'new',
                               groupValue: _condition,
                               onChanged: (val) =>
                                   setState(() => _condition = val!),
@@ -256,7 +256,7 @@ class _EditBookViewState extends State<EditBookView> {
                             ),
                             Text('new'.tr),
                             Radio<String>(
-                              value: 'Used',
+                              value: 'used',
                               groupValue: _condition,
                               onChanged: (val) =>
                                   setState(() => _condition = val!),

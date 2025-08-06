@@ -57,7 +57,7 @@ const Map<String, String> ar = {
   'location': 'الموقع',
   'enter_location': 'أدخل الموقع',
   'edit_profile_form_coming_soon': 'نموذج تعديل الملف الشخصي قادم قريبًا...',
-  'edit_book' : 'تعديل الكتاب',
+  'edit_book': 'تعديل الكتاب',
 
   //shop-home
   "search_books": "ابحث عن الكتب...",
@@ -78,7 +78,7 @@ const Map<String, String> ar = {
   "religion": "الدين",
   "business": "الأعمال",
   "logout": "تسجيل الخروج",
-  "all_books":"كل الكتب",
-  "chat":"الرسائل",
-  "no_results_found":"مفبش كتاب عندنا  بالسم دا اسفين"
+  "all_books": "كل الكتب",
+  "chat": "الرسائل",
+  "no_results_found": "مفبش كتاب عندنا  بالسم دا اسفين",
 };

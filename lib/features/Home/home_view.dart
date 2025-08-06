@@ -1,4 +1,5 @@
 import 'package:booksi/common/styles/colors.dart';
+import 'package:booksi/features/blog/views/blog_view.dart';
 import 'package:booksi/features/profile/views/profile_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,7 +17,7 @@ class HomeView extends StatelessWidget {
   final List<Widget> pages = [
     ShopView(),
     Cartview(),
-    PlaceholderWidget("Blog"),
+    BlogView(),
     ProfilePage(),
   ];
 
@@ -281,7 +282,7 @@ class HomeView extends StatelessWidget {
 
                 GestureDetector(
                   onTap: () {
-                    // Get.to(() => ChatView());
+                    // Get.to(() => ChatListView()); // drawer /////////
                   },
                   child: const Icon(
                     Icons.chat_bubble,

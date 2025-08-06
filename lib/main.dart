@@ -1,3 +1,4 @@
+import 'package:booksi/features/blog/controllers/blog_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,9 +17,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await GetStorage.init();
-  Get.put(ProfileController(), permanent: true);
-  Get.put(BookController(), permanent: true);
-  Get.put(ImageKitController(), permanent: true);
+
+  Get.lazyPut(() => ProfileController(), fenix: true);
+  Get.lazyPut(() => BookController(), fenix: true);
+  Get.lazyPut(() => ImageKitController(), fenix: true);
+  Get.lazyPut(() => BlogController(), fenix: true);
 
   runApp(const MyApp());
 }

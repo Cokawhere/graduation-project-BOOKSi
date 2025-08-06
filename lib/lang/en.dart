@@ -57,7 +57,7 @@ const Map<String, String> en = {
   'location': 'Location',
   'enter_location': 'Enter location',
   'edit_profile_form_coming_soon': 'Edit Profile Form Coming Soon...',
-  'edit_book' : 'Edit book',
+  'edit_book': 'Edit book',
 
   //shop-home
   "search_books": "Search books...",
