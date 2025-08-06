@@ -16,7 +16,7 @@ class HomeView extends StatelessWidget {
 
   final List<Widget> pages = [
     ShopView(),
-    Cartview(),
+    CartView(),
     BlogView(),
     ProfilePage(),
   ];
@@ -77,19 +77,19 @@ class HomeView extends StatelessWidget {
         body: pages[controller.selectedIndex.value],
         bottomNavigationBar: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(40),
               child: Container(
                 height: 70,
-                color: const Color.fromARGB(85, 0, 0, 0),
+                color: const Color.fromARGB(255, 235, 234, 231),
                 child: BottomAppBar(
-                  color: const Color.fromARGB(149, 0, 0, 0),
+                  color: const Color.fromARGB(255, 235, 234, 231),
                   elevation: 0,
 
                   child: BottomNavigationBar(
                     type: BottomNavigationBarType.fixed,
-                    backgroundColor: const Color.fromARGB(0, 169, 81, 81),
+                    backgroundColor: const Color.fromARGB(255, 235, 234, 231),
                     elevation: 0,
                     currentIndex: controller.selectedIndex.value,
                     onTap: controller.changeTab,
@@ -126,70 +126,90 @@ class HomeView extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildDrawer(BuildContext context) {
-    final uid = FirebaseAuth.instance.currentUser?.uid;
+Widget _buildDrawer(BuildContext context) {
+  final uid = FirebaseAuth.instance.currentUser?.uid;
+  final HomeController controller = Get.put(HomeController());
 
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Drawer(
-        width: MediaQuery.of(context).size.width * 0.7,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            Stack(
-              children: [
-                FutureBuilder<DocumentSnapshot>(
-                  future: FirebaseFirestore.instance
-                      .collection("users")
-                      .doc(uid)
-                      .get(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const UserAccountsDrawerHeader(
-                        decoration: BoxDecoration(color: AppColors.white),
-                        accountName: Text(
-                          "Loading...",
-                          style: TextStyle(color: AppColors.black),
+  return Directionality(
+    textDirection: TextDirection.ltr,
+    child: Drawer(
+      width: MediaQuery.of(context).size.width * 0.68,
+      child: Obx(
+        () => Container(
+          color: controller.isDarkMode.value
+              ? AppColors.black
+              : AppColors.white,
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              FutureBuilder<DocumentSnapshot>(
+                future: FirebaseFirestore.instance
+                    .collection("users")
+                    .doc(uid)
+                    .get(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Column(
+                      children: [
+                        SizedBox(height: 40),
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundColor: AppColors.teaMilk,
+                          child: Icon(
+                            Icons.person,
+                            color: AppColors.brown,
+                            size: 60,
+                          ),
                         ),
-                        accountEmail: Text(
-                          "Loading...",
-                          style: TextStyle(color: AppColors.black),
+                        Text(
+                          "Hello Loading...",
+                          style: TextStyle(
+                            color: AppColors.brown,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
                         ),
-                      );
-                    }
+                      ],
+                    );
+                  }
 
-                    if (!snapshot.hasData || !snapshot.data!.exists) {
-                      return const UserAccountsDrawerHeader(
-                        decoration: BoxDecoration(color: AppColors.white),
-                        accountName: Text(
-                          "No Name",
-                          style: TextStyle(color: AppColors.black),
-                        ),
-                        accountEmail: Text(
-                          "No Email",
-                          style: TextStyle(color: AppColors.black),
-                        ),
-                      );
-                    }
+                  if (!snapshot.hasData || !snapshot.data!.exists) {
+                    return Column(
+                      children: [
+                        SizedBox(height: 40),
 
-                    final userData =
-                        snapshot.data!.data() as Map<String, dynamic>;
-                    return UserAccountsDrawerHeader(
-                      decoration: const BoxDecoration(color: AppColors.white),
-                      accountName: Text(
-                        userData["name"] ?? "No Name",
-                        style: const TextStyle(
-                          color: AppColors.black,
-                          fontWeight: FontWeight.bold,
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundColor: AppColors.teaMilk,
+                          child: Icon(
+                            Icons.person,
+                            color: AppColors.brown,
+                            size: 60,
+                          ),
                         ),
-                      ),
-                      accountEmail: Text(
-                        userData["email"] ?? "No Email",
-                        style: const TextStyle(color: AppColors.black),
-                      ),
-                      currentAccountPicture: CircleAvatar(
-                        backgroundColor: Colors.white,
+                        Text(
+                          "Hello No Name",
+                          style: TextStyle(
+                            color: AppColors.brown,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+
+                  final userData =
+                      snapshot.data!.data() as Map<String, dynamic>;
+                  return Column(
+                    children: [
+                      SizedBox(height: 40),
+                      CircleAvatar(
+                        radius: 50,
+
+                        backgroundColor: AppColors.teaMilk,
                         backgroundImage:
                             userData["photoUrl"] != null &&
                                 userData["photoUrl"] != ""
@@ -198,36 +218,45 @@ class HomeView extends StatelessWidget {
                         child:
                             userData["photoUrl"] == null ||
                                 userData["photoUrl"] == ""
-                            ? const Icon(
+                            ? Icon(
                                 Icons.person,
-                                size: 40,
-                                color: AppColors.teaMilk,
+                                size: 60,
+                                color: AppColors.brown,
                               )
                             : null,
                       ),
-                    );
-                  },
-                ),
-              ],
-            ),
+                      SizedBox(height: 10),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Obx(() {
-                  bool isDark = controller.isDarkMode.value;
-                  return Row(
-                    children: [
-                      Icon(
-                        isDark ? Icons.dark_mode : Icons.wb_sunny,
-                        color: AppColors.brown,
-                        size: 30,
+                      Text(
+                        "Hello ${userData["name"] ?? "No Name"}",
+                        style: TextStyle(
+                          color: AppColors.brown,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
-                      const SizedBox(width: 10),
                     ],
                   );
-                }),
-                Obx(
+                },
+              ),
+              SizedBox(height: 20),
+              ListTile(
+                leading: Icon(
+                  Icons.brightness_6,
+                  color: AppColors.brown,
+                  size: 25,
+                ),
+                title: Obx(
+                  () => Text(
+                    controller.isDarkMode.value ? 'Dark Theme' : 'Light Theme',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: AppColors.brown,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                trailing: Obx(
                   () => Switch(
                     value: controller.isDarkMode.value,
                     onChanged: controller.toggleDarkMode,
@@ -237,25 +266,22 @@ class HomeView extends StatelessWidget {
                     inactiveTrackColor: AppColors.brown,
                   ),
                 ),
-              ],
-            ),
-
-            const Divider(),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  controller.currentLocale.value.languageCode == 'ar'
-                      ? "AR"
-                      : "EN",
-                  style: const TextStyle(
-                    fontSize: 23,
-                    color: AppColors.brown,
-                    fontWeight: FontWeight.w600,
+              ),
+              ListTile(
+                leading: Icon(Icons.language, color: AppColors.brown, size: 25),
+                title: Obx(
+                  () => Text(
+                    controller.currentLocale.value.languageCode == 'ar'
+                        ? 'العربية'
+                        : 'English',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: AppColors.brown,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
-                Obx(
+                trailing: Obx(
                   () => Switch(
                     value: controller.currentLocale.value.languageCode == 'ar',
                     onChanged: controller.toggleLanguage,
@@ -265,58 +291,55 @@ class HomeView extends StatelessWidget {
                     inactiveTrackColor: AppColors.brown,
                   ),
                 ),
-              ],
-            ),
-            const Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  'chat'.tr,
-                  style: const TextStyle(
+              ),
+              ListTile(
+                leading: Icon(Icons.person, color: AppColors.brown, size: 25),
+                title: Text(
+                  'Profile',
+                  style: TextStyle(
+                    fontSize: 18,
                     color: AppColors.brown,
-                    fontSize: 23,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-
-                GestureDetector(
-                  onTap: () {
-                    // Get.to(() => ChatListView()); // drawer /////////
-                  },
-                  child: const Icon(
-                    Icons.chat_bubble,
+                onTap: () => Get.to(() => ProfilePage()),
+              ),
+              ListTile(
+                leading: Icon(Icons.mail, color: AppColors.brown, size: 25),
+                title: Text(
+                  'Messages',
+                  style: TextStyle(
+                    fontSize: 18,
                     color: AppColors.brown,
-                    size: 40,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-              ],
-            ),
-            const Divider(),
-            ListTile(
-              leading: const Icon(
-                Icons.logout,
-                color: AppColors.orange,
-                size: 30,
+                onTap: () {
+                  // Get.to(() => MessagesView());
+                },
               ),
-              title: Text(
-                'logout'.tr,
-                style: const TextStyle(
-                  color: AppColors.brown,
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold,
+              SizedBox(height: 50),
+              ListTile(
+                leading: Icon(Icons.logout, color: AppColors.orange, size: 25),
+                title: Text(
+                  'Logout',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: AppColors.orange,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
+                onTap: () async {
+                  await AuthService().signOut();
+                  Get.offAll(() => LoginView());
+                },
               ),
-              onTap: () async {
-                await AuthService().signOut();
-                Get.offAll(() => LoginView());
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    );
-  }
+    ),
+  );
 }
 
 class PlaceholderWidget extends StatelessWidget {

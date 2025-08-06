@@ -1,111 +1,118 @@
-import 'package:booksi/common/styles/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:get/get.dart';
-import 'conroller.dart';
+import '../../common/styles/colors.dart';
+import '../auth/views/loginview.dart';
+import '../auth/views/sighup.dart';
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(SplashController());
-
     return Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/splashbackground.jpg',
-              fit: BoxFit.cover,
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [AppColors.white, AppColors.white, AppColors.white],
           ),
-
-          Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                
-                Text(
-                  'BOOKSi°',
-                  style: TextStyle(
-                    color: Colors.white,
-                    shadows: [
-                      Shadow(
-                        blurRadius: 7,
-                        color: Colors.black45,
-                        offset: Offset(2, 2),
-                      ),
-                    ],
-                    fontSize: 65,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
-                  ),
-                ),
-
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 5),
-                  width: 240,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 7,
-                        color: Colors.black45,
-                        offset: Offset(2, 2),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Animated Subtext
-                Obx(
-                  () => AnimatedOpacity(
-                    opacity: controller.textVisible.value ? 1.0 : 0.0,
-                    duration: const Duration(seconds: 1),
-                    child: Text(
-                      'splash_subtitle'.tr,
-                      style: TextStyle(
-                        color: AppColors.orange,
-                        shadows: [
-                          Shadow(
-                            blurRadius: 4,
-                            color: const Color.fromARGB(255, 229, 119, 8),
-                            offset: Offset(2, 2),
-                          ),
-                        ],
-                        fontSize: 22,
-                        fontWeight: FontWeight.w900,
-                      ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 200),
+              Text(
+                'BOOKSi°',
+                style: TextStyle(
+                  color: AppColors.orange,
+                  shadows: [
+                    Shadow(
+                      blurRadius: 7,
+                      color: AppColors.black,
+                      offset: Offset(2, 2),
                     ),
+                  ],
+                  fontSize: 65,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.5,
+                ),
+              ),
+              // Container(
+              //   margin: const EdgeInsets.symmetric(vertical: 5),
+              //   width: 240,
+              //   height: 4,
+              //   decoration: BoxDecoration(
+              //     color: AppColors.white,
+              //     boxShadow: [
+              //       BoxShadow(
+              //         blurRadius: 7,
+              //         color: AppColors.black,
+              //         offset: Offset(2, 2),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              Text(
+                'splash_subtitle'.tr,
+                style: TextStyle(
+                  color: const Color.fromARGB(255, 255, 251, 248),
+                  shadows: [
+                    Shadow(
+                      blurRadius: 4,
+                      color: const Color.fromARGB(255, 229, 119, 8),
+                      offset: Offset(2, 2),
+                    ),
+                  ],
+                  fontSize: 22,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              const SizedBox(height: 250),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.white,
+                  minimumSize: const Size(330, 55),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                SizedBox(height: 180),
-              ],
-            ),
-          ),
-
-          // Bottom Icon Button
-          Positioned(
-            bottom: 120,
-            right: 150,
-            child: GestureDetector(
-              onTap: controller.goToLogin,
-              child: Obx(
-                () => AnimatedContainer(
-                  duration: const Duration(milliseconds: 900),
-                  margin: EdgeInsets.only(right: controller.iconOffset.value),
-                  child: SvgPicture.asset(
-                    'assets/images/arrowsplash.svg',
-                    width: 100,
-                    height: 100,
+                onPressed: () => Get.to(() => SignupView()),
+                child: Text(
+                  'create_account'.tr,
+                  style: TextStyle(
+                    color: AppColors.black,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-            ),
+              const SizedBox(height: 20),
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: AppColors.brown,
+
+                  minimumSize: const Size(330, 55),
+                  side: BorderSide(color: AppColors.white),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: () => Get.to(() => LoginView()),
+                child: Text(
+                  'sign_in'.tr,
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

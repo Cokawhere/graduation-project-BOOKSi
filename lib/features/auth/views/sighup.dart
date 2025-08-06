@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../../common/styles/colors.dart';
 import '../controllers/sighupcontroller.dart';
+import 'loginview.dart';
 
 class SignupView extends StatelessWidget {
   const SignupView({super.key});
@@ -15,9 +16,14 @@ class SignupView extends StatelessWidget {
       body: Stack(
         children: [
           Positioned.fill(
-            child: Image.asset(
-              'assets/images/splashbackground.jpg',
-              fit: BoxFit.cover,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                colors: [AppColors.white, AppColors.white, AppColors.white],
+                ),
+              ),
             ),
           ),
           Center(
@@ -26,7 +32,7 @@ class SignupView extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 0.75,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
               decoration: BoxDecoration(
-                color: const Color.fromARGB(153, 43, 39, 39),
+                color: const Color.fromARGB(188, 43, 39, 39),
                 borderRadius: BorderRadius.circular(30),
               ),
               child: SingleChildScrollView(
@@ -114,6 +120,29 @@ class SignupView extends StatelessWidget {
                         _socialButton(
                           'assets/images/face.svg',
                           controller.signInWithFacebook,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 30),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'already_have_account'.tr,
+                          style: TextStyle(
+                            color: const Color.fromARGB(255, 255, 255, 255),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => Get.to(LoginView()),
+                          child: Text(
+                            'sign_in_now'.tr,
+                            style: TextStyle(
+                              color: AppColors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ],
                     ),

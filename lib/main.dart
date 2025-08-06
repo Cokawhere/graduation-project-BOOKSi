@@ -1,9 +1,14 @@
 import 'package:booksi/features/blog/controllers/blog_controller.dart';
+import 'package:booksi/features/book_details/book_details_view.dart'
+    show BookDetailsView;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'features/auth/controllers/logincontroller.dart';
+
+import 'features/cart/cart_controller.dart';
 import 'features/profile/controllers/book_controllers.dart';
 import 'features/profile/controllers/imagekit_controller.dart';
 import 'features/profile/controllers/profile_controller.dart';
@@ -17,11 +22,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await GetStorage.init();
-
   Get.lazyPut(() => ProfileController(), fenix: true);
   Get.lazyPut(() => BookController(), fenix: true);
   Get.lazyPut(() => ImageKitController(), fenix: true);
   Get.lazyPut(() => BlogController(), fenix: true);
+  Get.put(LoginController());
+  Get.put(CartController()); 
 
   runApp(const MyApp());
 }
@@ -34,6 +40,15 @@ class MyApp extends StatelessWidget {
     final bool isDark = GetStorage().read('isDarkMode') ?? false;
 
     return GetMaterialApp(
+      getPages: [
+        GetPage(
+          name: '/book-details',
+          page: () {
+            final bookId = Get.arguments?['bookId'] as String?;
+            return BookDetailsView(bookId: bookId);
+          },
+        ),
+      ],
       themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(
         brightness: Brightness.light,

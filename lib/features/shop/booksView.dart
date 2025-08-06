@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../common/widgets/custom-book-cart.dart';
-import '../cart/cart_view.dart';
 import '../shop/book_model.dart';
 
 class BooksView extends StatelessWidget {
@@ -33,17 +32,6 @@ class BooksView extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 14),
-            child: IconButton(
-              icon: Icon(Icons.shopping_cart, color: Colors.black87, size: 33),
-              onPressed: () {
-                Get.to(() => Cartview());
-              },
-            ),
-          ),
-        ],
       ),
       body: GridView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -57,12 +45,15 @@ class BooksView extends StatelessWidget {
         itemBuilder: (context, index) {
           final book = books[index];
           return BookCard(
+            id: book.id,
             imageUrl: book.coverImage,
             title: book.title,
             author: book.author,
             price: book.price.toString(),
-            onAdd: () {},
             index: index,
+            ownerId: book.ownerId,
+            averageRating: book.averageRating,
+            availableFor: book.availableFor,
           );
         },
       ),

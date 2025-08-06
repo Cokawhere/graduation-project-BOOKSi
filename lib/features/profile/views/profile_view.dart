@@ -20,7 +20,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
     final double cardWidth = media.size.width * 0.6;
-    final double cardHeight = media.size.height * 0.32;
+    final double cardHeight = media.size.height * 0.36;
     final double addBtnSize = media.size.width * 0.11;
     final double horizontalPadding = media.size.width * 0.04;
     final double verticalPadding = media.size.height * 0.03;

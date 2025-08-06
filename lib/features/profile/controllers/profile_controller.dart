@@ -2,8 +2,6 @@ import 'package:booksi/features/profile/models/profile.dart';
 import 'package:booksi/features/profile/services/profile_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 
 class ProfileController extends GetxController {
   final FirebaseService _firebaseService = FirebaseService();

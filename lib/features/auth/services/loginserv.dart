@@ -7,8 +7,11 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  
-  Future<User?> signUpWithEmail(String email, String password, String name) async {
+  Future<User?> signUpWithEmail(
+    String email,
+    String password,
+    String name,
+  ) async {
     final userCredential = await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
@@ -21,7 +24,7 @@ class AuthService {
 
     return user;
   }
-
+  
 
   Future<User?> signInWithEmail(String email, String password) async {
     final userCredential = await _auth.signInWithEmailAndPassword(
@@ -32,6 +35,11 @@ class AuthService {
 
     if (user != null) {
       final doc = await _firestore.collection("users").doc(user.uid).get();
+
+      if (doc.exists && doc.data()!['isBanned'] == true) {
+        await _auth.signOut();
+        throw "Your account is banned";
+      }
 
       if (!doc.exists) {
         await _createUserDoc(user, user.displayName ?? "No Name");
@@ -47,7 +55,7 @@ class AuthService {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final googleUser = await googleSignIn.signIn();
 
-    if (googleUser == null) throw "Sign-in aborted.";
+    if (googleUser == null) throw "sign_in_aborted";
 
     final googleAuth = await googleUser.authentication;
     final credential = GoogleAuthProvider.credential(
@@ -60,6 +68,11 @@ class AuthService {
 
     if (user != null) {
       final doc = await _firestore.collection("users").doc(user.uid).get();
+
+      if (doc.exists && doc.data()!['isBanned'] == true) {
+        await _auth.signOut();
+        throw "Your account is banned";
+      }
 
       if (!doc.exists) {
         await _createUserDoc(user, user.displayName ?? "No Name", imageFileId);
@@ -74,7 +87,9 @@ class AuthService {
   Future<User?> signInWithFacebook([String? imageFileId]) async {
     final LoginResult result = await FacebookAuth.instance.login();
 
-    if (result.status != LoginStatus.success) throw "Facebook Sign-in failed.";
+    if (result.status != LoginStatus.success) {
+      throw "facebook_sign_in_failed";
+    }
 
     final OAuthCredential credential = FacebookAuthProvider.credential(
       result.accessToken!.token,
@@ -86,6 +101,11 @@ class AuthService {
     if (user != null) {
       final doc = await _firestore.collection("users").doc(user.uid).get();
 
+      if (doc.exists && doc.data()!['isBanned'] == true) {
+        await _auth.signOut();
+        throw "Your account is banned";
+      }
+
       if (!doc.exists) {
         await _createUserDoc(user, user.displayName ?? "No Name", imageFileId);
       } else {
@@ -96,7 +116,11 @@ class AuthService {
     return user;
   }
 
-  Future<void> _createUserDoc(User user, String name, [String? imageFileId]) async {
+  Future<void> _createUserDoc(
+    User user,
+    String name, [
+    String? imageFileId,
+  ]) async {
     await _firestore.collection("users").doc(user.uid).set({
       "uid": user.uid,
       "name": name,
@@ -123,7 +147,6 @@ class AuthService {
     });
   }
 
- 
   Future<void> _updateUserTimestamp(String uid) async {
     await _firestore.collection("users").doc(uid).update({
       "updatedAt": FieldValue.serverTimestamp(),

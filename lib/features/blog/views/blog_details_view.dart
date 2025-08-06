@@ -31,7 +31,7 @@ class BlogDetailsView extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
         actions: [
-          // Delete button for post owner
+          // Delete
           Builder(
             builder: (context) {
               final currentUserId = controller.currentUserId;

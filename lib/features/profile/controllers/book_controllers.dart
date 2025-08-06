@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import '../models/profile.dart';
 import '../services/profile_service.dart';
 

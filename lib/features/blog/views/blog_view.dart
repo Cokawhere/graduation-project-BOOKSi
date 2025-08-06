@@ -105,11 +105,7 @@ class BlogView extends StatelessWidget {
           ),
         );
       }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.to(() => AddBlogView()),
-        backgroundColor: AppColors.brown,
-        child: const Icon(Icons.add, color: AppColors.white),
-      ),
+      
     );
   }
 }
