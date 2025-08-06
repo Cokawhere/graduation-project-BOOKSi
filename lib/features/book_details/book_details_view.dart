@@ -4,6 +4,7 @@ import 'package:booksi/common/styles/colors.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../common/widgets/custom-book-cart.dart';
 import '../Home/home_view.dart';
+import '../cart/cart_controller.dart';
 import '../shop/book_model.dart';
 import 'book_details_conroller.dart';
 import 'package:intl/intl.dart';
@@ -492,9 +493,9 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                           ),
                         ],
                       ),
-                      ...controller.reviews
-                          .map((review) => _buildReviewCard(review))
-                          ,
+                      ...controller.reviews.map(
+                        (review) => _buildReviewCard(review),
+                      ),
                       SizedBox(height: 10),
                       Center(
                         child: ElevatedButton(
@@ -596,7 +597,16 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              final cartController = Get.find<CartController>();
+                              cartController.addToCart(
+                                bookId: controller.book.value!.id,
+                                title: controller.book.value!.title,
+                                author: controller.book.value!.author,
+                                coverImage: controller.book.value!.coverImage,
+                                price: controller.book.value!.price,
+                              );
+                            },
                             style: OutlinedButton.styleFrom(
                               backgroundColor: AppColors.white,
                               fixedSize: Size(20, 20),

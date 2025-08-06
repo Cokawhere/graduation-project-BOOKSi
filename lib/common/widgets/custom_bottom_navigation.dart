@@ -23,7 +23,7 @@ class CustomBottomNav extends StatelessWidget {
         if (index == 0) {
           Get.offAll(() => HomeView());
         } else if (index == 1) {
-          Get.offAll(() => Cartview());
+          Get.offAll(() => CartView());
         } else if (index == 2) {
           Get.to(() => PlaceholderWidget("Blog"));
         } else if (index == 3) {

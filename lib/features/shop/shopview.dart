@@ -27,6 +27,8 @@ class ShopView extends StatelessWidget {
       return Column(
         children: [
           const SizedBox(height: 5),
+          _buildSearchBar(context),
+
           Expanded(
             child: hasFilters
                 ? GridView.builder(

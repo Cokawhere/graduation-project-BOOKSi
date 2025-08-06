@@ -15,7 +15,7 @@ class HomeView extends StatelessWidget {
 
   final List<Widget> pages = [
     ShopView(),
-    Cartview(),
+    CartView(),
     PlaceholderWidget("Blog"),
     ProfilePage(),
   ];

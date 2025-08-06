@@ -5,7 +5,7 @@ class BookDetailsModel {
   final String title;
   final String author;
   final String genre;
-  final String price;
+  final double price;
   final String description;
   final double averageRating;
   final int totalRatings;
@@ -42,7 +42,7 @@ class BookDetailsModel {
       title: map['title'] ?? '',
       author: map['author'] ?? '',
       genre: map['genre'] ?? '',
-      price: map['price'].toString(),
+      price: map['price'].toDouble(),
       description: map['description'] ?? '',
       averageRating: (map['averageRating'] ?? 0).toDouble(),
       totalRatings: map['totalRatings'] ?? 0,

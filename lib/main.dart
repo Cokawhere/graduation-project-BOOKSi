@@ -7,6 +7,7 @@ import 'package:get_storage/get_storage.dart';
 
 import 'features/auth/controllers/logincontroller.dart';
 
+import 'features/cart/cart_controller.dart';
 import 'features/profile/controllers/book_controllers.dart';
 import 'features/profile/controllers/imagekit_controller.dart';
 import 'features/profile/controllers/profile_controller.dart';
@@ -24,6 +25,7 @@ void main() async {
   Get.lazyPut(() => BookController(), fenix: true);
   Get.lazyPut(() => ImageKitController(), fenix: true);
   Get.put(LoginController());
+  Get.put(CartController()); 
 
   runApp(const MyApp());
 }
