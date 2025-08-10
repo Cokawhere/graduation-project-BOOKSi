@@ -4,6 +4,7 @@ import 'package:booksi/features/profile/controllers/profile_controller.dart';
 import 'package:booksi/features/profile/controllers/book_controllers.dart';
 import 'package:booksi/common/widgets/custom_profile_card.dart';
 import 'package:booksi/common/styles/colors.dart';
+import '../../../common/widgets/custom_bottom_navigation.dart';
 import 'add_book.dart';
 import 'edit_user.dart';
 import '../controllers/imagekit_controller.dart';
@@ -26,6 +27,8 @@ class ProfilePage extends StatelessWidget {
     final double verticalPadding = media.size.height * 0.03;
 
     return Scaffold(
+      extendBody: true,
+      extendBodyBehindAppBar: false,
       body: Obx(() {
         if (profileController.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
@@ -234,6 +237,7 @@ class ProfilePage extends StatelessWidget {
           ),
         );
       }),
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }

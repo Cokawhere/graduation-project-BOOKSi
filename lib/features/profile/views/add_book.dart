@@ -33,7 +33,7 @@ class _AddBookViewState extends State<AddBookView> {
   String _condition = 'New';
   final List<String> _availableFor = [];
   File? _coverImage;
-  List<File> _additionalImages = [];
+  final List<File> _additionalImages = [];
   bool _isUploading = false;
 
   final List<String> genres = [
@@ -405,7 +405,7 @@ class _AddBookViewState extends State<AddBookView> {
                         ),
                         if (_additionalImages.isNotEmpty) ...[
                           SizedBox(height: media.size.height * 0.01),
-                          Container(
+                          SizedBox(
                             height: media.size.height * 0.15,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,

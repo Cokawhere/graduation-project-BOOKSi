@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../common/widgets/custom_bottom_navigation.dart';
 import '../controllers/blog_controller.dart';
 import '../models/blog_models.dart';
 import '../../../common/styles/colors.dart';
-import '../../../common/widgets/custom_button.dart';
 import 'add_blog_view.dart';
 import 'blog_details_view.dart';
 
 class BlogView extends StatelessWidget {
-  BlogView({Key? key}) : super(key: key);
+  BlogView({super.key});
 
   final BlogController controller = Get.put(BlogController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
+      extendBodyBehindAppBar: false,
       appBar: AppBar(
         actions: [
           TextButton(
@@ -105,7 +107,7 @@ class BlogView extends StatelessWidget {
           ),
         );
       }),
-      
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }
@@ -116,11 +118,11 @@ class BlogPostCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const BlogPostCard({
-    Key? key,
+    super.key,
     required this.post,
     required this.controller,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

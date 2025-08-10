@@ -26,6 +26,7 @@ class BookDetailsService {
   static Future<List<Book>> getBooksByGenre(String genre) async {
     final querySnapshot = await _firestore
         .collection('books')
+        .where('approval', isEqualTo: 'approved')
         .where('genre', isEqualTo: genre)
         .where('isDeleted', isEqualTo: false)
         .limit(10)

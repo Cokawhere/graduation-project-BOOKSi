@@ -1,53 +1,103 @@
+import 'package:badges/badges.dart' as badges;
+import 'package:booksi/features/Home/home_view.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../features/Home/home_view.dart';
+import '../../common/styles/colors.dart';
+import '../../features/Home/home_controller.dart';
+import '../../features/blog/views/blog_view.dart';
+import '../../features/cart/cart_controller.dart';
 import '../../features/cart/cart_view.dart';
-import '../styles/colors.dart';
+import '../../features/profile/views/profile_view.dart';
 
-class CustomBottomNav extends StatelessWidget {
-  final int currentIndex;
+class CustomBottomNavigationBar extends StatelessWidget {
+  final HomeController controller = Get.find<HomeController>();
+  final CartController cartController = Get.find<CartController>();
 
-  const CustomBottomNav({super.key, required this.currentIndex});
+  CustomBottomNavigationBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      backgroundColor: const Color.fromARGB(149, 0, 0, 0),
-      elevation: 0,
-      currentIndex: currentIndex,
-      onTap: (index) {
-        if (index == currentIndex) return;
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(40),
+          child: Container(
+            height: 70,
+            color: const Color.fromARGB(255, 235, 234, 231),
+            child: BottomAppBar(
+              color: const Color.fromARGB(255, 235, 234, 231),
+              elevation: 0,
 
-        if (index == 0) {
-          Get.offAll(() => HomeView());
-        } else if (index == 1) {
-          Get.offAll(() => CartView());
-        } else if (index == 2) {
-          Get.to(() => PlaceholderWidget("Blog"));
-        } else if (index == 3) {
-          Get.to(() => PlaceholderWidget("Profile"));
-        }
-      },
-      selectedItemColor: AppColors.brown,
-      unselectedItemColor: AppColors.teaMilk,
-      selectedFontSize: 0,
-      unselectedFontSize: 0,
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home_filled, size: 34),
-          label: "home",
+              child: Obx(
+                () => BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
+                  backgroundColor: const Color.fromARGB(255, 235, 234, 231),
+                  elevation: 0,
+                  currentIndex: controller.selectedIndex.value,
+                  onTap: (index) {
+                    controller.changeTab(index);
+                    switch (index) {
+                      case 0:
+                        Get.to(() => HomeView());
+                        break;
+                      case 1:
+                        Get.to(() => CartView());
+                        break;
+                      case 2:
+                        Get.to(() => BlogView());
+                        break;
+                      case 3:
+                        Get.to(() => ProfilePage());
+                        break;
+                    }
+                  },
+                  selectedItemColor: AppColors.brown,
+                  unselectedItemColor: AppColors.teaMilk,
+                  selectedFontSize: 0,
+                  unselectedFontSize: 0,
+                  showSelectedLabels: false,
+                  showUnselectedLabels: false,
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.home_filled, size: 34),
+                      label: "home",
+                    ),
+                    BottomNavigationBarItem(
+                      icon: badges.Badge(
+                        badgeContent: Text(
+                          ' ${cartController.cartItems.fold(0, (sum, item) => sum + (item['quantity'] as int)).toString()}',
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        badgeStyle: badges.BadgeStyle(
+                          badgeColor: AppColors.brown,
+                          padding: EdgeInsets.all(5),
+                        ),
+                        showBadge: cartController.cartItems.isNotEmpty,
+                        child: Icon(Icons.shopping_cart, size: 34),
+                      ),
+                      label: "",
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.article, size: 34),
+                      label: "",
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.person, size: 34),
+                      label: "",
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart, size: 34),
-          label: "",
-        ),
-        BottomNavigationBarItem(icon: Icon(Icons.article, size: 34), label: ""),
-        BottomNavigationBarItem(icon: Icon(Icons.person, size: 34), label: ""),
-      ],
+      ),
     );
   }
 }

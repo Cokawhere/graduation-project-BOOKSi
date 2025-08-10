@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:booksi/common/styles/colors.dart';
@@ -21,6 +22,12 @@ class BookDetailsView extends StatefulWidget {
 
 class _BookDetailsViewState extends State<BookDetailsView> {
   late final BookDetailsController controller;
+  final CartController cartController = Get.find<CartController>();
+  //  final currentUserId = FirebaseAuth.instance.currentUser?.uid;
+  // final isOwner =
+  //     currentUserId != null &&
+  //     currentUserId == controller.book.value?.ownerId;
+  // ;
 
   @override
   void initState() {
@@ -341,7 +348,9 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                         ),
                         const SizedBox(height: 8),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.snackbar("Info", "add chat");
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color.fromARGB(
                               255,
@@ -542,6 +551,11 @@ class _BookDetailsViewState extends State<BookDetailsView> {
             availableFor.contains('sell') ||
             (availableFor.contains('swap') && availableFor.contains('sell'));
 
+        final currentUserId = FirebaseAuth.instance.currentUser?.uid;
+        final isOwner =
+            currentUserId != null &&
+            currentUserId == controller.book.value?.ownerId;
+
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: const BoxDecoration(
@@ -555,7 +569,11 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                     children: [
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: isOwner
+                              ? null
+                              : () {
+                                  Get.snackbar("add chatttttttt", "");
+                                },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.brown,
                             foregroundColor: AppColors.white,
@@ -597,16 +615,20 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: OutlinedButton(
-                            onPressed: () {
-                              final cartController = Get.find<CartController>();
-                              cartController.addToCart(
-                                bookId: controller.book.value!.id,
-                                title: controller.book.value!.title,
-                                author: controller.book.value!.author,
-                                coverImage: controller.book.value!.coverImage,
-                                price: controller.book.value!.price,
-                              );
-                            },
+                            onPressed: isOwner
+                                ? null
+                                : () {
+                                    final cartController =
+                                        Get.find<CartController>();
+                                    cartController.addToCart(
+                                      bookId: controller.book.value!.id,
+                                      title: controller.book.value!.title,
+                                      author: controller.book.value!.author,
+                                      coverImage:
+                                          controller.book.value!.coverImage,
+                                      price: controller.book.value!.price,
+                                    );
+                                  },
                             style: OutlinedButton.styleFrom(
                               backgroundColor: AppColors.white,
                               fixedSize: Size(20, 20),
@@ -631,7 +653,14 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                         height: 60,
                         width: 240,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: isOwner
+                              ? null
+                              : () {
+                                  Get.snackbar(
+                                    "Info",
+                                    "Buy Now functionality not implemented yet",
+                                  );
+                                },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color.fromRGBO(
                               177,

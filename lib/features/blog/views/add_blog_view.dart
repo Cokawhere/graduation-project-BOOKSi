@@ -4,10 +4,9 @@ import 'dart:io';
 import '../controllers/blog_controller.dart';
 import '../../../common/styles/colors.dart';
 import '../../../common/widgets/custom_button.dart';
-import '../../../common/widgets/custom_text_field.dart';
 
 class AddBlogView extends StatelessWidget {
-  AddBlogView({Key? key}) : super(key: key);
+  AddBlogView({super.key});
 
   final BlogController controller = Get.find<BlogController>();
   final TextEditingController contentController = TextEditingController();

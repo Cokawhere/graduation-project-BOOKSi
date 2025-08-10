@@ -1,5 +1,4 @@
 import 'package:booksi/common/styles/colors.dart';
-import 'package:booksi/features/blog/views/blog_view.dart';
 import 'package:booksi/features/profile/views/profile_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,19 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../auth/services/loginserv.dart';
 import '../auth/views/loginview.dart';
-import '../cart/cart_view.dart';
 import '../shop/shopview.dart';
 import 'home_controller.dart';
 
 class HomeView extends StatelessWidget {
   final HomeController controller = Get.put(HomeController());
-
-  final List<Widget> pages = [
-    ShopView(),
-    CartView(),
-    BlogView(),
-    ProfilePage(),
-  ];
 
   HomeView({super.key});
 
@@ -74,55 +65,7 @@ class HomeView extends StatelessWidget {
           ],
         ),
 
-        body: pages[controller.selectedIndex.value],
-        bottomNavigationBar: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(40),
-              child: Container(
-                height: 70,
-                color: const Color.fromARGB(255, 235, 234, 231),
-                child: BottomAppBar(
-                  color: const Color.fromARGB(255, 235, 234, 231),
-                  elevation: 0,
-
-                  child: BottomNavigationBar(
-                    type: BottomNavigationBarType.fixed,
-                    backgroundColor: const Color.fromARGB(255, 235, 234, 231),
-                    elevation: 0,
-                    currentIndex: controller.selectedIndex.value,
-                    onTap: controller.changeTab,
-                    selectedItemColor: AppColors.brown,
-                    unselectedItemColor: AppColors.teaMilk,
-                    selectedFontSize: 0,
-                    unselectedFontSize: 0,
-                    showSelectedLabels: false,
-                    showUnselectedLabels: false,
-                    items: const [
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.home_filled, size: 34),
-                        label: "home",
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.shopping_cart, size: 34),
-                        label: "",
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.article, size: 34),
-                        label: "",
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.person, size: 34),
-                        label: "",
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
+        body: ShopView(),
       ),
     );
   }

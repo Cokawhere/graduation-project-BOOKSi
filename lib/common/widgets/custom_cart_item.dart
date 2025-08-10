@@ -107,13 +107,14 @@ class CustomCartItem extends StatelessWidget {
                   },
                   child: Container(
                     padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                      color: AppColors.brown,
-                      shape: BoxShape.circle, 
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.black, width: 1.0),
                     ),
                     child: const Icon(
                       Icons.remove,
-                      color: Colors.white,
+                      color: Colors.black,
                       size: 19,
                     ),
                   ),

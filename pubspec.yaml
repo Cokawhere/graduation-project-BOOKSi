@@ -53,6 +53,10 @@ dependencies:
   flutter_rating_bar: ^4.0.0
   flutter_chat_ui: ^2.9.0
   flutter_chat_types: ^3.6.2
+  badges: ^3.0.3
+  flutter_paymob: 
+  webview_flutter: ^4.9.0
+  webview_flutter_android: ^4.9.1
 
 dev_dependencies:
   flutter_test:

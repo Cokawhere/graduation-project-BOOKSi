@@ -78,7 +78,7 @@ class BookDetailsController extends GetxController {
     try {
       final books = await BookDetailsService.getBooksByGenre(genre);
       youAlsoMayLike.value = books
-          .where((book) => book.id != bookId && !book.isDeleted)
+          .where((book) => book.id != bookId && !book.isDeleted && book.approval == "approved")
           .toList();
     } catch (e) {
       print('Error fetching similar books: $e');
@@ -87,19 +87,19 @@ class BookDetailsController extends GetxController {
 
   Future<void> fetchReviews() async {
     try {
-      print("🔍 Starting fetchReviews for bookId: $bookId");
+      print(" Starting fetchReviews for bookId: $bookId");
       final querySnapshot = await FirebaseFirestore.instance
           .collection('reviews')
           .where('targetId', isEqualTo: bookId)
           .get();
-      print("🔍 QuerySnapshot docs count: ${querySnapshot.docs.length}");
+      print("QuerySnapshot docs count: ${querySnapshot.docs.length}");
       final reviewDocs = querySnapshot.docs;
       final reviewerIds = reviewDocs
           .map((doc) => Review.fromMap(doc.data()).reviewerId)
           .toSet();
       await _fetchUsersData(reviewerIds);
       final fetchedReviews = reviewDocs.map((doc) {
-        print("🔍 Review raw data: ${doc.data()}");
+        print(" Review raw data: ${doc.data()}");
         final review = Review.fromMap(doc.data());
         return review;
       }).toList();

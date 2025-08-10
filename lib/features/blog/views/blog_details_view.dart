@@ -3,13 +3,11 @@ import 'package:get/get.dart';
 import '../controllers/blog_controller.dart';
 import '../models/blog_models.dart';
 import '../../../common/styles/colors.dart';
-import '../../../common/widgets/custom_button.dart';
-import '../../../common/widgets/custom_text_field.dart';
 
 class BlogDetailsView extends StatelessWidget {
   final PostModel post;
 
-  const BlogDetailsView({Key? key, required this.post}) : super(key: key);
+  const BlogDetailsView({super.key, required this.post});
 
   @override
   Widget build(BuildContext context) {

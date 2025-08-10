@@ -38,39 +38,65 @@ class CartController extends GetxController {
     int quantity = 1,
   }) async {
     final userId = FirebaseAuth.instance.currentUser?.uid;
-    if (userId != null) {
-      try {
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(userId)
-            .collection('cartItems')
-            .doc(bookId)
-            .set({
-              'bookId': bookId,
-              'title': title,
-              'author': author,
-              'coverImage': coverImage,
-              'price': price,
-              'quantity': quantity,
-            }, SetOptions(merge: true));
-        await fetchCartItems();
+    if (userId == null) {
+      Get.snackbar(
+        "Error",
+        "Please log in to add items to cart",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: const Color.fromARGB(156, 255, 255, 255),
+        colorText: AppColors.black,
+      );
+      return;
+    }
+
+    try {
+      final isBookInCart = cartItems.any((item) => item['bookId'] == bookId);
+
+      if (isBookInCart) {
         Get.snackbar(
-          "Success",
-          "Book added to cart!",
+          "Info",
+          "Book already in cart!",
           snackPosition: SnackPosition.TOP,
           backgroundColor: const Color.fromARGB(156, 255, 255, 255),
           colorText: AppColors.black,
         );
-      } catch (e) {
-        print("Error adding to cart: $e");
-        Get.snackbar(
-          "Error",
-          "Failed to add book to cart: $e",
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: const Color.fromARGB(156, 255, 255, 255),
-          colorText: AppColors.black,
-        );
+        return;
       }
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .collection('cartItems')
+          .doc(bookId)
+          .set({
+            'bookId': bookId,
+            'title': title,
+            'author': author,
+            'coverImage': coverImage,
+            'price': price,
+            'quantity': quantity,
+            'addedAt': FieldValue.serverTimestamp(),
+            'updatedAt': FieldValue.serverTimestamp(),
+          }, SetOptions(merge: true));
+
+      await fetchCartItems();
+
+      Get.snackbar(
+        "Success",
+        "Book added to cart successfully!",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: const Color.fromARGB(156, 255, 255, 255),
+        colorText: AppColors.black,
+      );
+    } catch (e) {
+      print("Error adding to cart: $e");
+      Get.snackbar(
+        "Error",
+        "Failed to add book to cart: $e",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: const Color.fromARGB(156, 255, 255, 255),
+        colorText: AppColors.black,
+      );
     }
   }
 
@@ -103,7 +129,7 @@ class CartController extends GetxController {
             .delete();
         await fetchCartItems();
         Get.snackbar(
-          "Success",
+          "",
           "Book removed from cart!",
           snackPosition: SnackPosition.TOP,
           backgroundColor: const Color.fromARGB(156, 255, 255, 255),
@@ -121,6 +147,9 @@ class CartController extends GetxController {
       }
     }
   }
+
+
+  
 
   int getQuantity(String bookId) {
     final item = cartItems.firstWhere(

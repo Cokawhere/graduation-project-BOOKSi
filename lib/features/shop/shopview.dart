@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:booksi/common/widgets/custom-book-cart.dart';
 import 'package:get/get.dart';
+import '../../common/widgets/custom-book-cart.dart';
 import '../../common/styles/colors.dart';
-
+import '../../common/widgets/custom_bottom_navigation.dart';
 import '../filter/filter_view.dart';
 import 'BooksView.dart';
 import 'book_model.dart';
@@ -17,70 +17,73 @@ class ShopView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      if (controller.isLoading.value) {
-        return const Center(child: CircularProgressIndicator());
-      }
+    return Scaffold(
+      extendBody: true,
+      extendBodyBehindAppBar: false,
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-      bool hasFilters = controller.filteredBooks.isNotEmpty;
+        bool hasFilters = controller.filteredBooks.isNotEmpty;
 
-      return Column(
-        children: [
-          const SizedBox(height: 5),
-          _buildSearchBar(context),
-
-          Expanded(
-            child: hasFilters
-                ? GridView.builder(
-                    padding: const EdgeInsets.all(6),
-                    itemCount: controller.filteredBooks.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 1,
-                          crossAxisSpacing: 1,
-                          childAspectRatio: 0.65,
+        return Column(
+          children: [
+            const SizedBox(height: 5),
+            _buildSearchBar(context),
+            Expanded(
+              child: hasFilters
+                  ? GridView.builder(
+                      padding: const EdgeInsets.all(6),
+                      itemCount: controller.filteredBooks.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 1,
+                            crossAxisSpacing: 1,
+                            childAspectRatio: 0.65,
+                          ),
+                      itemBuilder: (context, index) {
+                        final book = controller.filteredBooks[index];
+                        return BookCard(
+                          id: book.id,
+                          imageUrl: book.coverImage,
+                          title: book.title,
+                          author: book.author,
+                          price: book.price.toString(),
+                          index: index,
+                          ownerId: book.ownerId,
+                          averageRating: book.averageRating,
+                          availableFor: book.availableFor,
+                        );
+                      },
+                    )
+                  : ListView(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      children: [
+                        const SizedBox(height: 10),
+                        _buildSection(
+                          "best_selling".tr,
+                          controller.bestSellingBooks,
                         ),
-                    itemBuilder: (context, index) {
-                      final book = controller.filteredBooks[index];
-                      return BookCard(
-                        id: book.id,
-                        imageUrl: book.coverImage,
-                        title: book.title,
-                        author: book.author,
-                        price: book.price.toString(),
-                        index: index,
-                        ownerId: book.ownerId,
-                        averageRating: book.averageRating,
-                        availableFor: book.availableFor,
-                      );
-                    },
-                  )
-                : ListView(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    children: [
-                      const SizedBox(height: 10),
-
-                      _buildSection(
-                        "best_selling".tr,
-                        controller.bestSellingBooks,
-                      ),
-                      const SizedBox(height: 10),
-                      _buildCategoriesSection(),
-                      const SizedBox(height: 10),
-                      _buildSection(
-                        "new_arrivals".tr,
-                        controller.newArrivalBooks,
-                      ),
-                      const SizedBox(height: 10),
-                      _buildSection("all_books".tr, controller.allBooks),
-                      const SizedBox(height: 80),
-                    ],
-                  ),
-          ),
-        ],
-      );
-    });
+                        const SizedBox(height: 10),
+                        _buildCategoriesSection(),
+                        const SizedBox(height: 10),
+                        _buildSection(
+                          "new_arrivals".tr,
+                          controller.newArrivalBooks,
+                        ),
+                        const SizedBox(height: 10),
+                        _buildSection("all_books".tr, controller.allBooks),
+                        const SizedBox(height: 80),
+                      ],
+                    ),
+            ),
+          ],
+        );
+      }),
+      bottomNavigationBar: CustomBottomNavigationBar(),
+    );
   }
 
   Widget _buildSearchBar(BuildContext context) {
