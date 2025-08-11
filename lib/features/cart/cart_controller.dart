@@ -128,13 +128,13 @@ class CartController extends GetxController {
             .doc(bookId)
             .delete();
         await fetchCartItems();
-        Get.snackbar(
-          "",
-          "Book removed from cart!",
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: const Color.fromARGB(156, 255, 255, 255),
-          colorText: AppColors.black,
-        );
+        // Get.snackbar(
+        //   "",
+        //   "Book removed from cart!",
+        //   snackPosition: SnackPosition.TOP,
+        //   backgroundColor: const Color.fromARGB(156, 255, 255, 255),
+        //   colorText: AppColors.black,
+        // );
       } catch (e) {
         print("Error removing from cart: $e");
         Get.snackbar(

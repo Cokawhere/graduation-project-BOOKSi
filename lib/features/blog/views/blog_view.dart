@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../common/widgets/custom_bottom_navigation.dart';
+import '../../Home/home_view.dart';
 import '../controllers/blog_controller.dart';
 import '../models/blog_models.dart';
 import '../../../common/styles/colors.dart';
@@ -18,6 +19,7 @@ class BlogView extends StatelessWidget {
       extendBody: true,
       extendBodyBehindAppBar: false,
       appBar: AppBar(
+        toolbarHeight: 70,
         actions: [
           TextButton(
             onPressed: controller.isLoading.value
@@ -38,9 +40,13 @@ class BlogView extends StatelessWidget {
           'Blogs',
           style: TextStyle(
             color: AppColors.white,
-            fontSize: 24,
+            fontSize: 27,
             fontWeight: FontWeight.bold,
           ),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.white, size: 30),
+          onPressed: () => Get.off(HomeView()),
         ),
         centerTitle: true,
         elevation: 0,

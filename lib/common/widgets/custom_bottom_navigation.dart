@@ -40,16 +40,16 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     controller.changeTab(index);
                     switch (index) {
                       case 0:
-                        Get.to(() => HomeView());
+                        Get.off(() => HomeView());
                         break;
                       case 1:
-                        Get.to(() => CartView());
+                        Get.off(() => CartView());
                         break;
                       case 2:
-                        Get.to(() => BlogView());
+                        Get.off(() => BlogView());
                         break;
                       case 3:
-                        Get.to(() => ProfilePage());
+                        Get.off(() => ProfilePage());
                         break;
                     }
                   },
