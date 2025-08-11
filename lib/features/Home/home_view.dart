@@ -245,7 +245,7 @@ Widget _buildDrawer(BuildContext context) {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                onTap: () => Get.to(() => ProfilePage()),
+                onTap: () => Get.offAll(() => ProfilePage()),
               ),
               ListTile(
                 leading: Icon(Icons.mail, color: AppColors.brown, size: 25),
