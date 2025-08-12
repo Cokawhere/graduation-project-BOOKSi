@@ -6,7 +6,7 @@ import '../order-summary/order-summary-view.dart';
 import 'shipping-information_controller.dart';
 
 class ShippingInfoView extends StatelessWidget {
-  final ShippingInfoController controller = Get.put(ShippingInfoController());
+  final ShippingInfoController controller = Get.find<ShippingInfoController>();
 
   ShippingInfoView({super.key});
 
@@ -18,7 +18,7 @@ class ShippingInfoView extends StatelessWidget {
         toolbarHeight: 70,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppColors.white, size: 30),
-          onPressed: () => Get.off(CartView()),
+          onPressed: () => Get.to(CartView()),
         ),
         titleSpacing: 0,
         title: const Text(

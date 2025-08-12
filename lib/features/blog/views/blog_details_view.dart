@@ -15,7 +15,7 @@ class BlogDetailsView extends StatelessWidget {
     final TextEditingController commentController = TextEditingController();
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         backgroundColor: AppColors.brown,
         title: const Text(
@@ -107,18 +107,18 @@ class BlogDetailsView extends StatelessWidget {
                           children: [
                             Text(
                               post.userName,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.dark,
+                                color: Theme.of(context).colorScheme.primary,
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
                             Text(
                               _formatDate(post.createdAt),
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 14,
-                                color: AppColors.dark,
+                                color: Theme.of(context).colorScheme.primary,
                               ),
                             ),
                           ],
@@ -146,9 +146,9 @@ class BlogDetailsView extends StatelessWidget {
                                 border: OutlineInputBorder(),
                                 hintText: 'Edit your post...',
                               ),
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 16,
-                                color: AppColors.dark,
+                                color: Theme.of(context).colorScheme.primary,
                                 height: 1.5,
                               ),
                             ),
@@ -175,9 +175,9 @@ class BlogDetailsView extends StatelessWidget {
                     }
                     return Text(
                       post.content,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
-                        color: AppColors.dark,
+                        color: Theme.of(context).colorScheme.primary,
                         height: 1.5,
                       ),
                       softWrap: true,
@@ -203,9 +203,9 @@ class BlogDetailsView extends StatelessWidget {
                               color: AppColors.olive,
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.image_not_supported,
-                              color: AppColors.dark,
+                              color: Theme.of(context).colorScheme.primary,
                               size: 80,
                             ),
                           );
@@ -228,7 +228,7 @@ class BlogDetailsView extends StatelessWidget {
                             label: '${controller.getLikeCount(post.postId)}',
                             color: controller.isLikedByUser(post.postId)
                                 ? Colors.red
-                                : AppColors.dark,
+                                : Theme.of(context).colorScheme.primary,
                             onTap: () => controller.toggleLike(post.postId),
                           ),
                         ),
@@ -239,7 +239,7 @@ class BlogDetailsView extends StatelessWidget {
                           () => _buildActionButton(
                             icon: Icons.comment_outlined,
                             label: '${controller.getCommentCount(post.postId)}',
-                            color: AppColors.dark,
+                            color: Theme.of(context).colorScheme.primary,
                             onTap: () {},
                           ),
                         ),
@@ -298,8 +298,8 @@ class BlogDetailsView extends StatelessWidget {
 
           // Add comment section
           Container(
-            padding: const EdgeInsets.all(16),
-            decoration: const BoxDecoration(
+            padding:  EdgeInsets.all(16),
+            decoration:  BoxDecoration(
               color: AppColors.white,
               boxShadow: [
                 BoxShadow(
@@ -342,12 +342,12 @@ class BlogDetailsView extends StatelessWidget {
                     }
                   },
                   child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: const BoxDecoration(
+                    padding:  EdgeInsets.all(12),
+                    decoration:  BoxDecoration(
                       color: AppColors.brown,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(
+                    child:  Icon(
                       Icons.send,
                       color: AppColors.white,
                       size: 20,
@@ -401,11 +401,11 @@ class BlogDetailsView extends StatelessWidget {
     String commentId,
   ) {
     return Card(
-      margin: const EdgeInsets.only(bottom: 8),
+      margin:  EdgeInsets.only(bottom: 8),
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding:  EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -431,7 +431,7 @@ class BlogDetailsView extends StatelessWidget {
                     children: [
                       Text(
                         comment.userName,
-                        style: const TextStyle(
+                        style:  TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: AppColors.dark,

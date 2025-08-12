@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import '../cart/cart_controller.dart';
+import '../shipping information/shipping-information_controller.dart';
 
 class OrderSummaryController extends GetxController {
   final CartController cartController = Get.find<CartController>();
@@ -75,12 +76,14 @@ class OrderSummaryController extends GetxController {
 
           await _firestore.collection('orders').doc(orderId).set(orderSchema);
 
-          for (var item in cartController.cartItems) {
-            await cartController.removeFromCart(item['bookId']);
-          }
+          Get.delete<ShippingInfoController>();
 
           Get.offAll(PaymentSuccessView());
           Get.snackbar("Success", "Payment completed successfully!");
+
+          for (var item in cartController.cartItems) {
+            await cartController.removeFromCart(item['bookId']);
+          }
         } else {
           Get.snackbar("Error", "Payment failed: ${response.message}");
         }

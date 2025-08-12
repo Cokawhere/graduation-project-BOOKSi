@@ -1,9 +1,10 @@
 import 'dart:io' show Platform;
 
 import 'package:booksi/features/blog/controllers/blog_controller.dart';
-import 'package:booksi/features/book_details/book_details_view.dart' show BookDetailsView;
+import 'package:booksi/features/book_details/book_details_view.dart'
+    show BookDetailsView;
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:webview_flutter_android/webview_flutter_android.dart'; 
+import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_paymob/flutter_paymob.dart';
 import 'package:get/get.dart';
@@ -70,7 +71,13 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.white,
         appBarTheme: AppBarTheme(
           backgroundColor: AppColors.white,
+
           elevation: 0,
+        ),
+        colorScheme: ColorScheme.light(
+          surface: const Color.fromARGB(255, 242, 240, 236),
+          primary: AppColors.dark,
+          secondary: AppColors.background,
         ),
       ),
       darkTheme: ThemeData(
@@ -78,6 +85,11 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Inter',
         scaffoldBackgroundColor: Colors.black,
         appBarTheme: AppBarTheme(backgroundColor: Colors.black, elevation: 0),
+        colorScheme: ColorScheme.dark(
+          surface: const Color.fromARGB(247, 67, 66, 66),
+          primary: Colors.white,
+          secondary: const Color.fromARGB(255, 64, 47, 5),
+        ),
       ),
       translations: AppTranslations(),
       locale: GetStorage().read('lang') != null

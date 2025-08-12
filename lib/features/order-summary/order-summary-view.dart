@@ -27,7 +27,7 @@ class OrderSummaryView extends StatelessWidget {
         toolbarHeight: 70,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppColors.white, size: 30),
-          onPressed: () => Get.offAll(ShippingInfoView()),
+          onPressed: () => Get.to(ShippingInfoView()),
         ),
         centerTitle: true,
         title: const Text(
@@ -41,7 +41,7 @@ class OrderSummaryView extends StatelessWidget {
         backgroundColor: AppColors.brown,
         elevation: 0,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
@@ -100,7 +100,10 @@ class OrderSummaryView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           TextButton(
-                            onPressed: () => Get.to(ShippingInfoView()),
+                            onPressed: () {
+                              Get.put(ShippingInfoController());
+                              Get.to(ShippingInfoView());
+                            },
                             child: Text(
                               'CHANGE',
                               style: TextStyle(
@@ -119,10 +122,6 @@ class OrderSummaryView extends StatelessWidget {
             Row(
               children: [
                 Obx(() {
-                  double total = cartController.cartItems.fold(
-                    0,
-                    (sum, item) => sum + (item['price'] * item['quantity']),
-                  );
                   int totalItems = cartController.cartItems.fold(
                     0,
                     (sum, item) => sum + (item['quantity'] as int),
@@ -138,19 +137,17 @@ class OrderSummaryView extends StatelessWidget {
                 }),
               ],
             ),
-            SizedBox(
-              height: 220,
-              child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                padding: const EdgeInsets.all(0),
-                itemCount: cartController.cartItems.length,
-                itemBuilder: (context, index) {
-                  final item = cartController.cartItems[index];
-                  return CustomCartItemOrderSummary(item: item);
-                },
-              ),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(0),
+              itemCount: cartController.cartItems.length,
+              itemBuilder: (context, index) {
+                final item = cartController.cartItems[index];
+                return CustomCartItemOrderSummary(item: item);
+              },
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 30),
             Card(
               margin: const EdgeInsets.symmetric(vertical: 8),
               elevation: 4,
@@ -165,13 +162,6 @@ class OrderSummaryView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Obx(() {
-                          double total = cartController.cartItems.fold(
-                            0,
-                            (sum, item) =>
-                                sum + (item['price'] * item['quantity']),
-                          );
-                          double tax = total * 0.07;
-                          double finalTotal = total + tax;
                           int totalItems = cartController.cartItems.fold(
                             0,
                             (sum, item) => sum + (item['quantity'] as int),
@@ -181,7 +171,6 @@ class OrderSummaryView extends StatelessWidget {
                             style: TextStyle(fontSize: 20),
                           );
                         }),
-                        SizedBox(height: 5),
                         Obx(() {
                           double total = cartController.cartItems.fold(
                             0,
@@ -233,9 +222,8 @@ class OrderSummaryView extends StatelessWidget {
                             (sum, item) =>
                                 sum + (item['price'] * (item['quantity'] ?? 1)),
                           );
-                          double finalTotal = total;
                           return Text(
-                            'EGP ${finalTotal.toStringAsFixed(2)}',
+                            'EGP ${total.toStringAsFixed(2)}',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -248,35 +236,30 @@ class OrderSummaryView extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 5),
+            SizedBox(height: 1),
             SizedBox(
               width: double.infinity,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(40),
+              child: ElevatedButton(
+                onPressed: () => orderController.processPaymentAndSaveOrder(
+                  shippingInfo,
+                  cartController.cartItems.fold(
+                    0,
+                    (sum, item) => sum + (item['price'] * item['quantity']),
+                  ),
+                  context,
                 ),
-                child: ElevatedButton(
-                  onPressed: () => orderController.processPaymentAndSaveOrder(
-                    shippingInfo,
-                    cartController.cartItems.fold(
-                      0,
-                      (sum, item) => sum + (item['price'] * item['quantity']),
-                    ),
-                    context,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.brown,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.brown,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 18),
-                    elevation: 8,
-                  ),
-                  child: const Text(
-                    'Pay Now',
-                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
-                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 18),
+                  elevation: 8,
+                ),
+                child: const Text(
+                  'Pay Now',
+                  style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
                 ),
               ),
             ),

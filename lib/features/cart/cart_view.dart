@@ -1,17 +1,19 @@
-import 'dart:convert';
-
 import 'package:booksi/features/Home/home_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_paymob/flutter_paymob.dart';
 import 'package:get/get.dart';
 import '../../common/styles/colors.dart';
 import '../../common/widgets/custom_bottom_navigation.dart';
 import '../../common/widgets/custom_cart_item.dart';
+import '../shipping information/shipping-information_controller.dart';
 import '../shipping information/shipping-information_view.dart';
 import 'cart_controller.dart';
 
 class CartView extends StatelessWidget {
   final CartController cartController = Get.find<CartController>();
+  // final ShippingInfoController shippingController = Get.put(
+  //   ShippingInfoController(),
+  //   permanent: false,
+  // );
 
   CartView({super.key});
 
@@ -235,7 +237,10 @@ class CartView extends StatelessWidget {
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () => Get.to(ShippingInfoView()),
+                    onPressed: () {
+                      Get.put(ShippingInfoController());
+                      Get.to(ShippingInfoView());
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.brown,
                       foregroundColor: Colors.white,

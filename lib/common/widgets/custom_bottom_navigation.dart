@@ -25,15 +25,15 @@ class CustomBottomNavigationBar extends StatelessWidget {
           borderRadius: BorderRadius.circular(40),
           child: Container(
             height: 70,
-            color: const Color.fromARGB(255, 235, 234, 231),
+            color: Theme.of(context).colorScheme.surface,
             child: BottomAppBar(
-              color: const Color.fromARGB(255, 235, 234, 231),
+              color: Theme.of(context).colorScheme.surface,
               elevation: 0,
 
               child: Obx(
                 () => BottomNavigationBar(
                   type: BottomNavigationBarType.fixed,
-                  backgroundColor: const Color.fromARGB(255, 235, 234, 231),
+                  backgroundColor: Theme.of(context).colorScheme.surface,
                   elevation: 0,
                   currentIndex: controller.selectedIndex.value,
                   onTap: (index) {

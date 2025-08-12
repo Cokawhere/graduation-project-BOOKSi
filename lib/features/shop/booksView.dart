@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../common/styles/colors.dart';
 import '../../common/widgets/custom-book-cart.dart';
 import '../shop/book_model.dart';
 
@@ -14,12 +15,13 @@ class BooksView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        toolbarHeight: 70,
+        backgroundColor: AppColors.brown,
         elevation: 0,
         leading: Padding(
           padding: const EdgeInsets.only(left: 14),
           child: IconButton(
-            icon: Icon(Icons.arrow_back_ios, color: Colors.black87, size: 30),
+            icon: Icon(Icons.arrow_back_ios, color: AppColors.white, size: 30),
             onPressed: () => Get.back(),
           ),
         ),
@@ -28,7 +30,7 @@ class BooksView extends StatelessWidget {
           style: const TextStyle(
             fontSize: 27,
             fontWeight: FontWeight.bold,
-            color: Colors.black,
+            color: AppColors.white,
           ),
         ),
         centerTitle: true,
