@@ -24,7 +24,9 @@ class ShopView extends StatelessWidget {
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
         }
-
+        bool isSearchingOrFiltering =
+            controller.searchQuery.value.isNotEmpty ||
+            controller.currentFilters.isNotEmpty;
         bool hasFilters = controller.filteredBooks.isNotEmpty;
 
         return Column(
@@ -57,6 +59,13 @@ class ShopView extends StatelessWidget {
                           availableFor: book.availableFor,
                         );
                       },
+                    )
+                  : isSearchingOrFiltering
+                  ? Center(
+                      child: Text(
+                        "No results found",
+                        style: TextStyle(fontSize: 20, color: AppColors.brown),
+                      ),
                     )
                   : ListView(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -92,7 +101,7 @@ class ShopView extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 5),
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 242, 240, 236),
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(40),
         ),
         child: Row(

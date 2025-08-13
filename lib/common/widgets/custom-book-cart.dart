@@ -55,7 +55,8 @@ class BookCard extends StatelessWidget {
       width: 180,
       margin: const EdgeInsets.all(6),
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 242, 240, 236),
+        color: Theme.of(context).colorScheme.surface,
+
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(color: Colors.black26, blurRadius: 5, offset: Offset(0, 2)),
@@ -134,25 +135,27 @@ class BookCard extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                const Text(
-                                  "EGP ",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: AppColors.black,
-                                  ),
-                                ),
-                                Text(
-                                  formatPrice(price),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: AppColors.black,
-                                  ),
-                                ),
-                              ],
-                            ),
+                            availableFor.contains('sell')
+                                ? Row(
+                                    children: [
+                                      const Text(
+                                        "EGP ",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: AppColors.black,
+                                        ),
+                                      ),
+                                      Text(
+                                        formatPrice(price),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                          color: AppColors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : const SizedBox.shrink(),
                             FutureBuilder<bool>(
                               future: _checkLibraryRole(ownerId),
                               builder: (context, snapshot) {

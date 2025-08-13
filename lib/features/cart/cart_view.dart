@@ -1,16 +1,19 @@
-import 'dart:convert';
-
-import 'package:booksi/PaymobTestPage.dart';
+import 'package:booksi/features/Home/home_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_paymob/flutter_paymob.dart';
 import 'package:get/get.dart';
 import '../../common/styles/colors.dart';
 import '../../common/widgets/custom_bottom_navigation.dart';
 import '../../common/widgets/custom_cart_item.dart';
+import '../shipping information/shipping-information_controller.dart';
+import '../shipping information/shipping-information_view.dart';
 import 'cart_controller.dart';
 
 class CartView extends StatelessWidget {
   final CartController cartController = Get.find<CartController>();
+  // final ShippingInfoController shippingController = Get.put(
+  //   ShippingInfoController(),
+  //   permanent: false,
+  // );
 
   CartView({super.key});
 
@@ -20,6 +23,8 @@ class CartView extends StatelessWidget {
       extendBody: true,
       extendBodyBehindAppBar: false,
       appBar: AppBar(
+        toolbarHeight: 70,
+
         centerTitle: true,
         title: const Text(
           'My Cart',
@@ -33,7 +38,7 @@ class CartView extends StatelessWidget {
         backgroundColor: AppColors.brown,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppColors.white, size: 30),
-          onPressed: () => Get.back(),
+          onPressed: () => Get.off(HomeView()),
         ),
       ),
       body: Obx(() {
@@ -70,7 +75,7 @@ class CartView extends StatelessWidget {
         } else {
           return Column(
             children: [
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               SizedBox(
                 height: 350,
                 child: ListView.builder(
@@ -178,7 +183,7 @@ class CartView extends StatelessWidget {
                                 sum + (item['price'] * item['quantity']),
                           );
                           return Text(
-                            '\$${total.toStringAsFixed(2)}',
+                            'EGP${total.toStringAsFixed(2)}',
                             style: const TextStyle(fontSize: 16),
                           );
                         }),
@@ -215,7 +220,7 @@ class CartView extends StatelessWidget {
                             (sum, item) => sum + (item['quantity'] as int),
                           );
                           return Text(
-                            '\$${finalTotal.toStringAsFixed(2)} ($totalItems items)',
+                            'ُEGP${finalTotal.toStringAsFixed(2)} ($totalItems items)',
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -233,81 +238,8 @@ class CartView extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      double total = cartController.cartItems.fold(
-                        0,
-                        (sum, item) => sum + (item['price'] * item['quantity']),
-                      );
-                      double tax = total * 0.07;
-                      double finalTotal = total + tax;
-
-                      FlutterPaymob.instance.payWithCard(
-                        context: context,
-                        currency: "EGP",
-                        amount: finalTotal,
-                        onPayment: (response) {
-                          bool paymentSuccess =
-                              response.success ||
-                              (response.responseCode == "APPROVED" &&
-                                  (response.transactionID?.isNotEmpty ??
-                                      false));
-
-                          final paymentData = {
-                            "method": "Paymob",
-                            "transactionId": response.transactionID ?? "",
-                            "paidAt": paymentSuccess
-                                ? DateTime.now().toUtc().toIso8601String()
-                                : null,
-                            "amount": finalTotal,
-                            "currency": "EGP",
-                            "status": paymentSuccess ? "paid" : "failed",
-                            "message": response.message ?? "",
-                            "responseCode": response.responseCode ?? "",
-                          };
-
-                          final orderSchema = {
-                            "orderId":
-                                "ORD-${DateTime.now().millisecondsSinceEpoch}",
-                            "userId": "abc123",
-                            "status": paymentSuccess ? "paid" : "pending",
-                            "createdAt": DateTime.now()
-                                .toUtc()
-                                .toIso8601String(),
-                            "updatedAt": DateTime.now()
-                                .toUtc()
-                                .toIso8601String(),
-                            "items": [
-                              {
-                                "bookId": "xyz456",
-                                "title": "The Subtle Art of Not Giving a F*ck",
-                                "price": 150,
-                                "quantity": 1,
-                                "image": "https://example.com/book.jpg",
-                                "author": "Mark Manson",
-                              },
-                              {
-                                "bookId": "abc789",
-                                "title": "Atomic Habits",
-                                "price": 200,
-                                "quantity": 2,
-                                "image": "https://example.com/atomic.jpg",
-                                "author": "James Clear",
-                              },
-                            ],
-                            "shippingInfo": {
-                              "name": "Rana Ahmed",
-                              "phone": "0123456789",
-                              "address": "شارع النيل، عمارة ٥",
-                              "city": "Cairo",
-                              "government": "Giza",
-                              "note": "لو مش موجودة حط الكتاب عند الجيران",
-                            },
-                            "payment": paymentData,
-                            "totalPrice": finalTotal,
-                          };
-
-                          print(jsonEncode(orderSchema));
-                        },
-                      );
+                      Get.put(ShippingInfoController());
+                      Get.to(ShippingInfoView());
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.brown,

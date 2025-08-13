@@ -75,8 +75,8 @@ class AuthService {
       "uid": user.uid,
       "name": name,
       "email": user.email ?? "",
-      "photoUrl": user.photoURL ?? "",
-      "bio": "",
+      "bio": "",      "photoUrl": user.photoURL ?? "",
+
       "role": "reader",
       "averageRating": 0.0,
       "totalRatings": 0,

@@ -28,20 +28,20 @@ class BookProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String formatPrice(String price) {
-    String cleanPrice = price.split(".").first;
+      String cleanPrice = price.split(".").first;
       if (cleanPrice.length > 4) {
         return '${cleanPrice.substring(0, 4)}+';
       }
       return cleanPrice;
     }
+
     return SizedBox(
       width: width ?? 150,
       height: height ?? 240,
       child: Container(
-
         margin: const EdgeInsets.only(right: 16),
         decoration: BoxDecoration(
-          color: AppColors.background,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
@@ -108,7 +108,6 @@ class BookProfileCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      
                     ],
                   ),
                 ],
@@ -121,23 +120,23 @@ class BookProfileCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 2,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Color(0xFFE7F8ED),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          status,
-                          style: const TextStyle(
-                            color: Color(0xFF3CB371),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                          ),
-                        ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Color(0xFFE7F8ED),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      status,
+                      style: const TextStyle(
+                        color: Color(0xFF3CB371),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
                       ),
+                    ),
+                  ),
                   Spacer(),
                   IconButton(
                     icon: const Icon(
@@ -157,7 +156,6 @@ class BookProfileCard extends StatelessWidget {
                     onPressed: onDelete,
                     tooltip: 'Delete',
                   ),
-
                 ],
               ),
             ),

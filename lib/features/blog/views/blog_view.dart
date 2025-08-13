@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../common/widgets/custom_bottom_navigation.dart';
+import '../../Home/home_view.dart';
 import '../controllers/blog_controller.dart';
 import '../models/blog_models.dart';
 import '../../../common/styles/colors.dart';
@@ -18,6 +19,7 @@ class BlogView extends StatelessWidget {
       extendBody: true,
       extendBodyBehindAppBar: false,
       appBar: AppBar(
+        toolbarHeight: 70,
         actions: [
           TextButton(
             onPressed: controller.isLoading.value
@@ -38,9 +40,13 @@ class BlogView extends StatelessWidget {
           'Blogs',
           style: TextStyle(
             color: AppColors.white,
-            fontSize: 24,
+            fontSize: 27,
             fontWeight: FontWeight.bold,
           ),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.white, size: 30),
+          onPressed: () => Get.off(HomeView()),
         ),
         centerTitle: true,
         elevation: 0,
@@ -48,7 +54,7 @@ class BlogView extends StatelessWidget {
 
       body: Obx(() {
         if (controller.isLoading.value) {
-          return const Center(
+          return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -56,7 +62,10 @@ class BlogView extends StatelessWidget {
                 SizedBox(height: 16),
                 Text(
                   'Loading posts...',
-                  style: TextStyle(fontSize: 16, color: AppColors.dark),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
               ],
             ),
@@ -64,11 +73,15 @@ class BlogView extends StatelessWidget {
         }
 
         if (controller.posts.isEmpty) {
-          return const Center(
+          return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.article_outlined, size: 80, color: AppColors.dark),
+                Icon(
+                  Icons.article_outlined,
+                  size: 80,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
                 SizedBox(height: 16),
                 Text(
                   'No posts yet',
@@ -81,7 +94,10 @@ class BlogView extends StatelessWidget {
                 SizedBox(height: 8),
                 Text(
                   'Be the first to share your book experience!',
-                  style: TextStyle(fontSize: 14, color: AppColors.dark),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -127,7 +143,7 @@ class BlogPostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: AppColors.background,
+      color: Theme.of(context).colorScheme.surface,
       margin: const EdgeInsets.only(bottom: 16),
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -158,17 +174,17 @@ class BlogPostCard extends StatelessWidget {
                       children: [
                         Text(
                           post.userName,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: AppColors.dark,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
                         Text(
                           _formatDate(post.createdAt),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.dark,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
                       ],
@@ -180,9 +196,9 @@ class BlogPostCard extends StatelessWidget {
                       final currentUserId = controller.currentUserId;
                       if (currentUserId == post.userId) {
                         return PopupMenuButton<String>(
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.more_vert,
-                            color: AppColors.dark,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                           onSelected: (value) {
                             switch (value) {
@@ -252,9 +268,9 @@ class BlogPostCard extends StatelessWidget {
                             border: OutlineInputBorder(),
                             hintText: 'Edit your post...',
                           ),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 14,
-                            color: AppColors.dark,
+                            color: Theme.of(context).colorScheme.primary,
                             height: 1.4,
                           ),
                         ),
@@ -287,9 +303,9 @@ class BlogPostCard extends StatelessWidget {
                 }
                 return Text(
                   post.content,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
-                    color: AppColors.dark,
+                    color: Theme.of(context).colorScheme.primary,
                     height: 1.4,
                   ),
                   maxLines: 3,
@@ -315,9 +331,9 @@ class BlogPostCard extends StatelessWidget {
                           color: AppColors.olive,
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.image_not_supported,
-                          color: AppColors.dark,
+                          color: Theme.of(context).colorScheme.primary,
                           size: 50,
                         ),
                       );
@@ -339,7 +355,7 @@ class BlogPostCard extends StatelessWidget {
                       label: '${controller.getLikeCount(post.postId)}',
                       color: controller.isLikedByUser(post.postId)
                           ? Colors.red
-                          : AppColors.dark,
+                          : Theme.of(context).colorScheme.primary,
                       onTap: () => controller.toggleLike(post.postId),
                     ),
                   ),
@@ -348,7 +364,7 @@ class BlogPostCard extends StatelessWidget {
                     () => _buildActionButton(
                       icon: Icons.comment_outlined,
                       label: '${controller.getCommentCount(post.postId)}',
-                      color: AppColors.dark,
+                      color: Theme.of(context).colorScheme.primary,
                       onTap: onTap,
                     ),
                   ),

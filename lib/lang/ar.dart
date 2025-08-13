@@ -90,5 +90,23 @@ const Map<String, String> ar = {
   "sign_in_aborted": "تم إلغاء تسجيل الدخول",
   "google_sign_in_failed": "فشل تسجيل الدخول بجوجل",
   "facebook_sign_in_failed": "فشل تسجيل الدخول بفيسبوك",
-  "account_banned": "حسابك ممنوع من الدخول"
+  "account_banned": "حسابك ممنوع من الدخول",
+
+
+  //book details
+  'book_details': 'تفاصيل الكتاب',
+  'invalid_book_id': 'معرّف الكتاب غير صالح',
+  'info': 'معلومة',
+  'add_chat': 'إضافة محادثة',
+  'chat_with_owner': 'الدردشة مع المالك',
+  'show_less': 'عرض أقل',
+  'read_more': 'اقرأ المزيد',
+  'you_might_also_like': 'قد يعجبك أيضًا',
+  'reviews': 'المراجعات',
+  'add_review': 'إضافة مراجعة',
+  'buy_now': 'اشتري الآن',
+  'by_author': 'بواسطة @author',
+  'egp': 'ج.م',
+  'add_chat_debug': 'إضافة محادثة (تجربة)'
+
 };

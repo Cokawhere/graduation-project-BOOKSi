@@ -1,7 +1,9 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:uuid/uuid.dart';
 import '../shop/book_model.dart';
 import 'book_details_model.dart';
 import 'book_details_services.dart';
@@ -9,9 +11,9 @@ import 'review_model.dart';
 
 class BookDetailsController extends GetxController {
   final String bookId;
-
+  final TextEditingController reviewController = TextEditingController();
+  var selectedRating = 0.0.obs;
   BookDetailsController(this.bookId);
-
   var isLoading = true.obs;
   var book = Rxn<BookDetailsModel>();
   var selectedImageIndex = 0.obs;
@@ -78,7 +80,12 @@ class BookDetailsController extends GetxController {
     try {
       final books = await BookDetailsService.getBooksByGenre(genre);
       youAlsoMayLike.value = books
-          .where((book) => book.id != bookId && !book.isDeleted && book.approval == "approved")
+          .where(
+            (book) =>
+                book.id != bookId &&
+                !book.isDeleted &&
+                book.approval == "approved",
+          )
           .toList();
     } catch (e) {
       print('Error fetching similar books: $e');
@@ -99,12 +106,10 @@ class BookDetailsController extends GetxController {
           .toSet();
       await _fetchUsersData(reviewerIds);
       final fetchedReviews = reviewDocs.map((doc) {
-        print(" Review raw data: ${doc.data()}");
         final review = Review.fromMap(doc.data());
         return review;
       }).toList();
       reviews.value = fetchedReviews;
-      print(" Fetched ${reviews.length} reviews for bookId: $bookId");
     } catch (e) {
       print(" Error fetching reviews: $e");
     }
@@ -129,23 +134,143 @@ class BookDetailsController extends GetxController {
     }
   }
 
+  Future<void> checkPurchaseAndShowReviewDialog(
+    BuildContext context,
+    String bookId,
+  ) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      Get.snackbar("", "Login first");
+      return;
+    }
 
-  // Future<String> uploadImageToStorage(String bookId, String imageUrl) async {
-  //   try {
-  //     final storageRef = firebase_storage.FirebaseStorage.instance.ref().child('book_images/$bookId.jpg');
-  //     final tempDir = await getTemporaryDirectory();
-  //     final file = File('${tempDir.path}/temp_book_image.jpg');
-  //     await file.writeAsBytes((await http.get(Uri.parse(imageUrl))).bodyBytes); // تحميل الصورة
-  //     await storageRef.putFile(file);
-  //     return await storageRef.getDownloadURL();
-  //   } catch (e) {
-  //     print("Error uploading image: $e");
-  //     return '';
-  //   }
-  // }
+    bool hasPurchased = await checkIfUserPurchasedBook();
+    if (hasPurchased) {
+      _showReviewDialog(context, bookId);
+    } else {
+      Get.snackbar(
+        "Not Allowed",
+        "You must purchase this book before writing a review",
+      );
+    }
+  }
 
- Future<String> uploadImageToStorage(String bookId, String imageUrl) async {
-    // بما إن الصورة موجودة كـ URL، نرجعها مباشرة
+  
+
+  void _showReviewDialog(BuildContext context, String bookId) {
+    selectedRating.value = 0;
+    reviewController.clear();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Add Review"),
+          content: Obx(
+            () => Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(5, (index) {
+                    return IconButton(
+                      icon: Icon(
+                        index < selectedRating.value
+                            ? Icons.star
+                            : Icons.star_border,
+                        color: Colors.amber,
+                      ),
+                      onPressed: () {
+                        selectedRating.value = index + 1.0;
+                        update();
+                      },
+                    );
+                  }),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: reviewController,
+                  maxLines: 3,
+                  decoration: const InputDecoration(
+                    labelText: "Write a comment",
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Cancel"),
+            ),
+            ElevatedButton(
+              onPressed: () => submitReview(bookId),
+              child: const Text("Send"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> submitReview(String bookId) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    if (selectedRating.value == 0 || reviewController.text.trim().isEmpty) {
+      Get.snackbar(
+        "",
+        "choose the rating and write a comment before submitting.",
+      );
+      return;
+    }
+
+    final reviewId = Uuid().v4();
+    await FirebaseFirestore.instance.collection('reviews').add({
+      'targetId': bookId,
+      'reviewerId': user.uid,
+      'rating': selectedRating.value,
+      'comment': reviewController.text.trim(),
+      'createdAt': FieldValue.serverTimestamp(),
+      'reviewId': reviewId,
+    });
+
+    await fetchReviews();
+
+    Get.back();
+    Get.snackbar("", "Review sent successfully");
+  }
+
+  Future<bool> checkIfUserPurchasedBook() async {
+    final currentUserId = FirebaseAuth.instance.currentUser?.uid;
+    if (currentUserId == null) return false;
+
+    try {
+      final ordersSnapshot = await FirebaseFirestore.instance
+          .collection('orders')
+          .where('userId', isEqualTo: currentUserId)
+          .get();
+
+      for (var orderDoc in ordersSnapshot.docs) {
+        final data = orderDoc.data();
+        final status = data['status'];
+        final items = List<Map<String, dynamic>>.from(data['items']);
+
+        final purchased = items.any((item) => item['bookId'] == book.value?.id);
+
+        if (purchased && (status == 'paid' || status == 'delivered')) {
+          return true;
+        }
+      }
+    } catch (e) {
+      print("Error checking purchased book: $e");
+    }
+
+    return false;
+  }
+
+  Future<String> uploadImageToStorage(String bookId, String imageUrl) async {
     return imageUrl.isNotEmpty ? imageUrl : '';
   }
 
@@ -158,7 +283,9 @@ class BookDetailsController extends GetxController {
         minimumVersion: 1,
       ),
     );
-    final dynamicLink = await FirebaseDynamicLinks.instance.buildShortLink(dynamicLinkParams);
+    final dynamicLink = await FirebaseDynamicLinks.instance.buildShortLink(
+      dynamicLinkParams,
+    );
     return dynamicLink.shortUrl.toString();
   }
 

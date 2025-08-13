@@ -62,7 +62,7 @@ const Map<String, String> en = {
   //shop-home
   "search_books": "Search books...",
   "best_selling": "Best Selling",
-  "all_books":"All Books",
+  "all_books": "All Books",
   "trending_books": "Trending in Books",
   "new_arrivals": "New Arrivals",
   "see_all": "See All",
@@ -89,4 +89,20 @@ const Map<String, String> en = {
   "facebook_sign_in_failed": "Facebook Sign-In Failed",
   "account_banned": "Your account is banned",
   "no_results_found": "No results Found sorry",
+
+  //book details
+  'book_details': 'Book Details',
+  'invalid_book_id': 'Invalid book ID',
+  'info': 'Info',
+  'add_chat': 'Add chat',
+  'chat_with_owner': 'Chat with Owner',
+  'show_less': 'Show less',
+  'read_more': 'Read more',
+  'you_might_also_like': 'You might also like',
+  'reviews': 'Reviews',
+  'add_review': 'Add a Review',
+  'buy_now': 'Buy Now',
+  'by_author': 'by @author',
+  'egp': 'EGP',
+  'add_chat_debug': 'add chat debug',
 };
