@@ -1,4 +1,5 @@
 import 'package:booksi/common/styles/colors.dart';
+import 'package:booksi/features/chat/views/chat_list_view.dart';
 import 'package:booksi/features/profile/views/profile_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -258,7 +259,7 @@ Widget _buildDrawer(BuildContext context) {
                   ),
                 ),
                 onTap: () {
-                  // Get.to(() => MessagesView());
+                  Get.to(() => ChatListView(currentUserId: uid!));
                 },
               ),
               SizedBox(height: 50),

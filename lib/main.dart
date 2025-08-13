@@ -39,6 +39,7 @@ void main() async {
   Get.lazyPut(() => BookController(), fenix: true);
   Get.lazyPut(() => ImageKitController(), fenix: true);
   Get.lazyPut(() => BlogController(), fenix: true);
+  Get.lazyPut(() => ChatController(service: ChatService()), fenix: true);
   Get.put(LoginController());
   Get.put(CartController());
   Get.put(HomeController());

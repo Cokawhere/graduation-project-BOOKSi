@@ -24,7 +24,6 @@ class UserModel {
   final DateTime updatedAt;
   final String? imageFileId;
 
-
   UserModel({
     required this.uid,
     required this.name,
@@ -48,7 +47,6 @@ class UserModel {
     required this.createdAt,
     required this.updatedAt,
     this.imageFileId,
-
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -106,55 +104,54 @@ class UserModel {
   }
 
   UserModel copyWith({
-  String? uid,
-  String? name,
-  String? email,
-  String? bio,
-  String? role,
-  String? photoUrl,
-  bool? verified,
-  bool? isBanned,
-  bool? profileIncomplete,
-  List<String>? genres,
-  List<String>? bookIds,
-  List<String>? transactionIds,
-  List<String>? chatIds,
-  List<String>? blogPostIds,
-  List<String>? notificationIds,
-  double? averageRating,
-  int? totalRatings,
-  String? address,
-  String? website,
-  DateTime? createdAt,
-  DateTime? updatedAt,
-  String? imageFileId,
-}) {
-  return UserModel(
-    uid: uid ?? this.uid,
-    name: name ?? this.name,
-    email: email ?? this.email,
-    bio: bio ?? this.bio,
-    role: role ?? this.role,
-    photoUrl: photoUrl ?? this.photoUrl,
-    verified: verified ?? this.verified,
-    isBanned: isBanned ?? this.isBanned,
-    profileIncomplete: profileIncomplete ?? this.profileIncomplete,
-    genres: genres ?? this.genres,
-    bookIds: bookIds ?? this.bookIds,
-    transactionIds: transactionIds ?? this.transactionIds,
-    chatIds: chatIds ?? this.chatIds,
-    blogPostIds: blogPostIds ?? this.blogPostIds,
-    notificationIds: notificationIds ?? this.notificationIds,
-    averageRating: averageRating ?? this.averageRating,
-    totalRatings: totalRatings ?? this.totalRatings,
-    address: address ?? this.address,
-    website: website ?? this.website,
-    createdAt: createdAt ?? this.createdAt,
-    updatedAt: updatedAt ?? this.updatedAt,
-    imageFileId: imageFileId ?? this.imageFileId,
-  );
-}
-
+    String? uid,
+    String? name,
+    String? email,
+    String? bio,
+    String? role,
+    String? photoUrl,
+    bool? verified,
+    bool? isBanned,
+    bool? profileIncomplete,
+    List<String>? genres,
+    List<String>? bookIds,
+    List<String>? transactionIds,
+    List<String>? chatIds,
+    List<String>? blogPostIds,
+    List<String>? notificationIds,
+    double? averageRating,
+    int? totalRatings,
+    String? address,
+    String? website,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    String? imageFileId,
+  }) {
+    return UserModel(
+      uid: uid ?? this.uid,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      bio: bio ?? this.bio,
+      role: role ?? this.role,
+      photoUrl: photoUrl ?? this.photoUrl,
+      verified: verified ?? this.verified,
+      isBanned: isBanned ?? this.isBanned,
+      profileIncomplete: profileIncomplete ?? this.profileIncomplete,
+      genres: genres ?? this.genres,
+      bookIds: bookIds ?? this.bookIds,
+      transactionIds: transactionIds ?? this.transactionIds,
+      chatIds: chatIds ?? this.chatIds,
+      blogPostIds: blogPostIds ?? this.blogPostIds,
+      notificationIds: notificationIds ?? this.notificationIds,
+      averageRating: averageRating ?? this.averageRating,
+      totalRatings: totalRatings ?? this.totalRatings,
+      address: address ?? this.address,
+      website: website ?? this.website,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      imageFileId: imageFileId ?? this.imageFileId,
+    );
+  }
 }
 
 class Book {
@@ -204,7 +201,6 @@ class Book {
     required this.updatedAt,
     this.price,
     this.imageFileId,
-
   });
 
   factory Book.fromMap(Map<String, dynamic> map) {
@@ -258,58 +254,56 @@ class Book {
       'updatedAt': updatedAt,
       'price': price,
       'imageFileId': imageFileId,
-
     };
   }
-  Book copyWith({
-  String? id,
-  String? ownerId,
-  String? ownerType,
-  String? title,
-  String? author,
-  String? isbn,
-  String? genre,
-  double? averageRating,
-  int? totalRatings,
-  String? description,
-  String? condition,
-  List<String>? availableFor,
-  String? approval,
-  bool? isDeleted,
-  String? status,
-  String? coverImage,
-  List<String>? images,
-  String? location,
-  DateTime? createdAt,
-  DateTime? updatedAt,
-  double? price,
-  String? imageFileId,
-}) {
-  return Book(
-    id: id ?? this.id,
-    ownerId: ownerId ?? this.ownerId,
-    ownerType: ownerType ?? this.ownerType,
-    title: title ?? this.title,
-    author: author ?? this.author,
-    isbn: isbn ?? this.isbn,
-    genre: genre ?? this.genre,
-    averageRating: averageRating ?? this.averageRating,
-    totalRatings: totalRatings ?? this.totalRatings,
-    description: description ?? this.description,
-    condition: condition ?? this.condition,
-    availableFor: availableFor ?? this.availableFor,
-    approval: approval ?? this.approval,
-    isDeleted: isDeleted ?? this.isDeleted,
-    status: status ?? this.status,
-    coverImage: coverImage ?? this.coverImage,
-    images: images ?? this.images,
-    location: location ?? this.location,
-    createdAt: createdAt ?? this.createdAt,
-    updatedAt: updatedAt ?? this.updatedAt,
-    price: price ?? this.price,
-    imageFileId: imageFileId ?? this.imageFileId,
-    
-  );
-}
 
+  Book copyWith({
+    String? id,
+    String? ownerId,
+    String? ownerType,
+    String? title,
+    String? author,
+    String? isbn,
+    String? genre,
+    double? averageRating,
+    int? totalRatings,
+    String? description,
+    String? condition,
+    List<String>? availableFor,
+    String? approval,
+    bool? isDeleted,
+    String? status,
+    String? coverImage,
+    List<String>? images,
+    String? location,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    double? price,
+    String? imageFileId,
+  }) {
+    return Book(
+      id: id ?? this.id,
+      ownerId: ownerId ?? this.ownerId,
+      ownerType: ownerType ?? this.ownerType,
+      title: title ?? this.title,
+      author: author ?? this.author,
+      isbn: isbn ?? this.isbn,
+      genre: genre ?? this.genre,
+      averageRating: averageRating ?? this.averageRating,
+      totalRatings: totalRatings ?? this.totalRatings,
+      description: description ?? this.description,
+      condition: condition ?? this.condition,
+      availableFor: availableFor ?? this.availableFor,
+      approval: approval ?? this.approval,
+      isDeleted: isDeleted ?? this.isDeleted,
+      status: status ?? this.status,
+      coverImage: coverImage ?? this.coverImage,
+      images: images ?? this.images,
+      location: location ?? this.location,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      price: price ?? this.price,
+      imageFileId: imageFileId ?? this.imageFileId,
+    );
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:booksi/features/chat/widgets/contact_seller_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -347,33 +348,41 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        ElevatedButton(
-                          onPressed: () {
-                            Get.snackbar("Info", "add chat");
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromARGB(
-                              255,
-                              210,
-                              151,
-                              125,
-                            ),
-                            foregroundColor: AppColors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 14,
-                              horizontal: 15,
-                            ),
-                          ),
-                          child: const Text(
-                            'Chat with Owner',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                        // ElevatedButton(
+                        //   onPressed: () {
+
+                        //   },
+                        //   style: ElevatedButton.styleFrom(
+                        //     backgroundColor: const Color.fromARGB(
+                        //       255,
+                        //       210,
+                        //       151,
+                        //       125,
+                        //     ),
+                        //     foregroundColor: AppColors.white,
+                        //     shape: RoundedRectangleBorder(
+                        //       borderRadius: BorderRadius.circular(8),
+                        //     ),
+                        //     padding: const EdgeInsets.symmetric(
+                        //       vertical: 14,
+                        //       horizontal: 15,
+                        //     ),
+                        //   ),
+                        //   child: const Text(
+                        //     'Chat with Owner',
+                        //     style: TextStyle(
+                        //       fontSize: 16,
+                        //       fontWeight: FontWeight.w600,
+                        //     ),
+                        //   ),
+                        // ),
+                        ContactSellerButton(
+                          currentUserId:
+                              FirebaseAuth.instance.currentUser?.uid ?? '',
+                          otherUserId: controller.book.value!.ownerId,
+                          bookId: controller.book.value!.id,
+                          bookTitle: controller.book.value!.title,
+                          bookAuthor: controller.book.value!.author,
                         ),
                       ],
                     ),
