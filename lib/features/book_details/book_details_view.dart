@@ -281,35 +281,13 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          ElevatedButton(
-                            onPressed: isOwner
-                                ? null
-                                : () {
-                                    Get.snackbar('info'.tr, 'add_chat'.tr);
-                                  },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color.fromARGB(
-                                255,
-                                210,
-                                151,
-                                125,
-                              ),
-                              foregroundColor: AppColors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 14,
-                                horizontal: 15,
-                              ),
-                            ),
-                            child: Text(
-                              'chat_with_owner'.tr,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
+                          ContactSellerButton(
+                            currentUserId:
+                                FirebaseAuth.instance.currentUser?.uid ?? '',
+                            otherUserId: controller.book.value!.ownerId,
+                            bookId: controller.book.value!.id,
+                            bookTitle: controller.book.value!.title,
+                            bookAuthor: controller.book.value!.author,
                           ),
                         ],
                       ),
@@ -549,30 +527,13 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
-                        child: ElevatedButton(
-                          onPressed: isOwner
-                              ? null
-                              : () {
-                                  Get.snackbar("add chatttttttt", "");
-                                },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.brown,
-                            foregroundColor: AppColors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 16,
-                              horizontal: 40,
-                            ),
-                          ),
-                          child: Text(
-                            'chat_with_owner'.tr,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                        child: ContactSellerButton(
+                          currentUserId:
+                              FirebaseAuth.instance.currentUser?.uid ?? '',
+                          otherUserId: controller.book.value!.ownerId,
+                          bookId: controller.book.value!.id,
+                          bookTitle: controller.book.value!.title,
+                          bookAuthor: controller.book.value!.author,
                         ),
                       ),
                     ],

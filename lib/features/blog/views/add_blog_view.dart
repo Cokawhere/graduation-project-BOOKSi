@@ -17,8 +17,8 @@ class AddBlogView extends StatelessWidget {
       backgroundColor: AppColors.white,
       appBar: AppBar(
         backgroundColor: AppColors.brown,
-        title: const Text(
-          'Create Post',
+        title: Text(
+          'add_blog'.tr,
           style: TextStyle(
             color: AppColors.white,
             fontSize: 20,
@@ -34,7 +34,7 @@ class AddBlogView extends StatelessWidget {
                   ? null
                   : () => _createPost(),
               child: Text(
-                'Post',
+                'publish'.tr,
                 style: TextStyle(
                   color: AppColors.white,
                   fontSize: 16,
@@ -63,8 +63,8 @@ class AddBlogView extends StatelessWidget {
                 ),
                 child: TextField(
                   controller: contentController,
-                  decoration: const InputDecoration(
-                    hintText: 'Share your book experience...',
+                  decoration: InputDecoration(
+                    hintText: 'share_book_experience'.tr,
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.all(16),
                   ),
@@ -82,7 +82,7 @@ class AddBlogView extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomButton(
-                    text: 'Add Photo',
+                    text: 'add_photo'.tr,
                     onPressed: _showImagePickerDialog,
                     backgroundColor: AppColors.olive,
                     textColor: AppColors.dark,
@@ -91,7 +91,7 @@ class AddBlogView extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: CustomButton(
-                    text: 'Camera',
+                    text: 'camera'.tr,
                     onPressed: () => controller.pickImageFromCamera(),
                     backgroundColor: AppColors.teaMilk,
                     textColor: AppColors.dark,
@@ -125,7 +125,7 @@ class AddBlogView extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Add a photo to your post',
+              'add_photo_to_post'.tr,
               style: TextStyle(
                 fontSize: 14,
                 color: AppColors.dark.withOpacity(0.6),
@@ -192,7 +192,7 @@ class AddBlogView extends StatelessWidget {
             const SizedBox(height: 20),
             ListTile(
               leading: const Icon(Icons.photo_library, color: AppColors.brown),
-              title: const Text('Choose from Gallery'),
+              title: Text('choose_from_gallery'.tr),
               onTap: () {
                 controller.pickImageFromGallery();
                 Get.back();
@@ -200,7 +200,7 @@ class AddBlogView extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.camera_alt, color: AppColors.brown),
-              title: const Text('Take a Photo'),
+              title: Text('take_photo'.tr),
               onTap: () {
                 controller.pickImageFromCamera();
                 Get.back();
@@ -216,8 +216,8 @@ class AddBlogView extends StatelessWidget {
     final content = contentController.text.trim();
     if (content.isEmpty) {
       Get.snackbar(
-        'Error',
-        'Please write something to share',
+        'error'.tr,
+        'please_write_something'.tr,
         backgroundColor: Colors.red,
         colorText: AppColors.white,
       );

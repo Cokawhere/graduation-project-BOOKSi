@@ -105,4 +105,76 @@ const Map<String, String> en = {
   'by_author': 'by @author',
   'egp': 'EGP',
   'add_chat_debug': 'add chat debug',
+
+  // Notifications
+  'notifications': 'Notifications',
+  'no_notifications_yet': 'No notifications yet',
+  'notifications_empty_message':
+      'You\'ll see notifications here when you have updates',
+  'mark_all_as_read': 'Mark all as read',
+  'delete_all': 'Delete all',
+  'delete_all_notifications': 'Delete All Notifications',
+  'delete_all_confirm':
+      'Are you sure you want to delete all notifications? This action cannot be undone.',
+  'delete_notification': 'Delete Notification',
+  'delete_notification_confirm':
+      'Are you sure you want to delete this notification?',
+  'cancel': 'Cancel',
+  'delete': 'Delete',
+  'success': 'Success',
+  'failed_to_mark_read': 'Failed to mark notification as read',
+  'failed_to_mark_all_read': 'Failed to mark all notifications as read',
+  'failed_to_delete': 'Failed to delete notification',
+  'failed_to_delete_all': 'Failed to delete all notifications',
+  'notification_deleted': 'Notification deleted',
+  'all_notifications_deleted': 'All notifications deleted',
+  'all_notifications_marked_read': 'All notifications marked as read',
+
+  // Notification Types
+  'book_sold': 'Book Sold',
+  'book_request': 'Book Request',
+  'book_approved': 'Book Approved',
+  'book_rejected': 'Book Rejected',
+
+  // Chat
+  'chat': 'Chat',
+  'messages': 'Messages',
+  'type_message': 'Type a message...',
+  'send': 'Send',
+  'no_messages': 'No chats yet',
+  'start_conversation': 'Start a conversation from a book details page',
+
+  // Blog
+  'add_blog': 'Add Blog Post',
+  'edit_blog': 'Edit Blog Post',
+  'blog_title': 'Blog Title',
+  'blog_content': 'Blog Content',
+  'publish': 'Publish',
+  'update': 'Update',
+  'delete_blog': 'Delete Blog Post',
+  'delete_blog_confirm': 'Are you sure you want to delete this blog post?',
+  'blog_published': 'Blog post published successfully',
+  'blog_updated': 'Blog post updated successfully',
+  'blog_deleted': 'Blog post deleted successfully',
+  'failed_to_publish': 'Failed to publish blog post',
+  'failed_to_update': 'Failed to update blog post',
+  'failed_to_delete_blog': 'Failed to delete blog post',
+
+  // Blog additional
+  'loading_posts': 'Loading posts...',
+  'no_posts_yet': 'No posts yet',
+  'be_first_to_share': 'Be the first to share your book experience!',
+  'share_book_experience': 'Share your book experience...',
+  'add_photo': 'Add Photo',
+  'camera': 'Camera',
+  'add_photo_to_post': 'Add a photo to your post',
+  'choose_from_gallery': 'Choose from Gallery',
+  'take_photo': 'Take a Photo',
+  'please_write_something': 'Please write something to share',
+
+  // Time formatting
+  'now': 'now',
+  'minutes_ago': 'm',
+  'hours_ago': 'h',
+  'date_format': 'M/d/yyyy',
 };

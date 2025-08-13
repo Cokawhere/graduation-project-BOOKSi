@@ -1,5 +1,7 @@
 import 'package:booksi/common/styles/colors.dart';
 import 'package:booksi/features/chat/views/chat_list_view.dart';
+import 'package:booksi/features/notifications/views/notification_list_view.dart';
+import 'package:booksi/features/notifications/widgets/notification_badge.dart';
 import 'package:booksi/features/profile/views/profile_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -52,16 +54,7 @@ class HomeView extends StatelessWidget {
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 10),
-              child: IconButton(
-                icon: Icon(
-                  Icons.notifications_none,
-                  color: AppColors.brown,
-                  size: 30,
-                ),
-                onPressed: () {
-                  // Get.to(() => NotificationsView());
-                },
-              ),
+              child: NotificationBadge(),
             ),
           ],
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:booksi/common/styles/colors.dart';
 import '../controllers/chat_controller.dart';
@@ -69,7 +70,7 @@ class _ChatDetailViewState extends State<ChatDetailView> {
       appBar: AppBar(
         backgroundColor: appBarBg,
         title: _ChatTitle(
-          titleFallback: widget.appBarTitle ?? 'Chat',
+          titleFallback: widget.appBarTitle ?? 'chat'.tr,
           name: widget.otherUserName,
           photoUrl: widget.otherUserPhotoUrl,
           textColor: primaryText,
@@ -285,7 +286,7 @@ class _ComposerField extends StatelessWidget {
                 color: isDark ? AppColors.white : AppColors.dark,
               ),
               decoration: InputDecoration(
-                hintText: 'Type a message',
+                hintText: 'type_message'.tr,
                 hintStyle: TextStyle(
                   color: isDark
                       ? AppColors.white.withOpacity(0.5)

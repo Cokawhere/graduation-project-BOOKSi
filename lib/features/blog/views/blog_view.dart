@@ -26,7 +26,7 @@ class BlogView extends StatelessWidget {
                 ? null
                 : () => Get.to(() => AddBlogView()),
             child: Text(
-              'Create Post',
+              'add_blog'.tr,
               style: TextStyle(
                 color: AppColors.white,
                 fontSize: 16,
@@ -36,8 +36,8 @@ class BlogView extends StatelessWidget {
           ),
         ],
         backgroundColor: AppColors.brown,
-        title: const Text(
-          'Blogs',
+        title: Text(
+          'blog'.tr,
           style: TextStyle(
             color: AppColors.white,
             fontSize: 27,
@@ -61,7 +61,7 @@ class BlogView extends StatelessWidget {
                 CircularProgressIndicator(color: AppColors.brown),
                 SizedBox(height: 16),
                 Text(
-                  'Loading posts...',
+                  'loading_posts'.tr,
                   style: TextStyle(
                     fontSize: 16,
                     color: Theme.of(context).colorScheme.primary,
@@ -84,7 +84,7 @@ class BlogView extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 Text(
-                  'No posts yet',
+                  'no_posts_yet'.tr,
                   style: TextStyle(
                     fontSize: 18,
                     color: AppColors.dark,
@@ -93,7 +93,7 @@ class BlogView extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Be the first to share your book experience!',
+                  'be_first_to_share'.tr,
                   style: TextStyle(
                     fontSize: 14,
                     color: Theme.of(context).colorScheme.primary,

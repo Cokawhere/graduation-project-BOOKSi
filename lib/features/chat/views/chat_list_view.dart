@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:booksi/common/styles/colors.dart';
 import 'chat_detail_view.dart';
 import 'package:booksi/features/profile/services/profile_service.dart';
@@ -90,7 +91,7 @@ class _ChatListViewState extends State<ChatListView> {
         // backgroundColor: AppColors.background,
         leading: const BackButton(),
         title: Text(
-          'Chats',
+          'chat'.tr,
           style: TextStyle(color: primaryText, fontWeight: FontWeight.w700),
         ),
         centerTitle: false,
@@ -103,7 +104,7 @@ class _ChatListViewState extends State<ChatListView> {
                   Icon(Icons.chat_bubble_outline, size: 48, color: muted),
                   const SizedBox(height: 12),
                   Text(
-                    'No chats yet',
+                    'no_messages'.tr,
                     style: TextStyle(
                       color: primaryText.withOpacity(0.9),
                       fontSize: 18,
@@ -112,7 +113,7 @@ class _ChatListViewState extends State<ChatListView> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Start a conversation from a book details page',
+                    'start_conversation'.tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(color: secondaryText, fontSize: 13),
                   ),
@@ -225,7 +226,7 @@ class _ChatListViewState extends State<ChatListView> {
                               const SizedBox(height: 4),
                               Text(
                                 last == null
-                                    ? 'Start the conversation'
+                                    ? 'start_conversation'.tr
                                     : last.content,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,

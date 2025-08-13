@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:booksi/common/styles/colors.dart';
 import 'package:booksi/features/profile/services/profile_service.dart';
+import 'package:booksi/features/notifications/services/notification_service.dart';
+import 'package:get/utils.dart';
 
 import '../controllers/chat_controller.dart';
 import '../services/chat_service.dart';
@@ -30,6 +33,7 @@ class _ContactSellerButtonState extends State<ContactSellerButton> {
   bool _loading = false;
   late final ChatController _controller;
   final FirebaseService _profileService = FirebaseService();
+  final NotificationService _notificationService = NotificationService();
 
   @override
   void initState() {
@@ -56,6 +60,13 @@ class _ContactSellerButtonState extends State<ContactSellerButton> {
         bookTitle: widget.bookTitle,
         bookAuthor: widget.bookAuthor,
       );
+
+      // Send notification to the seller about the book request
+      await _notificationService.createBookRequestNotification(
+        userId: widget.otherUserId,
+        bookTitle: widget.bookTitle,
+      );
+
       if (!mounted) return;
       Navigator.of(context).push(
         MaterialPageRoute(
@@ -92,9 +103,9 @@ class _ContactSellerButtonState extends State<ContactSellerButton> {
                 valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
               ),
             )
-          : const Text(
-              'Contact Seller',
-              style: TextStyle(
+          : Text(
+              'chat_with_owner'.tr,
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 color: AppColors.white,
