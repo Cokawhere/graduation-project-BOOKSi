@@ -7,10 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import '../cart/cart_controller.dart';
 import '../shipping information/shipping-information_controller.dart';
+import '../notifications/services/notification_service.dart';
 
 class OrderSummaryController extends GetxController {
   final CartController cartController = Get.find<CartController>();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final NotificationService _notificationService = NotificationService();
 
   Future<void> processPaymentAndSaveOrder(
     Map<String, dynamic> shippingInfo,
@@ -76,14 +78,35 @@ class OrderSummaryController extends GetxController {
 
           await _firestore.collection('orders').doc(orderId).set(orderSchema);
 
+          // Send notifications to sellers for each sold book
+          for (var item in cartController.cartItems) {
+            // Get the book details to find the seller
+            final bookDoc = await _firestore
+                .collection('books')
+                .doc(item['bookId'])
+                .get();
+            if (bookDoc.exists) {
+              final bookData = bookDoc.data() as Map<String, dynamic>;
+              final sellerId = bookData['ownerId'] as String?;
+
+              if (sellerId != null && sellerId.isNotEmpty) {
+                // Send notification to the seller
+                await _notificationService.createBookSoldNotification(
+                  sellerId: sellerId,
+                  bookTitle: item['title'],
+                  buyerId: userId,
+                );
+              }
+            }
+
+            // Remove from cart
+            await cartController.removeFromCart(item['bookId']);
+          }
+
           Get.delete<ShippingInfoController>();
 
           Get.offAll(PaymentSuccessView());
           Get.snackbar("Success", "Payment completed successfully!");
-
-          for (var item in cartController.cartItems) {
-            await cartController.removeFromCart(item['bookId']);
-          }
         } else {
           Get.snackbar("Error", "Payment failed: ${response.message}");
         }

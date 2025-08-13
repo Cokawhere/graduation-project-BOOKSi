@@ -81,17 +81,17 @@ const Map<String, String> ar = {
   "biography": "سيرة ذاتية",
   "personal_growth": "تطوير ذاتي",
   "logout": "تسجيل الخروج",
-  "all_books":"كل الكتب",
-  "chat":"الرسائل",
-  "no_results_found":"مفبش كتاب عندنا  بالسم دا اسفين",
-  "error": "خطأ",
-  "please_enter_email_and_password": "يرجى إدخال البريد الإلكتروني وكلمة المرور",
+  "all_books": "كل الكتب",
+
+  "no_results_found": "مفبش كتاب عندنا  بالسم دا اسفين",
+
+  "please_enter_email_and_password":
+    "يرجى إدخال البريد الإلكتروني وكلمة المرور",
   "login_failed": "فشل تسجيل الدخول",
   "sign_in_aborted": "تم إلغاء تسجيل الدخول",
   "google_sign_in_failed": "فشل تسجيل الدخول بجوجل",
   "facebook_sign_in_failed": "فشل تسجيل الدخول بفيسبوك",
   "account_banned": "حسابك ممنوع من الدخول",
-
 
   //book details
   'book_details': 'تفاصيل الكتاب',
@@ -107,6 +107,76 @@ const Map<String, String> ar = {
   'buy_now': 'اشتري الآن',
   'by_author': 'بواسطة @author',
   'egp': 'ج.م',
-  'add_chat_debug': 'إضافة محادثة (تجربة)'
+  'add_chat_debug': 'إضافة محادثة (تجربة)',
 
+  // Notifications
+  'notifications': 'الإشعارات',
+  'no_notifications_yet': 'لا توجد إشعارات بعد',
+  'notifications_empty_message': 'سترى الإشعارات هنا عندما يكون لديك تحديثات',
+  'mark_all_as_read': 'تحديد الكل كمقروء',
+  'delete_all': 'حذف الكل',
+  'delete_all_notifications': 'حذف جميع الإشعارات',
+  'delete_all_confirm':
+      'هل أنت متأكد من أنك تريد حذف جميع الإشعارات؟ لا يمكن التراجع عن هذا الإجراء.',
+  'delete_notification': 'حذف الإشعار',
+  'delete_notification_confirm': 'هل أنت متأكد من أنك تريد حذف هذا الإشعار؟',
+  'cancel': 'إلغاء',
+  'delete': 'حذف',
+  'success': 'نجح',
+
+  'failed_to_mark_read': 'فشل في تحديد الإشعار كمقروء',
+  'failed_to_mark_all_read': 'فشل في تحديد جميع الإشعارات كمقروءة',
+  'failed_to_delete': 'فشل في حذف الإشعار',
+  'failed_to_delete_all': 'فشل في حذف جميع الإشعارات',
+  'notification_deleted': 'تم حذف الإشعار',
+  'all_notifications_deleted': 'تم حذف جميع الإشعارات',
+  'all_notifications_marked_read': 'تم تحديد جميع الإشعارات كمقروءة',
+
+  // Notification Types
+  'book_sold': 'تم بيع الكتاب',
+  'book_request': 'طلب كتاب',
+  'book_approved': 'تمت الموافقة على الكتاب',
+  'book_rejected': 'تم رفض الكتاب',
+
+  // Chat
+  'chat': 'المحادثة',
+  'messages': 'الرسائل',
+  'type_message': 'اكتب رسالة...',
+  'send': 'إرسال',
+  'no_messages': 'لا توجد محادثات بعد',
+  'start_conversation': 'ابدأ محادثة من صفحة تفاصيل الكتاب',
+
+  // Blog
+  'add_blog': 'إضافة منشور مدونة',
+  'edit_blog': 'تعديل منشور المدونة',
+  'blog_title': 'عنوان المدونة',
+  'blog_content': 'محتوى المدونة',
+  'publish': 'نشر',
+  'update': 'تحديث',
+  'delete_blog': 'حذف منشور المدونة',
+  'delete_blog_confirm': 'هل أنت متأكد من أنك تريد حذف منشور المدونة هذا؟',
+  'blog_published': 'تم نشر منشور المدونة بنجاح',
+  'blog_updated': 'تم تحديث منشور المدونة بنجاح',
+  'blog_deleted': 'تم حذف منشور المدونة بنجاح',
+  'failed_to_publish': 'فشل في نشر منشور المدونة',
+  'failed_to_update': 'فشل في تحديث منشور المدونة',
+  'failed_to_delete_blog': 'فشل في حذف منشور المدونة',
+
+  // Blog additional
+  'loading_posts': 'جاري تحميل المنشورات...',
+  'no_posts_yet': 'لا توجد منشورات بعد',
+  'be_first_to_share': 'كن أول من يشارك تجربته مع الكتب!',
+  'share_book_experience': 'شارك تجربتك مع الكتب...',
+  'add_photo': 'إضافة صورة',
+  'camera': 'الكاميرا',
+  'add_photo_to_post': 'أضف صورة لمنشورك',
+  'choose_from_gallery': 'اختر من المعرض',
+  'take_photo': 'التقاط صورة',
+  'please_write_something': 'يرجى كتابة شيء للمشاركة',
+
+  // Time formatting
+  'now': 'الآن',
+  'minutes_ago': 'د',
+  'hours_ago': 'س',
+  'date_format': 'ش/ي/س',
 };
