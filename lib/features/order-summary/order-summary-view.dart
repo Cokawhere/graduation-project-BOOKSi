@@ -30,8 +30,8 @@ class OrderSummaryView extends StatelessWidget {
           onPressed: () => Get.to(ShippingInfoView()),
         ),
         centerTitle: true,
-        title: const Text(
-          'Checkout',
+        title: Text(
+          'checkout'.tr,
           style: TextStyle(
             fontSize: 27,
             fontWeight: FontWeight.bold,
@@ -47,8 +47,8 @@ class OrderSummaryView extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Text(
-                  'Address',
+                 Text(
+                  'address'.tr,
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
@@ -75,7 +75,7 @@ class OrderSummaryView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        shippingInfo['name'] ?? 'N/A',
+                        shippingInfo['name'] ?? 'not_available'.tr,
                         style: const TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
@@ -88,7 +88,7 @@ class OrderSummaryView extends StatelessWidget {
                       ),
                       SizedBox(height: 5),
                       Text(
-                        shippingInfo['phone'] ?? 'N/A',
+                        shippingInfo['phone'] ??'not_available'.tr,
                         style: TextStyle(
                           fontSize: 20,
                           color: const Color.fromARGB(255, 35, 30, 138),
@@ -105,7 +105,7 @@ class OrderSummaryView extends StatelessWidget {
                               Get.to(ShippingInfoView());
                             },
                             child: Text(
-                              'CHANGE',
+                              'change'.tr,
                               style: TextStyle(
                                 color: AppColors.brown,
                                 fontWeight: FontWeight.bold,
@@ -192,11 +192,11 @@ class OrderSummaryView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Delivery Charges',
+                          'delivery_charges'.tr,
                           style: TextStyle(fontSize: 20),
                         ),
                         Text(
-                          'Free',
+                          'free'.tr,
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -210,7 +210,7 @@ class OrderSummaryView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Total Amount',
+                          'total_amount'.tr,
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -257,8 +257,8 @@ class OrderSummaryView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 18),
                   elevation: 8,
                 ),
-                child: const Text(
-                  'Pay Now',
+                child: Text(
+                  'pay_now'.tr,
                   style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
                 ),
               ),

@@ -27,7 +27,7 @@ class FilterView extends StatelessWidget {
           ),
         ),
         title: Text(
-          "Filter",
+          "filter".tr,
           style: const TextStyle(
             fontSize: 27,
             fontWeight: FontWeight.bold,
@@ -41,8 +41,8 @@ class FilterView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Location",
+             Text(
+              "location".tr,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
             const SizedBox(height: 8),
@@ -90,7 +90,7 @@ class FilterView extends StatelessWidget {
                       width: 0,
                     ),
                   ),
-                  hintText: 'Select Location',
+                  hintText:  'select_location'.tr,
                   hintStyle: const TextStyle(
                     color: Color.fromARGB(0, 214, 5, 5),
                   ),
@@ -102,8 +102,8 @@ class FilterView extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-            const Text(
-              "Category",
+             Text(
+              "category".tr,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
 
@@ -174,8 +174,8 @@ class FilterView extends StatelessWidget {
 
             const SizedBox(height: 16),
 
-            const Text(
-              "Price Range",
+            Text(
+              'price_range'.tr,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
             Obx(() {
@@ -204,19 +204,19 @@ class FilterView extends StatelessWidget {
             }),
             const SizedBox(height: 2),
 
-            const Text(
-              "Rating",
+             Text(
+              "rating".tr,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
             ),
             Obx(() {
               return Column(
                 children:
                     [
-                      {"label": "4.5 and above", "stars": 4.5},
-                      {"label": "4.0 - 4.5", "stars": 4.0},
-                      {"label": "3.5 - 4.0", "stars": 3.5},
-                      {"label": "3.0 - 3.5", "stars": 3.0},
-                      {"label": "2.5 - 3.0", "stars": 2.5},
+                      {"label": 'rating_4_5_above'.tr, "stars": 4.5},
+                      {"label":  'rating_4_0_4_5'.tr, "stars": 4.0},
+                      {"label": 'rating_3_5_4_0'.tr, "stars": 3.5},
+                      {"label": 'rating_3_0_3_5'.tr, "stars": 3.0},
+                      {"label": 'rating_2_5_3_0'.tr, "stars": 2.5},
                     ].map((r) {
                       return RadioListTile(
                         value: r['label'],
@@ -260,8 +260,8 @@ class FilterView extends StatelessWidget {
             }),
             const SizedBox(height: 16),
 
-            const Text(
-              "Condition",
+             Text(
+              "condition".tr,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
             SizedBox(
@@ -321,8 +321,8 @@ class FilterView extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-            const Text(
-              "Available For",
+             Text(
+              'available_for'.tr,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
             SizedBox(
@@ -427,8 +427,8 @@ class FilterView extends StatelessWidget {
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: const Text(
-                      "Reset",
+                    child: Text(
+                      "reset".tr,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -454,8 +454,8 @@ class FilterView extends StatelessWidget {
                       horizontal: 25,
                     ),
                   ),
-                  child: const Text(
-                    "Apply",
+                  child: Text(
+                    "apply".tr,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,

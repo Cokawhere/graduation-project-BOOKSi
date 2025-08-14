@@ -21,8 +21,8 @@ class ShippingInfoView extends StatelessWidget {
           onPressed: () => Get.to(CartView()),
         ),
         titleSpacing: 0,
-        title: const Text(
-          'Shipping information',
+        title: Text(
+          'shipping_info'.tr,
           style: TextStyle(
             fontSize: 27,
             fontWeight: FontWeight.bold,
@@ -49,7 +49,7 @@ class ShippingInfoView extends StatelessWidget {
                         controller: controller.nameController,
 
                         decoration: InputDecoration(
-                          labelText: 'Your Name',
+                          labelText: 'your_name'.tr,
                           labelStyle: TextStyle(
                             fontSize: 18,
                             color: Colors.grey,
@@ -74,7 +74,7 @@ class ShippingInfoView extends StatelessWidget {
                           ),
                         ),
                         validator: (value) =>
-                            value!.isEmpty ? 'Please enter your name' : null,
+                            value!.isEmpty ? 'enter_name'.tr : null,
                       ),
 
                       TextFormField(
@@ -82,7 +82,7 @@ class ShippingInfoView extends StatelessWidget {
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(vertical: 20),
 
-                          labelText: 'Phone',
+                          labelText: 'phone'.tr,
                           labelStyle: TextStyle(
                             fontSize: 18,
                             color: Colors.grey,
@@ -107,7 +107,7 @@ class ShippingInfoView extends StatelessWidget {
                         ),
                         keyboardType: TextInputType.phone,
                         validator: (value) =>
-                            value!.isEmpty ? 'Please enter your phone' : null,
+                            value!.isEmpty ? 'enter_phone'.tr : null,
                       ),
                       SizedBox(height: 15),
 
@@ -120,7 +120,7 @@ class ShippingInfoView extends StatelessWidget {
                                     controller.selectedGovernment.value.isEmpty
                                     ? null
                                     : controller.selectedGovernment.value,
-                                hint: const Text('Select Government'),
+                                hint: Text('select_government'.tr),
                                 items: controller.governments
                                     .map(
                                       (gov) => DropdownMenuItem(
@@ -138,7 +138,7 @@ class ShippingInfoView extends StatelessWidget {
                                   contentPadding: EdgeInsets.symmetric(
                                     vertical: 20,
                                   ),
-                                  labelText: 'Government',
+                                  labelText: 'government'.tr,
                                   labelStyle: TextStyle(
                                     fontSize: 25,
                                     color: Colors.grey,
@@ -188,7 +188,7 @@ class ShippingInfoView extends StatelessWidget {
                                   ),
                                 ),
                                 validator: (value) => value == null
-                                    ? 'Please select a government'
+                                    ? 'choose_government'.tr
                                     : null,
                               ),
                             ),
@@ -200,7 +200,7 @@ class ShippingInfoView extends StatelessWidget {
                                 value: controller.selectedCity.value.isEmpty
                                     ? null
                                     : controller.selectedCity.value,
-                                hint: const Text('Select City'),
+                                hint: Text('select_city'.tr),
                                 items: controller.Cities.map(
                                   (city) => DropdownMenuItem(
                                     value: city,
@@ -216,7 +216,7 @@ class ShippingInfoView extends StatelessWidget {
                                   contentPadding: EdgeInsets.symmetric(
                                     vertical: 20,
                                   ),
-                                  labelText: 'City',
+                                  labelText: 'city'.tr,
                                   labelStyle: TextStyle(
                                     fontSize: 25,
                                     color: Colors.grey,
@@ -264,9 +264,8 @@ class ShippingInfoView extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                validator: (value) => value == null
-                                    ? 'Please select a city'
-                                    : null,
+                                validator: (value) =>
+                                    value == null ? 'choose_city'.tr : null,
                               ),
                             ),
                           ),
@@ -277,7 +276,7 @@ class ShippingInfoView extends StatelessWidget {
                         controller: controller.addressController,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(vertical: 20),
-                          labelText: 'Address',
+                          labelText: 'address'.tr,
                           labelStyle: TextStyle(
                             fontSize: 18,
                             color: Colors.grey,
@@ -301,18 +300,18 @@ class ShippingInfoView extends StatelessWidget {
                           ),
                         ),
                         validator: (value) =>
-                            value!.isEmpty ? 'Please enter your address' : null,
+                            value!.isEmpty ? 'enter_address'.tr : null,
                       ),
                       const SizedBox(height: 16),
-                      const Text(
-                        'Note',
+                      Text(
+                        'note'.tr,
                         style: TextStyle(fontSize: 18, color: Colors.grey),
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
                         controller: controller.noteController,
                         decoration: InputDecoration(
-                          hintText: 'Optional note',
+                          hintText: 'optional_note'.tr,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -342,14 +341,6 @@ class ShippingInfoView extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       if (controller.formKey.currentState!.validate()) {
-                        print('Name: ${controller.nameController.text}');
-                        print('Phone: ${controller.phoneController.text}');
-                        print(
-                          'Government: ${controller.selectedGovernment.value}',
-                        );
-                        print('City: ${controller.selectedCity.value}');
-                        print('Address: ${controller.addressController.text}');
-                        print('Note: ${controller.noteController.text}');
                         Get.to(
                           OrderSummaryView(),
                           arguments: {
@@ -367,8 +358,8 @@ class ShippingInfoView extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       elevation: 8,
                     ),
-                    child: const Text(
-                      'Proceed to Order Summary',
+                    child: Text(
+                      'proceed_order_summary'.tr,
                       style: TextStyle(fontSize: 20),
                     ),
                   ),

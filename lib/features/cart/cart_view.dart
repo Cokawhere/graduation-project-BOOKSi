@@ -26,8 +26,8 @@ class CartView extends StatelessWidget {
         toolbarHeight: 70,
 
         centerTitle: true,
-        title: const Text(
-          'My Cart',
+        title: Text(
+          'my_cart'.tr,
 
           style: TextStyle(
             fontSize: 26,
@@ -53,16 +53,16 @@ class CartView extends StatelessWidget {
                   color: Color.fromARGB(255, 223, 170, 145),
                 ),
                 const SizedBox(height: 20),
-                const Text(
-                  'Your cart is empty',
+                Text(
+                  'cart_empty'.tr,
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 223, 170, 145),
                   ),
                 ),
-                const Text(
-                  'Add a book to get started.',
+                Text(
+                'add_book_start'.tr,
                   style: TextStyle(
                     fontSize: 18,
                     color: Color.fromARGB(255, 223, 170, 145),
@@ -113,7 +113,7 @@ class CartView extends StatelessWidget {
                       Expanded(
                         child: TextField(
                           decoration: InputDecoration(
-                            hintText: 'Promo Code',
+                            hintText:   'promo_code'.tr,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
                               borderSide: BorderSide(
@@ -130,7 +130,7 @@ class CartView extends StatelessWidget {
                         width: 100,
                         child: ElevatedButton(
                           onPressed: () {
-                            Get.snackbar("Success", "Promo code applied!");
+                            Get.snackbar("success".tr, 'promo_applied'.tr);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color.fromRGBO(
@@ -147,8 +147,8 @@ class CartView extends StatelessWidget {
                               borderRadius: BorderRadius.circular(15),
                             ),
                           ),
-                          child: const Text(
-                            'Apply',
+                          child: Text(
+                            'apply'.tr,
                             style: TextStyle(
                               color: AppColors.white,
                               fontSize: 20,
@@ -172,8 +172,8 @@ class CartView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Order Amount',
+                         Text(
+                         'order_amount'.tr,
                           style: TextStyle(fontSize: 16),
                         ),
                         Obx(() {
@@ -200,8 +200,8 @@ class CartView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Total Payment',
+                        Text(
+                           'total_payment'.tr,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -249,8 +249,8 @@ class CartView extends StatelessWidget {
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 15),
                     ),
-                    child: const Text(
-                      'Proceed to Checkout',
+                    child:Text(
+                      'proceed_checkout'.tr,
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
