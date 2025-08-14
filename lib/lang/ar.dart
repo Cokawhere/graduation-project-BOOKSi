@@ -86,7 +86,7 @@ const Map<String, String> ar = {
   "no_results_found": "مفبش كتاب عندنا  بالسم دا اسفين",
 
   "please_enter_email_and_password":
-    "يرجى إدخال البريد الإلكتروني وكلمة المرور",
+      "يرجى إدخال البريد الإلكتروني وكلمة المرور",
   "login_failed": "فشل تسجيل الدخول",
   "sign_in_aborted": "تم إلغاء تسجيل الدخول",
   "google_sign_in_failed": "فشل تسجيل الدخول بجوجل",
@@ -179,4 +179,58 @@ const Map<String, String> ar = {
   'minutes_ago': 'د',
   'hours_ago': 'س',
   'date_format': 'ش/ي/س',
+
+  //order summary
+  'checkout': 'إتمام الدفع',
+  'address': 'العنوان',
+  'not_available': 'غير متوفر',
+  'change': 'تغيير',
+  'items': 'العناصر',
+  'delivery_charges': 'رسوم التوصيل',
+  'free': 'مجاني',
+  'total_amount': 'المبلغ الإجمالي',
+  'pay_now': 'ادفع الآن',
+  'return_to_home': 'العودة إلى الصفحة الرئيسية',
+  'payment_success': 'تم الدفع بنجاح',
+
+  //cart
+  'my_cart': 'سلة التسوق',
+  'cart_empty': 'سلتك فارغة',
+  'add_book_start': 'أضف كتابًا للبدء.',
+  'promo_code': 'رمز الخصم',
+  'apply': 'تطبيق',
+  'promo_applied': 'تم تطبيق رمز الخصم!',
+  'order_amount': 'قيمة الطلب',
+  'total_payment': 'إجمالي الدفع',
+  'proceed_checkout': 'إتمام الشراء',
+
+  //filter
+  'filter': 'تصفية',
+  'select_location': 'اختر الموقع',
+  'category': 'التصنيف',
+  'price_range': 'نطاق السعر',
+  'rating': 'التقييم',
+  'rating_4_5_above': '٤.٥ فأكثر',
+  'rating_4_0_4_5': '٤.٠ - ٤.٥',
+  'rating_3_5_4_0': '٣.٥ - ٤.٠',
+  'rating_3_0_3_5': '٣.٠ - ٣.٥',
+  'rating_2_5_3_0': '٢.٥ - ٣.٠',
+  'reset': 'إعادة ضبط',
+  
+  //shipping information
+  "shipping_info": "معلومات الشحن",
+  "your_name": "اسمك",
+  "enter_name": "من فضلك أدخل اسمك",
+  "phone": "رقم الهاتف",
+  "enter_phone": "من فضلك أدخل رقم الهاتف",
+  "select_government": "اختر المحافظة",
+  "government": "المحافظة",
+  "choose_government": "من فضلك اختر المحافظة",
+  "select_city": "اختر المدينة",
+  "city": "المدينة",
+  "choose_city": "من فضلك اختر المدينة",
+  "enter_address": "من فضلك أدخل العنوان",
+  "note": "ملاحظة",
+  "optional_note": "اكتب أي ملاحظة (اختياري)",
+  "proceed_order_summary": "إتمام الطلب"
 };
