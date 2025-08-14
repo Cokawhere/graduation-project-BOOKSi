@@ -1,73 +1,72 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Chat {
-  final String chatId;
   final String bookId;
-  final String? transactionId;
   final List<String> participants;
   final List<Message> messages;
+  final String lastMessage;
+  final String lastSenderId;
   final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime lastTimestamp;
 
   Chat({
-    required this.chatId,
     required this.bookId,
-    this.transactionId,
     required this.participants,
     required this.messages,
+    required this.lastMessage,
+    required this.lastSenderId,
     required this.createdAt,
-    required this.updatedAt,
+    required this.lastTimestamp,
   });
 
   factory Chat.fromJson(Map<String, dynamic> json) {
     return Chat(
-      chatId: json['chatId'],
       bookId: json['bookId'],
-      transactionId: json['transactionId'],
       participants: List<String>.from(json['participants'] ?? []),
       messages: (json['messages'] as List<dynamic>? ?? [])
           .map((messageJson) => Message.fromJson(messageJson))
           .toList(),
+      lastMessage: json['lastMessage'],
+      lastSenderId: json['lastSenderId'],
       createdAt: (json['createdAt'] as Timestamp).toDate(),
-      updatedAt: (json['updatedAt'] as Timestamp).toDate(),
+      lastTimestamp: (json['updatedAt'] as Timestamp).toDate(),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'chatId': chatId,
       'bookId': bookId,
-      'transactionId': transactionId,
       'participants': participants,
       'messages': messages.map((message) => message.toJson()).toList(),
+      'lastMessage': lastMessage,
+      'lastSenderId': lastSenderId,
       'createdAt': Timestamp.fromDate(createdAt),
-      'updatedAt': Timestamp.fromDate(updatedAt),
+      'lastTimestamp': Timestamp.fromDate(lastTimestamp),
     };
   }
 
   Chat copyWith({
-    String? chatId,
     String? bookId,
-    String? transactionId,
     List<String>? participants,
     List<Message>? messages,
+    String? lastMessage,
+    String? lastSenderId,
     DateTime? createdAt,
-    DateTime? updatedAt,
+    DateTime? lastTimestamp,
   }) {
     return Chat(
-      chatId: chatId ?? this.chatId,
       bookId: bookId ?? this.bookId,
-      transactionId: transactionId ?? this.transactionId,
       participants: participants ?? this.participants,
       messages: messages ?? this.messages,
+      lastMessage: lastMessage ?? this.lastMessage,
+      lastSenderId: lastSenderId ?? this.lastSenderId,
       createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
+      lastTimestamp: lastTimestamp ?? this.lastTimestamp,
     );
   }
 }
 
 class Message {
-  final String messageId;
   final String senderId;
   final String content;
   final bool read;
@@ -75,7 +74,6 @@ class Message {
   final String? type; // "text" | "offer" | "system"
 
   Message({
-    required this.messageId,
     required this.senderId,
     required this.content,
     required this.read,
@@ -85,7 +83,6 @@ class Message {
 
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
-      messageId: json['messageId'],
       senderId: json['senderId'],
       content: json['content'],
       read: json['read'] ?? false,
@@ -96,7 +93,6 @@ class Message {
 
   Map<String, dynamic> toJson() {
     return {
-      'messageId': messageId,
       'senderId': senderId,
       'content': content,
       'read': read,
@@ -106,7 +102,6 @@ class Message {
   }
 
   Message copyWith({
-    String? messageId,
     String? senderId,
     String? content,
     bool? read,
@@ -114,7 +109,6 @@ class Message {
     String? type,
   }) {
     return Message(
-      messageId: messageId ?? this.messageId,
       senderId: senderId ?? this.senderId,
       content: content ?? this.content,
       read: read ?? this.read,
@@ -127,28 +121,24 @@ class Message {
 class ChatPreview {
   final String chatId;
   final String bookId;
-  final String? transactionId;
   final List<String> participants;
   final Message? lastMessage;
   final DateTime createdAt;
   final DateTime updatedAt;
   final String bookTitle;
   final String bookAuthor;
-  final String bookCoverImage;
   final String otherParticipantName;
   final String otherParticipantPhotoUrl;
 
   ChatPreview({
     required this.chatId,
     required this.bookId,
-    this.transactionId,
     required this.participants,
     this.lastMessage,
     required this.createdAt,
     required this.updatedAt,
     required this.bookTitle,
     required this.bookAuthor,
-    required this.bookCoverImage,
     required this.otherParticipantName,
     required this.otherParticipantPhotoUrl,
   });
@@ -157,7 +147,6 @@ class ChatPreview {
     return ChatPreview(
       chatId: json['chatId'],
       bookId: json['bookId'],
-      transactionId: json['transactionId'],
       participants: List<String>.from(json['participants'] ?? []),
       lastMessage: json['lastMessage'] != null
           ? Message.fromJson(json['lastMessage'])
@@ -166,7 +155,6 @@ class ChatPreview {
       updatedAt: (json['updatedAt'] as Timestamp).toDate(),
       bookTitle: json['bookTitle'] ?? '',
       bookAuthor: json['bookAuthor'] ?? '',
-      bookCoverImage: json['bookCoverImage'] ?? '',
       otherParticipantName: json['otherParticipantName'] ?? '',
       otherParticipantPhotoUrl: json['otherParticipantPhotoUrl'] ?? '',
     );
@@ -176,14 +164,12 @@ class ChatPreview {
     return {
       'chatId': chatId,
       'bookId': bookId,
-      'transactionId': transactionId,
       'participants': participants,
       'lastMessage': lastMessage?.toJson(),
       'createdAt': Timestamp.fromDate(createdAt),
       'updatedAt': Timestamp.fromDate(updatedAt),
       'bookTitle': bookTitle,
       'bookAuthor': bookAuthor,
-      'bookCoverImage': bookCoverImage,
       'otherParticipantName': otherParticipantName,
       'otherParticipantPhotoUrl': otherParticipantPhotoUrl,
     };

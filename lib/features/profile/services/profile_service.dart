@@ -12,7 +12,6 @@ class FirebaseService {
 
   String? get currentUserId => _auth.currentUser?.uid;
 
-
   // Get user by ID
   Future<UserModel?> getUserById(String uid) async {
     final doc = await _firestore.collection('users').doc(uid).get();
@@ -71,8 +70,9 @@ class FirebaseService {
         .collection('books')
         .where('ownerId', isEqualTo: uid)
         .snapshots()
-        .map((query) =>
-            query.docs.map((doc) => Book.fromMap(doc.data())).toList());
+        .map(
+          (query) => query.docs.map((doc) => Book.fromMap(doc.data())).toList(),
+        );
   }
 
   // Stream books by user ID
@@ -81,17 +81,20 @@ class FirebaseService {
         .collection('books')
         .where('ownerId', isEqualTo: userId)
         .snapshots()
-        .map((query) =>
-            query.docs.map((doc) => Book.fromMap(doc.data())).toList());
+        .map(
+          (query) => query.docs.map((doc) => Book.fromMap(doc.data())).toList(),
+        );
   }
 
   // Stream all books
   Stream<List<Book>> streamAllBooks() {
-    return _firestore.collection('books').snapshots().map((query) =>
-        query.docs.map((doc) => Book.fromMap(doc.data())).toList());
+    return _firestore
+        .collection('books')
+        .snapshots()
+        .map(
+          (query) => query.docs.map((doc) => Book.fromMap(doc.data())).toList(),
+        );
   }
-
-
 }
 
 class ImageKitService {
@@ -107,8 +110,7 @@ class ImageKitService {
     final response = await http.post(
       Uri.parse(uploadUrl),
       headers: {
-        'Authorization':
-            'Basic ${base64Encode(utf8.encode('$privateKey:'))}',
+        'Authorization': 'Basic ${base64Encode(utf8.encode('$privateKey:'))}',
       },
       body: {
         'file': 'data:image/jpeg;base64,$base64Image',
@@ -119,10 +121,7 @@ class ImageKitService {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      return {
-        'url': data['url'],
-        'fileId': data['fileId'],
-      };
+      return {'url': data['url'], 'fileId': data['fileId']};
     } else {
       print("ImageKit upload failed: ${response.body}");
       return null;
@@ -135,8 +134,7 @@ class ImageKitService {
     final response = await http.delete(
       Uri.parse(deleteUrl),
       headers: {
-        'Authorization':
-            'Basic ${base64Encode(utf8.encode('$privateKey:'))}',
+        'Authorization': 'Basic ${base64Encode(utf8.encode('$privateKey:'))}',
       },
     );
 
@@ -147,4 +145,3 @@ class ImageKitService {
     }
   }
 }
-

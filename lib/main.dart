@@ -3,6 +3,9 @@ import 'dart:io' show Platform;
 import 'package:booksi/features/blog/controllers/blog_controller.dart';
 import 'package:booksi/features/book_details/book_details_view.dart'
     show BookDetailsView;
+import 'package:booksi/features/chat/controllers/chat_controller.dart';
+import 'package:booksi/features/chat/services/chat_service.dart';
+import 'package:booksi/features/notifications/controllers/notification_controller.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +19,7 @@ import 'features/cart/cart_controller.dart';
 import 'features/profile/controllers/book_controllers.dart';
 import 'features/profile/controllers/imagekit_controller.dart';
 import 'features/profile/controllers/profile_controller.dart';
+import 'features/notifications/controllers/notification_controller.dart';
 import 'features/splash-screen/view.dart';
 import 'firebase_options.dart';
 import 'common/styles/colors.dart';
@@ -40,6 +44,8 @@ void main() async {
   Get.lazyPut(() => BookController(), fenix: true);
   Get.lazyPut(() => ImageKitController(), fenix: true);
   Get.lazyPut(() => BlogController(), fenix: true);
+  Get.lazyPut(() => ChatController(service: ChatService()), fenix: true);
+  Get.lazyPut(() => NotificationController(), fenix: true);
   Get.put(LoginController());
   Get.put(CartController());
   Get.put(HomeController());
