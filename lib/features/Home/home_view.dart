@@ -33,14 +33,8 @@ class HomeView extends StatelessWidget {
         appBar: AppBar(
           elevation: 0,
           centerTitle: true,
-          title: const Text(
-            "BOOKSi°",
-            style: TextStyle(
-              color: AppColors.brown,
-              fontWeight: FontWeight.w900,
-              fontSize: 35,
-            ),
-          ),
+          title: Image.asset('assets/images/logo.png', width: 120, height: 120),
+
           leading: Builder(
             builder: (context) => IconButton(
               icon: Icon(Icons.menu, size: 30, color: AppColors.brown),

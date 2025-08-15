@@ -41,7 +41,7 @@ class FilterView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             Text(
+            Text(
               "location".tr,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),

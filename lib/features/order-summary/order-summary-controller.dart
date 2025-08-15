@@ -78,9 +78,7 @@ class OrderSummaryController extends GetxController {
 
           await _firestore.collection('orders').doc(orderId).set(orderSchema);
 
-          // Send notifications to sellers for each sold book
           for (var item in cartController.cartItems) {
-            // Get the book details to find the seller
             final bookDoc = await _firestore
                 .collection('books')
                 .doc(item['bookId'])
@@ -90,7 +88,6 @@ class OrderSummaryController extends GetxController {
               final sellerId = bookData['ownerId'] as String?;
 
               if (sellerId != null && sellerId.isNotEmpty) {
-                // Send notification to the seller
                 await _notificationService.createBookSoldNotification(
                   sellerId: sellerId,
                   bookTitle: item['title'],
@@ -99,7 +96,6 @@ class OrderSummaryController extends GetxController {
               }
             }
 
-            // Remove from cart
             await cartController.removeFromCart(item['bookId']);
           }
 
