@@ -77,6 +77,8 @@ class OrderSummaryController extends GetxController {
           };
 
           await _firestore.collection('orders').doc(orderId).set(orderSchema);
+          Get.offAll(PaymentSuccessView());
+          Get.snackbar("Success", "Payment completed successfully!");
 
           for (var item in cartController.cartItems) {
             final bookDoc = await _firestore
@@ -100,9 +102,6 @@ class OrderSummaryController extends GetxController {
           }
 
           Get.delete<ShippingInfoController>();
-
-          Get.offAll(PaymentSuccessView());
-          Get.snackbar("Success", "Payment completed successfully!");
         } else {
           Get.snackbar("Error", "Payment failed: ${response.message}");
         }

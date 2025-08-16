@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:booksi/common/styles/colors.dart';
@@ -5,6 +6,7 @@ import 'package:booksi/features/profile/services/profile_service.dart';
 import 'package:booksi/features/notifications/services/notification_service.dart';
 import 'package:get/utils.dart';
 
+import '../../book_details/book_details_conroller.dart';
 import '../controllers/chat_controller.dart';
 import '../services/chat_service.dart';
 import '../views/chat_detail_view.dart';
@@ -51,7 +53,6 @@ class _ContactSellerButtonState extends State<ContactSellerButton> {
     if (_loading) return;
     setState(() => _loading = true);
     try {
-      // Fetch seller profile for UI (name/photo) in chat app bar
       final seller = await _profileService.getUserById(widget.otherUserId);
       final chatId = await _controller.openChatAndSendIntro(
         currentUserId: widget.currentUserId,
@@ -61,7 +62,6 @@ class _ContactSellerButtonState extends State<ContactSellerButton> {
         bookAuthor: widget.bookAuthor,
       );
 
-      // Send notification to the seller about the book request
       await _notificationService.createBookRequestNotification(
         userId: widget.otherUserId,
         bookTitle: widget.bookTitle,
@@ -86,8 +86,16 @@ class _ContactSellerButtonState extends State<ContactSellerButton> {
 
   @override
   Widget build(BuildContext context) {
+    final currentUserId = FirebaseAuth.instance.currentUser?.uid;
+    final isOwner =
+        currentUserId != null && currentUserId == widget.otherUserId;
+    ;
     return ElevatedButton(
-      onPressed: _loading ? null : _handlePressed,
+      onPressed: isOwner
+          ? null
+          : _loading
+          ? null
+          : _handlePressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color.fromARGB(255, 210, 151, 125),
         foregroundColor: AppColors.white,

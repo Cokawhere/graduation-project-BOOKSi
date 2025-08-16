@@ -11,7 +11,7 @@ import '../shipping information/shipping-information_view.dart';
 import '../shop/book_model.dart';
 import 'book_details_conroller.dart';
 import 'package:intl/intl.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'review_model.dart';
 
 class BookDetailsView extends StatefulWidget {
@@ -60,7 +60,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
       appBar: AppBar(
         backgroundColor: AppColors.white,
         elevation: 0,
-        toolbarHeight: 50,
+        toolbarHeight: 50.h,
 
         centerTitle: true,
         title: Text(
@@ -93,7 +93,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: 300,
+                  height: 300.h,
                   child: Stack(
                     children: [
                       Obx(() {
@@ -105,11 +105,11 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                             : controller.book.value!.images;
                         return Image.network(
                           imageList[controller.selectedImageIndex.value],
-                          height: 300,
+                          height: 300.h,
                           width: double.infinity,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.contain,
                           errorBuilder: (context, error, stackTrace) =>
-                              Container(height: 300, color: AppColors.white),
+                              Container(height: 300.h, color: AppColors.white),
                         );
                       }),
                       Positioned(
@@ -117,13 +117,13 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                         left: 100,
                         right: 100,
                         child: Container(
-                          width: 250,
+                          width: 250.w,
                           decoration: BoxDecoration(
                             color: AppColors.white,
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(12.r),
                           ),
                           child: SizedBox(
-                            height: 40,
+                            height: 40.h,
                             child: Obx(() {
                               final imageList =
                                   controller.book.value!.images.isEmpty
@@ -159,8 +159,8 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                                         borderRadius: BorderRadius.circular(8),
                                         child: Image.network(
                                           imageList[index],
-                                          width: 40,
-                                          height: 40,
+                                          width: 40.w,
+                                          height: 40.h,
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -200,7 +200,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                   ),
                 ),
 
-                const SizedBox(height: 14),
+                SizedBox(height: 14.h),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
@@ -223,7 +223,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                               color: AppColors.orange,
                               size: 30,
                             ),
-                            const SizedBox(width: 4),
+                            SizedBox(width: 4.w),
                             Text(
                               controller.book.value!.averageRating
                                   .toStringAsFixed(1),
@@ -238,13 +238,13 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                   ),
                 ),
 
-                const SizedBox(height: 14),
+                SizedBox(height: 14.h),
                 if (controller.book.value!.availableFor.contains('swap'))
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 8),
                     decoration: BoxDecoration(
                       color: AppColors.background,
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10.r),
                     ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
@@ -258,7 +258,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                             () => Row(
                               children: [
                                 CircleAvatar(
-                                  radius: 30,
+                                  radius: 30.r,
                                   backgroundImage:
                                       controller.ownerPhotoUrl.value.isNotEmpty
                                       ? NetworkImage(
@@ -269,7 +269,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                                       ? const Icon(Icons.person)
                                       : null,
                                 ),
-                                const SizedBox(width: 5),
+                                SizedBox(width: 5.w),
                                 Text(
                                   controller.ownerName.value,
                                   style: const TextStyle(
@@ -280,7 +280,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 8),
+                          SizedBox(height: 8.h),
                           ContactSellerButton(
                             currentUserId:
                                 FirebaseAuth.instance.currentUser?.uid ?? '',
@@ -294,16 +294,16 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                     ),
                   ),
 
-                const SizedBox(height: 18),
+                SizedBox(height: 18.h),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 16.r),
                   child: Text(
                     'description'.tr,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 16.r),
                   child: Text(
                     controller.isDescriptionExpanded.value
                         ? controller.book.value!.description
@@ -326,11 +326,11 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                       ),
                     ),
                   ),
-                SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 10.r),
                       child: Wrap(
                         spacing: 8,
                         children: controller.book.value!.availableFor
@@ -359,7 +359,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                       width: 40,
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 10.r),
                       child: Chip(
                         label: Text(controller.book.value!.genre),
                         backgroundColor: const Color.fromARGB(
@@ -382,8 +382,8 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                     children: [
                       Expanded(
                         child: ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 10,
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 10.r,
                           ),
                           leading: const Icon(
                             Icons.location_on,
@@ -402,15 +402,15 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 180),
+                      SizedBox(width: 80.w),
                     ],
                   ),
                 Row(
                   children: [
                     Expanded(
                       child: ListTile(
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 10,
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 5.r,
                           vertical: 0,
                         ),
                         leading: const Icon(
@@ -430,7 +430,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 180),
+                    SizedBox(width: 80.w),
                   ],
                 ),
 
@@ -441,9 +441,9 @@ class _BookDetailsViewState extends State<BookDetailsView> {
 
                 if (controller.book.value!.ownerRole == 'library')
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 10,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.r,
+                      vertical: 10.r,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -470,11 +470,11 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                                 backgroundColor: AppColors.brown,
                                 foregroundColor: AppColors.white,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(20.r),
                                 ),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 2,
-                                  horizontal: 8,
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 2.r,
+                                  horizontal: 8.r,
                                 ),
                               ),
                               child: Text(
@@ -490,13 +490,13 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                         ...controller.reviews.map(
                           (review) => _buildReviewCard(review),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 10.h),
                         Center(),
                       ],
                     ),
                   ),
 
-                SizedBox(height: 100),
+                SizedBox(height: 100.h),
               ],
             ),
           );
@@ -516,12 +516,12 @@ class _BookDetailsViewState extends State<BookDetailsView> {
             currentUserId == controller.book.value?.ownerId;
 
         return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 16.r, vertical: 12.r),
           decoration: const BoxDecoration(
             color: Color.fromARGB(0, 255, 255, 255),
           ),
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 5),
+            padding: EdgeInsets.only(bottom: 5.r),
             child: isSwapOnly
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -541,8 +541,8 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                 : Row(
                     children: [
                       SizedBox(
-                        width: 100,
-                        height: 60,
+                        width: 100.w,
+                        height: 60.h,
                         child: Container(
                           decoration: BoxDecoration(
                             color: AppColors.background,
@@ -554,7 +554,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                                 offset: const Offset(1, 3),
                               ),
                             ],
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           child: OutlinedButton(
                             onPressed: isOwner
@@ -579,7 +579,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                                 width: 2,
                               ),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(20.r),
                               ),
                             ),
                             child: Icon(
@@ -590,10 +590,10 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12.w),
                       SizedBox(
-                        height: 60,
-                        width: 240,
+                        height: 60.h,
+                        width: 240.w,
                         child: ElevatedButton(
                           onPressed: isOwner
                               ? null
@@ -629,11 +629,11 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                             ),
 
                             padding: EdgeInsets.symmetric(
-                              vertical: 5,
-                              horizontal: 5,
+                              vertical: 5.r,
+                              horizontal: 5.r,
                             ),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(20.r),
                             ),
                           ),
                           child: Text(
@@ -659,11 +659,11 @@ class _BookDetailsViewState extends State<BookDetailsView> {
       return const SizedBox.shrink();
     }
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      padding: EdgeInsets.symmetric(horizontal: 8.r),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 2),
+          SizedBox(height: 2.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -676,9 +676,9 @@ class _BookDetailsViewState extends State<BookDetailsView> {
               ),
             ],
           ),
-          SizedBox(height: 5),
+          SizedBox(height: 5.h),
           SizedBox(
-            height: 270,
+            height: 270.h,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: books.length,
@@ -713,12 +713,12 @@ class _BookDetailsViewState extends State<BookDetailsView> {
 
   Widget _buildReviewCard(Review review) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: EdgeInsets.symmetric(vertical: 10.r),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleAvatar(
-            radius: 25,
+            radius: 25.r,
             backgroundImage:
                 controller.getUserPhotoUrl(review.reviewerId).isNotEmpty
                 ? NetworkImage(controller.getUserPhotoUrl(review.reviewerId))
@@ -727,7 +727,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                 ? const Icon(Icons.person)
                 : null,
           ),
-          SizedBox(width: 10),
+          SizedBox(width: 10.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -738,7 +738,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                       controller.getUserName(review.reviewerId),
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(width: 10),
+                    SizedBox(width: 10.w),
                     Row(
                       children: List.generate(
                         5,

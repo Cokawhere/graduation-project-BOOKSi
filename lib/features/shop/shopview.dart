@@ -83,7 +83,10 @@ class ShopView extends StatelessWidget {
                           controller.newArrivalBooks,
                         ),
                         const SizedBox(height: 10),
-                        _buildSection("all_books".tr, controller.allBooks),
+                        _buildSectionallbooks(
+                          "all_books".tr,
+                          controller.allBooks,
+                        ),
                         const SizedBox(height: 80),
                       ],
                     ),
@@ -159,6 +162,59 @@ class ShopView extends StatelessWidget {
   }
 
   Widget _buildSection(String title, List<Book> books) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 2),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            // GestureDetector(
+            //   onTap: () {
+            //     Get.to(() => BooksView(title: title, books: books));
+            //   },
+            //   child: Text(
+            //     'see_all'.tr,
+            //     style: TextStyle(
+            //       color: AppColors.brown,
+            //       fontSize: 18,
+            //       fontWeight: FontWeight.bold,
+            //     ),
+            //   ),
+            // ),
+          ],
+        ),
+        SizedBox(height: 11),
+        SizedBox(
+          height: 270,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: books.length,
+            itemBuilder: (context, index) {
+              final book = books[index];
+              return BookCard(
+                id: book.id,
+                imageUrl: book.coverImage,
+                title: book.title,
+                author: book.author,
+                price: book.price.toString(),
+                index: index,
+                ownerId: book.ownerId,
+                averageRating: book.averageRating,
+                availableFor: book.availableFor,
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSectionallbooks(String title, List<Book> books) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
