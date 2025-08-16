@@ -77,10 +77,10 @@ class OrderSummaryController extends GetxController {
           };
 
           await _firestore.collection('orders').doc(orderId).set(orderSchema);
+          Get.offAll(PaymentSuccessView());
+          Get.snackbar("Success", "Payment completed successfully!");
 
-          // Send notifications to sellers for each sold book
           for (var item in cartController.cartItems) {
-            // Get the book details to find the seller
             final bookDoc = await _firestore
                 .collection('books')
                 .doc(item['bookId'])
@@ -90,7 +90,6 @@ class OrderSummaryController extends GetxController {
               final sellerId = bookData['ownerId'] as String?;
 
               if (sellerId != null && sellerId.isNotEmpty) {
-                // Send notification to the seller
                 await _notificationService.createBookSoldNotification(
                   sellerId: sellerId,
                   bookTitle: item['title'],
@@ -99,14 +98,10 @@ class OrderSummaryController extends GetxController {
               }
             }
 
-            // Remove from cart
             await cartController.removeFromCart(item['bookId']);
           }
 
           Get.delete<ShippingInfoController>();
-
-          Get.offAll(PaymentSuccessView());
-          Get.snackbar("Success", "Payment completed successfully!");
         } else {
           Get.snackbar("Error", "Payment failed: ${response.message}");
         }

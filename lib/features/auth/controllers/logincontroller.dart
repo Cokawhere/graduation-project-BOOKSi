@@ -59,17 +59,20 @@ class LoginController extends GetxController {
     }
   }
 
-  void signInWithFacebook() async {
-    isLoading.value = true;
-    try {
-      final user = await _authService.signInWithFacebook("");
-      if (user != null) Get.offAll(() => HomeView());
-    } catch (error) {
-      Get.snackbar("facebook_sign_in_failed".tr, error.toString(), snackPosition: SnackPosition.TOP);
-    } finally {
-      isLoading.value = false;
-    }
+void signInWithFacebook() async {
+  print("Facebook button pressed!"); 
+  isLoading.value = true;
+  try {
+    final user = await _authService.signInWithFacebook("");
+    print("Facebook login returned: $user"); 
+    if (user != null) Get.offAll(() => HomeView());
+  } catch (error) {
+    print("Facebook error: $error");
+    Get.snackbar("facebook_sign_in_failed".tr, error.toString(), snackPosition: SnackPosition.TOP);
+  } finally {
+    isLoading.value = false;
   }
+}
 
   @override
   void onClose() {

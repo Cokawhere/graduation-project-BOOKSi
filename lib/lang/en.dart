@@ -177,4 +177,61 @@ const Map<String, String> en = {
   'minutes_ago': 'm',
   'hours_ago': 'h',
   'date_format': 'M/d/yyyy',
+  //order summary
+  'checkout': 'Checkout',
+  'address': 'Address',
+  'not_available': 'N/A',
+  'change': 'CHANGE',
+  'items': 'Items',
+  'delivery_charges': 'Delivery Charges',
+  'free': 'Free',
+  'total_amount': 'Total Amount',
+  'pay_now': 'Pay Now',
+  'return_to_home': 'Return to Home',
+  'payment_success': 'PAYMENT SUCCESS',
+
+  //cart
+  'my_cart': 'My Cart',
+  'cart_empty': 'Your cart is empty',
+  'add_book_start': 'Add a book to get started.',
+  'promo_code': 'Promo Code',
+  'apply': 'Apply',
+  'promo_applied': 'Promo code applied!',
+  'order_amount': 'Order Amount',
+  'total_payment': 'Total Payment',
+  'proceed_checkout': 'Proceed to Checkout',
+
+
+  //filter
+
+  'filter': 'Filter',
+  'select_location': 'Select Location',
+  'category': 'Category',
+  'price_range': 'Price Range',
+  'rating': 'Rating',
+  'rating_4_5_above': '4.5 and above',
+  'rating_4_0_4_5': '4.0 - 4.5',
+  'rating_3_5_4_0': '3.5 - 4.0',
+  'rating_3_0_3_5': '3.0 - 3.5',
+  'rating_2_5_3_0': '2.5 - 3.0',
+  'reset': 'Reset',
+  //shipping information
+  "shipping_info": "Shipping Information",
+  "your_name": "Your Name",
+  "enter_name": "Please enter your name",
+  "phone": "Phone Number",
+  "enter_phone": "Please enter your phone number",
+  "select_government": "Select Government",
+  "government": "Government",
+  "choose_government": "Please choose a government",
+  "select_city": "Select City",
+  "city": "City",
+  "choose_city": "Please choose a city",
+  "enter_address": "Please enter your address",
+  "note": "Note",
+  "optional_note": "Write any note (optional)",
+  "proceed_order_summary": "Proceed to Order Summary"
+
+  
+  
 };

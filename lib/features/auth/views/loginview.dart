@@ -43,7 +43,7 @@ class LoginView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "BOOkSi°",
+                      "iBOOk",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 32,

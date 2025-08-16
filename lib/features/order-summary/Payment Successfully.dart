@@ -18,8 +18,8 @@ class PaymentSuccessView extends StatelessWidget {
               const Icon(Icons.check_circle, color: Colors.green, size: 80),
               const SizedBox(height: 20),
 
-              const Text(
-                "PAYMENT SUCCESS",
+              Text(
+                'payment_success'.tr,
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
@@ -32,13 +32,13 @@ class PaymentSuccessView extends StatelessWidget {
                   onPressed: () => Get.offAll(HomeView()),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.brown,
-                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    padding: EdgeInsets.symmetric(vertical: 15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  child: const Text(
-                    "Return to Home",
+                  child: Text(
+                    'return_to_home'.tr,
                     style: TextStyle(
                       fontSize: 20,
                       color: AppColors.white,

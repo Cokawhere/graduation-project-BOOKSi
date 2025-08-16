@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">booksi</string>
+    <string name="facebook_app_id">699527089567610</string>
+    <string name="fb_login_protocol_scheme">699527089567610</string>
+</resources>

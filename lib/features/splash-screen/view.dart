@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../common/styles/colors.dart';
 import '../auth/views/loginview.dart';
@@ -23,54 +23,42 @@ class SplashView extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 200),
-              Text(
-                'BOOKSi°',
-                style: TextStyle(
-                  color: AppColors.orange,
-                  shadows: [
-                    Shadow(
-                      blurRadius: 7,
-                      color: AppColors.black,
-                      offset: Offset(2, 2),
-                    ),
-                  ],
-                  fontSize: 65,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
-                ),
-              ),
-              // Container(
-              //   margin: const EdgeInsets.symmetric(vertical: 5),
-              //   width: 240,
-              //   height: 4,
-              //   decoration: BoxDecoration(
-              //     color: AppColors.white,
-              //     boxShadow: [
-              //       BoxShadow(
+              SizedBox(height: 140),
+
+              Image.asset('assets/images/logo.png', width: 250, height: 250),
+
+              // Text(
+              //   'iBOOK°',
+              //   style: TextStyle(
+              //     color: AppColors.orange,
+              //     shadows: [
+              //       Shadow(
               //         blurRadius: 7,
               //         color: AppColors.black,
               //         offset: Offset(2, 2),
               //       ),
               //     ],
+              //     fontSize: 65,
+              //     fontWeight: FontWeight.bold,
+              //     letterSpacing: 1.5,
               //   ),
               // ),
-              Text(
-                'splash_subtitle'.tr,
-                style: TextStyle(
-                  color: const Color.fromARGB(255, 255, 251, 248),
-                  shadows: [
-                    Shadow(
-                      blurRadius: 4,
-                      color: const Color.fromARGB(255, 229, 119, 8),
-                      offset: Offset(2, 2),
-                    ),
-                  ],
-                  fontSize: 22,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-              const SizedBox(height: 250),
+              // Text(
+              //   'splash_subtitle'.tr,
+              //   style: TextStyle(
+              //     color: const Color.fromARGB(255, 255, 251, 248),
+              //     shadows: [
+              //       Shadow(
+              //         blurRadius: 4,
+              //         color: const Color.fromARGB(255, 229, 119, 8),
+              //         offset: Offset(2, 2),
+              //       ),
+              //     ],
+              //     fontSize: 22,
+              //     fontWeight: FontWeight.w900,
+              //   ),
+              // ),
+              const SizedBox(height: 180),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.white,
