@@ -196,6 +196,7 @@ class _AddBookViewState extends State<AddBookView> {
       coverImage: coverImageUrl,
       images: allImages,
       location: location,
+      quantity: 1,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       price: price,

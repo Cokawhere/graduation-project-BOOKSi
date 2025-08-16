@@ -33,33 +33,17 @@ class _EditBookViewState extends State<EditBookView> {
   String _condition = 'New';
   List<String> _availableFor = [];
   File? _coverImage;
+  final List<File> _additionalImages = [];
   bool _isUploading = false;
 
   final List<String> genres = [
     "Fiction",
     "Fantasy",
-    "Adventure",
-    "Dystopian",
-    "Historical Fiction",
-    "Literary Fiction",
-    "Mystery",
-    "Paranormal",
-    "Philosophy",
-    "Poetry",
-    "Psychology",
-    "Religion & Spirituality",
-    "Drama",
-    "Science",
     "Science Fiction",
-    "Self-Help",
-    "Spirituality",
-    "Suspense",
-    "Thriller",
-    "Travel",
-    "Young Adult",
     "Mystery & Thriller",
     "Romance",
     "Historical",
+    "Young Adult",
     "Horror",
     "Biography",
     "Personal Growth",
@@ -88,6 +72,21 @@ class _EditBookViewState extends State<EditBookView> {
         _coverImage = picked;
       });
     }
+  }
+
+  void _pickAdditionalImages() async {
+    final picked = await _imageKitController.pickImageFromGallery();
+    if (picked != null) {
+      setState(() {
+        _additionalImages.add(picked);
+      });
+    }
+  }
+
+  void _removeAdditionalImage(int index) {
+    setState(() {
+      _additionalImages.removeAt(index);
+    });
   }
 
   void _submit() async {
@@ -134,6 +133,20 @@ class _EditBookViewState extends State<EditBookView> {
         return;
       }
     }
+
+    // Upload additional images if any
+    List<String> additionalImageUrls = [];
+    for (File image in _additionalImages) {
+      String? imageUrl = await _imageKitController.uploadImageAndGetUrl(image);
+      if (imageUrl != null) {
+        additionalImageUrls.add(imageUrl);
+      }
+    }
+
+    // Combine existing images with new additional images
+    List<String> allImages = List<String>.from(widget.book.images);
+    allImages.addAll(additionalImageUrls);
+
     Book updatedBook = widget.book.copyWith(
       title: _titleController.text.trim(),
       author: _authorController.text.trim(),
@@ -143,6 +156,8 @@ class _EditBookViewState extends State<EditBookView> {
       availableFor: _availableFor,
       location: location,
       price: price,
+      images: allImages,
+      approval: 'pending',
       updatedAt: DateTime.now(),
     );
     try {
@@ -352,6 +367,87 @@ class _EditBookViewState extends State<EditBookView> {
                                   ),
                                 ],
                               ),
+                        SizedBox(height: media.size.height * 0.015),
+                        Text(
+                          'additional_images'.tr,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: media.size.width * 0.04,
+                          ),
+                        ),
+                        SizedBox(height: media.size.height * 0.01),
+                        // Display existing additional images
+                        if (widget.book.images.length > 1) ...[
+                          SizedBox(
+                            height: media.size.height * 0.15,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: widget.book.images.length - 1, // Exclude cover image
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  margin: const EdgeInsets.only(right: 8),
+                                  child: Image.network(
+                                    widget.book.images[index + 1], // Skip cover image
+                                    height: media.size.height * 0.12,
+                                    width: media.size.width * 0.3,
+                                    fit: BoxFit.cover,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          SizedBox(height: media.size.height * 0.01),
+                        ],
+                        CustomButton(
+                          text: 'add_more_images'.tr,
+                          onPressed: _pickAdditionalImages,
+                          backgroundColor: AppColors.orange,
+                        ),
+                        if (_additionalImages.isNotEmpty) ...[
+                          SizedBox(height: media.size.height * 0.01),
+                          SizedBox(
+                            height: media.size.height * 0.15,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: _additionalImages.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  margin: const EdgeInsets.only(right: 8),
+                                  child: Stack(
+                                    children: [
+                                      Image.file(
+                                        _additionalImages[index],
+                                        height: media.size.height * 0.12,
+                                        width: media.size.width * 0.3,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      Positioned(
+                                        top: 4,
+                                        right: 4,
+                                        child: GestureDetector(
+                                          onTap: () =>
+                                              _removeAdditionalImage(index),
+                                          child: Container(
+                                            padding: const EdgeInsets.all(4),
+                                            decoration: BoxDecoration(
+                                              color: Colors.red,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: Icon(
+                                              Icons.close,
+                                              color: Colors.white,
+                                              size: 16,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                         SizedBox(height: media.size.height * 0.015),
                         if (user?.address == null || user!.address!.isEmpty)
                           CustomTextField(

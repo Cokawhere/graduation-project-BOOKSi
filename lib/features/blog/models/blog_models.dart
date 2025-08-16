@@ -3,8 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class PostModel {
   final String postId;
   final String userId;
-  final String userPhotoUrl;
-  final String userName;
   final String content;
   final String? imageURL;
   final List<String>? likes;
@@ -14,8 +12,6 @@ class PostModel {
   PostModel({
     required this.postId,
     required this.userId,
-    required this.userPhotoUrl,
-    required this.userName,
     required this.content,
     this.imageURL,
     this.likes,
@@ -27,8 +23,6 @@ class PostModel {
     return PostModel(
       postId: json['postId'] ?? json['id'] ?? '',
       userId: json['userId'] ?? '',
-      userPhotoUrl: json['userPhotoUrl'] ?? '',
-      userName: json['userName'] ?? '',
       content: json['content'] ?? '',
       imageURL: json['imageURL'],
       likes: json['likes'] != null ? List<String>.from(json['likes']) : null,
@@ -45,8 +39,6 @@ class PostModel {
     return {
       'postId': postId,
       'userId': userId,
-      'userPhotoUrl': userPhotoUrl,
-      'userName': userName,
       'content': content,
       'imageURL': imageURL,
       'likes': likes,
@@ -58,8 +50,6 @@ class PostModel {
   PostModel copyWith({
     String? postId,
     String? userId,
-    String? userPhotoUrl,
-    String? userName,
     String? content,
     String? imageURL,
     List<String>? likes,
@@ -69,8 +59,6 @@ class PostModel {
     return PostModel(
       postId: postId ?? this.postId,
       userId: userId ?? this.userId,
-      userPhotoUrl: userPhotoUrl ?? this.userPhotoUrl,
-      userName: userName ?? this.userName,
       content: content ?? this.content,
       imageURL: imageURL ?? this.imageURL,
       likes: likes ?? this.likes,
