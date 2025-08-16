@@ -25,6 +25,9 @@ class BlogController extends GetxController {
       <String, List<Map<String, dynamic>>>{}.obs;
   final RxMap<String, bool> userLikedPosts = <String, bool>{}.obs;
 
+  // Cache of user profiles keyed by userId for displaying name/photo
+  final RxMap<String, UserModel> userProfiles = <String, UserModel>{}.obs;
+
   // Editing state
   final RxMap<String, bool> editingPosts = <String, bool>{}.obs;
   final RxMap<String, bool> editingComments = <String, bool>{}.obs;
@@ -50,11 +53,21 @@ class BlogController extends GetxController {
           loadLikesForPost(post.postId);
           loadCommentsForPost(post.postId);
         }
+
+        // Preload user profiles for all unique authors
+        final uniqueUserIds = postsList.map((p) => p.userId).toSet();
+        for (final userId in uniqueUserIds) {
+          loadUserProfile(userId);
+        }
       },
       onError: (error) {
         // Try alternative collection names
         _blogService.getAllPostsFromCollection('blog').listen((postsList) {
           posts.value = postsList;
+          final uniqueUserIds = postsList.map((p) => p.userId).toSet();
+          for (final userId in uniqueUserIds) {
+            loadUserProfile(userId);
+          }
         });
       },
     );
@@ -144,8 +157,6 @@ class BlogController extends GetxController {
       final post = PostModel(
         postId: _generatePostId(),
         userId: currentUser.uid,
-        userPhotoUrl: currentUser.photoUrl,
-        userName: currentUser.name,
         content: content,
         imageURL: imageUrl,
         createdAt: DateTime.now(),
@@ -341,6 +352,26 @@ class BlogController extends GetxController {
   // Get current user from profile service
   Future<UserModel?> _getCurrentUser() async {
     return await _firebaseService.getCurrentUser();
+  }
+
+  // Load a user's profile (name, photoUrl) if not already cached
+  Future<void> loadUserProfile(String userId) async {
+    if (userProfiles.containsKey(userId)) return;
+    try {
+      final user = await _firebaseService.getUserById(userId);
+      if (user != null) {
+        userProfiles[userId] = user;
+      }
+    } catch (_) {}
+  }
+
+  // Helpers to access cached user data for UI
+  String getUserName(String userId) {
+    return userProfiles[userId]?.name ?? 'User';
+  }
+
+  String? getUserPhotoUrl(String userId) {
+    return userProfiles[userId]?.photoUrl;
   }
 
   // Clear selected image

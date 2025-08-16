@@ -91,29 +91,33 @@ class BlogDetailsView extends StatelessWidget {
                   // User info
                   Row(
                     children: [
-                      CircleAvatar(
-                        radius: 25,
-                        backgroundImage: post.userPhotoUrl.isNotEmpty
-                            ? NetworkImage(post.userPhotoUrl)
-                            : null,
-                        child: post.userPhotoUrl.isEmpty
-                            ? const Icon(Icons.person, color: AppColors.white)
-                            : null,
-                      ),
+                      Obx(() {
+                        final photoUrl = controller.getUserPhotoUrl(post.userId);
+                        final hasPhoto = (photoUrl != null && photoUrl.isNotEmpty);
+                        return CircleAvatar(
+                          radius: 25,
+                          backgroundImage:
+                              hasPhoto ? NetworkImage(photoUrl) : null,
+                          child: !hasPhoto
+                              ? const Icon(Icons.person, color: AppColors.white)
+                              : null,
+                        );
+                      }),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              post.userName,
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                            Obx(() => Text(
+                                  controller.getUserName(post.userId),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                )),
                             Text(
                               _formatDate(post.createdAt),
                               style: TextStyle(
@@ -186,7 +190,7 @@ class BlogDetailsView extends StatelessWidget {
                   }),
 
                   // Image if exists
-                  if (post.imageURL != null) ...[
+                  if (post.imageURL != null && post.imageURL!.isNotEmpty) ...[
                     const SizedBox(height: 16),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12),

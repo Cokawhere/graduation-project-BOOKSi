@@ -106,15 +106,15 @@ class _AddBookViewState extends State<AddBookView> {
   void _submit() async {
     if (!_formKey.currentState!.validate()) return;
     if (_selectedGenre == null) {
-      Get.snackbar('Error', 'Please select a genre');
+      Get.snackbar('error'.tr, 'select_genre'.tr);
       return;
     }
     if (_availableFor.isEmpty) {
-      Get.snackbar('Error', 'Please select at least one availability option');
+      Get.snackbar('error'.tr, 'select_availability'.tr);
       return;
     }
     if (_coverImage == null) {
-      Get.snackbar('Error', 'Please upload a cover image');
+      Get.snackbar('error'.tr, 'please_upload_cover'.tr);
       return;
     }
     setState(() {
@@ -124,7 +124,7 @@ class _AddBookViewState extends State<AddBookView> {
     String? location = _selectedLocation;
     if ((user?.address == null || user!.address!.isEmpty) &&
         (location == null || location.isEmpty)) {
-      Get.snackbar('Error', 'Please select your location');
+      Get.snackbar('error'.tr, 'please_select_location'.tr);
       setState(() {
         _isUploading = false;
       });
@@ -137,7 +137,7 @@ class _AddBookViewState extends State<AddBookView> {
     double? price;
     if (_availableFor.contains('sell')) {
       if (_priceController.text.trim().isEmpty) {
-        Get.snackbar('Error', 'Please enter a price for sale');
+        Get.snackbar('error'.tr, 'enter_price_for_sale'.tr);
         setState(() {
           _isUploading = false;
         });
@@ -145,7 +145,7 @@ class _AddBookViewState extends State<AddBookView> {
       }
       price = double.tryParse(_priceController.text.trim());
       if (price == null) {
-        Get.snackbar('Error', 'Invalid price');
+        Get.snackbar('error'.tr, 'invalid_price'.tr);
         setState(() {
           _isUploading = false;
         });
@@ -158,7 +158,7 @@ class _AddBookViewState extends State<AddBookView> {
       _coverImage!,
     );
     if (coverImageUrl == null) {
-      Get.snackbar('Error', 'Failed to upload cover image');
+      Get.snackbar('error'.tr, 'cover_upload_failed'.tr);
       setState(() {
         _isUploading = false;
       });
@@ -196,6 +196,7 @@ class _AddBookViewState extends State<AddBookView> {
       coverImage: coverImageUrl,
       images: allImages,
       location: location,
+      quantity: 1,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       price: price,
@@ -207,7 +208,7 @@ class _AddBookViewState extends State<AddBookView> {
       _isUploading = false;
     });
     Get.back();
-    Get.snackbar('Success', 'Book added and pending approval');
+    Get.snackbar('success'.tr, 'book_added_pending'.tr);
   }
 
   @override
