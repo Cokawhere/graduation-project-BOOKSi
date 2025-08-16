@@ -27,6 +27,7 @@ class BookProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     String formatPrice(String price) {
       String cleanPrice = price.split(".").first;
       if (cleanPrice.length > 4) {
@@ -81,17 +82,17 @@ class BookProfileCard extends StatelessWidget {
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
-                      color: AppColors.black,
+                      color: isDark ? Colors.white : AppColors.black,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     author,
-                    style: const TextStyle(
-                      color: Colors.brown,
+                    style: TextStyle(
+                      color: isDark ? Colors.white70 : Colors.brown,
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                     ),
@@ -101,10 +102,12 @@ class BookProfileCard extends StatelessWidget {
                     children: [
                       Text(
                         'EGP ${formatPrice(price)}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
-                          color: Color(0xFFD18B5B),
+                          color: isDark
+                              ? Colors.amber.shade300
+                              : const Color(0xFFD18B5B),
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -119,24 +122,7 @@ class BookProfileCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 2,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Color(0xFFE7F8ED),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      status,
-                      style: const TextStyle(
-                        color: Color(0xFF3CB371),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
+                  _StatusPill(status: status),
                   Spacer(),
                   IconButton(
                     icon: const Icon(
@@ -161,6 +147,44 @@ class BookProfileCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _StatusPill extends StatelessWidget {
+  final String status;
+  const _StatusPill({required this.status});
+
+  @override
+  Widget build(BuildContext context) {
+    final normalized = (status).toLowerCase();
+    Color bg;
+    Color fg;
+    switch (normalized) {
+      case 'approved':
+        bg = const Color(0xFFE7F8ED);
+        fg = const Color(0xFF1B5E20);
+        break;
+      case 'rejected':
+        bg = const Color(0xFFFFE5E5);
+        fg = const Color(0xFFD32F2F);
+        break;
+      case 'pending':
+      default:
+        bg = const Color(0xFFFFF5CC);
+        fg = const Color(0xFF8A6D00);
+        break;
+    }
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        status,
+        style: TextStyle(color: fg, fontWeight: FontWeight.bold, fontSize: 12),
       ),
     );
   }

@@ -33,6 +33,30 @@ const Map<String, String> en = {
   'favorite_genres': 'Favorite Genres',
   'transaction_history': 'Transaction History',
   'transaction_history_coming_soon': 'Transaction history coming soon...',
+  'no_orders_yet': 'No orders yet',
+  'start_exploring_buy': 'Start exploring and buy some books!',
+  'browse_books': 'Browse books',
+  'books': 'Books',
+  'orders': 'Orders',
+  'order': 'Order',
+  'pending': 'pending',
+  'paid': 'paid',
+  'unpaid': 'unpaid',
+  'save': 'Save',
+  'name': 'Name',
+  'required': 'Required',
+  'profile_updated': 'Profile updated',
+  'update_failed': 'Update failed',
+  'additional_images': 'Additional images',
+  'add_more_images': 'Add more images',
+  'select_availability': 'Please select at least one availability option',
+  'please_upload_cover': 'Please upload a cover image',
+  'please_select_location': 'Please select your location',
+  'enter_price_for_sale': 'Please enter a price for sale',
+  'cover_upload_failed': 'Failed to upload cover image',
+  'book_added_pending': 'Book added and pending approval',
+  'book_updated': 'Book updated',
+  'book_update_failed': 'Failed to update book',
   'add_book': 'Add Book',
   'book_name': 'Book Name',
   'enter_book_name': 'Enter book name',
@@ -145,7 +169,7 @@ const Map<String, String> en = {
   'start_conversation': 'Start a conversation from a book details page',
 
   // Blog
-  'add_blog': 'Add Blog Post',
+  'add_blog': 'Add Post',
   'edit_blog': 'Edit Blog Post',
   'blog_title': 'Blog Title',
   'blog_content': 'Blog Content',
@@ -201,9 +225,7 @@ const Map<String, String> en = {
   'total_payment': 'Total Payment',
   'proceed_checkout': 'Proceed to Checkout',
 
-
   //filter
-
   'filter': 'Filter',
   'select_location': 'Select Location',
   'category': 'Category',
@@ -230,8 +252,5 @@ const Map<String, String> en = {
   "enter_address": "Please enter your address",
   "note": "Note",
   "optional_note": "Write any note (optional)",
-  "proceed_order_summary": "Proceed to Order Summary"
-
-  
-  
+  "proceed_order_summary": "Proceed to Order Summary",
 };
