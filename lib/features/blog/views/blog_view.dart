@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../common/widgets/custom_bottom_navigation.dart';
-import '../../Home/home_view.dart';
 import '../controllers/blog_controller.dart';
 import '../models/blog_models.dart';
 import '../../../common/styles/colors.dart';

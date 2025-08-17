@@ -84,7 +84,6 @@ class _BookDetailsViewState extends State<BookDetailsView> {
           final isOwner =
               currentUserId != null &&
               currentUserId == controller.book.value?.ownerId;
-          ;
           if (controller.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -92,7 +91,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
+                SizedBox(
                   height: 300.h,
                   child: Stack(
                     children: [

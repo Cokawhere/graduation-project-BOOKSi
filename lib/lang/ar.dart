@@ -257,4 +257,7 @@ const Map<String, String> ar = {
   "note": "ملاحظة",
   "optional_note": "اكتب أي ملاحظة (اختياري)",
   "proceed_order_summary": "إتمام الطلب",
+
+  'phone_numbers_only': 'رقم الهاتف يجب أن يحتوي على أرقام فقط',
+  'invalid_egypt_phone': 'رقم الهاتف غير صحيح، يجب أن يكون مصري',
 };

@@ -88,7 +88,6 @@ class _ContactSellerButtonState extends State<ContactSellerButton> {
     final currentUserId = FirebaseAuth.instance.currentUser?.uid;
     final isOwner =
         currentUserId != null && currentUserId == widget.otherUserId;
-    ;
     return ElevatedButton(
       onPressed: isOwner
           ? null

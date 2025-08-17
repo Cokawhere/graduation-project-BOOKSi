@@ -10,6 +10,8 @@ import 'package:booksi/common/widgets/custom_profile_card.dart';
 import 'package:booksi/common/styles/colors.dart';
 import 'package:booksi/features/Home/home_view.dart';
 import '../../../common/widgets/custom_bottom_navigation.dart';
+import '../../../common/widgets/drawer.dart';
+import '../../Home/home_controller.dart';
 import 'add_book.dart';
 import 'edit_user.dart';
 import '../controllers/imagekit_controller.dart';
@@ -20,6 +22,8 @@ class ProfilePage extends StatelessWidget {
   final BookController bookController = Get.find<BookController>();
   final ProfileController profileController = Get.find<ProfileController>();
   final ImageKitController imageKitController = Get.find<ImageKitController>();
+    final HomeController homeController = Get.find<HomeController>();
+
 
   ProfilePage({super.key});
 
@@ -36,6 +40,12 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: false,
+        drawer: homeController.currentLocale.value.languageCode == 'ar'
+          ? null
+          : CustomDrawer(),
+      endDrawer: homeController.currentLocale.value.languageCode == 'ar'
+          ? CustomDrawer()
+          : null,
       appBar: AppBar(
         backgroundColor: isDarkTheme ? Colors.black : AppColors.white,
         elevation: isDarkTheme ? 0 : 2,
@@ -189,8 +199,7 @@ class ProfilePage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(
-                              '${'books'.tr}: ' +
-                                  bookController.userBooks.length.toString(),
+                              '${'books'.tr}: ${bookController.userBooks.length}',
                             ),
                           ),
                           const SizedBox(width: 10),
@@ -217,7 +226,7 @@ class ProfilePage extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Text(
-                                  '${'orders'.tr}: ' + count.toString(),
+                                  '${'orders'.tr}: $count',
                                 ),
                               );
                             },

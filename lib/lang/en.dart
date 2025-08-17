@@ -253,4 +253,7 @@ const Map<String, String> en = {
   "note": "Note",
   "optional_note": "Write any note (optional)",
   "proceed_order_summary": "Proceed to Order Summary",
+
+  'phone_numbers_only': 'Phone number must contain digits only',
+  'invalid_egypt_phone': 'Invalid phone number, must be an Egyptian number',
 };

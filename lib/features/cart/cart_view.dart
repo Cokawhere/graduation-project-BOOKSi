@@ -1,4 +1,3 @@
-import 'package:booksi/features/Home/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../common/styles/colors.dart';
@@ -14,11 +13,6 @@ import 'cart_controller.dart';
 class CartView extends StatelessWidget {
   final CartController cartController = Get.find<CartController>();
   final HomeController homeController = Get.find<HomeController>();
-
-  // final ShippingInfoController shippingController = Get.put(
-  //   ShippingInfoController(),
-  //   permanent: false,
-  // );
 
   CartView({super.key});
 
