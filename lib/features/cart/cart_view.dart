@@ -6,6 +6,7 @@ import '../../common/widgets/custom_bottom_navigation.dart';
 import '../../common/widgets/custom_cart_item.dart';
 import '../../common/widgets/drawer.dart';
 import '../Home/home_controller.dart';
+import '../notifications/widgets/notification_badge.dart';
 import '../shipping information/shipping-information_controller.dart';
 import '../shipping information/shipping-information_view.dart';
 import 'cart_controller.dart';
@@ -46,21 +47,22 @@ class CartView extends StatelessWidget {
             color: AppColors.brown,
           ),
         ),
-        backgroundColor: AppColors.white,
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_back, color: AppColors.brown, size: 30),
-        //   onPressed: () => Get.off(HomeView()),
-        // ),
-        // leading: Builder(
-        //   builder: (context) => IconButton(
-        //     icon: Icon(Icons.menu, size: 30, color: AppColors.brown),
-        //     onPressed: () {
-        //       homeController.currentLocale.value.languageCode == 'ar'
-        //           ? Scaffold.of(context).openEndDrawer()
-        //           : Scaffold.of(context).openDrawer();
-        //     },
-        //   ),
-        // ),
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(Icons.menu, size: 30, color: AppColors.brown),
+            onPressed: () {
+              homeController.currentLocale.value.languageCode == 'ar'
+                  ? Scaffold.of(context).openEndDrawer()
+                  : Scaffold.of(context).openDrawer();
+            },
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: NotificationBadge(),
+          ),
+        ],
       ),
       body: Obx(() {
         if (cartController.cartItems.isEmpty) {
