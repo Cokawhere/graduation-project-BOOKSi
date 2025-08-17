@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../common/widgets/drawer.dart';
 import '../auth/services/loginserv.dart';
 import '../auth/views/loginview.dart';
 import '../shop/shopview.dart';
@@ -25,9 +26,9 @@ class HomeView extends StatelessWidget {
         extendBodyBehindAppBar: false,
         drawer: controller.currentLocale.value.languageCode == 'ar'
             ? null
-            : _buildDrawer(context),
+            : CustomDrawer(),
         endDrawer: controller.currentLocale.value.languageCode == 'ar'
-            ? _buildDrawer(context)
+            ? CustomDrawer()
             : null,
 
         appBar: AppBar(
@@ -59,219 +60,219 @@ class HomeView extends StatelessWidget {
   }
 }
 
-Widget _buildDrawer(BuildContext context) {
-  final uid = FirebaseAuth.instance.currentUser?.uid;
-  final HomeController controller = Get.put(HomeController());
+// Widget _buildDrawer(BuildContext context) {
+//   final uid = FirebaseAuth.instance.currentUser?.uid;
+//   final HomeController controller = Get.put(HomeController());
 
-  return Directionality(
-    textDirection: TextDirection.ltr,
-    child: Drawer(
-      width: MediaQuery.of(context).size.width * 0.68,
-      child: Obx(
-        () => Container(
-          color: controller.isDarkMode.value
-              ? AppColors.black
-              : AppColors.white,
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              FutureBuilder<DocumentSnapshot>(
-                future: FirebaseFirestore.instance
-                    .collection("users")
-                    .doc(uid)
-                    .get(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Column(
-                      children: [
-                        SizedBox(height: 40),
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundColor: AppColors.teaMilk,
-                          child: Icon(
-                            Icons.person,
-                            color: AppColors.brown,
-                            size: 60,
-                          ),
-                        ),
-                        Text(
-                          "Hello Loading...",
-                          style: TextStyle(
-                            color: AppColors.brown,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    );
-                  }
+//   return Directionality(
+//     textDirection: TextDirection.ltr,
+//     child: Drawer(
+//       width: MediaQuery.of(context).size.width * 0.68,
+//       child: Obx(
+//         () => Container(
+//           color: controller.isDarkMode.value
+//               ? AppColors.black
+//               : AppColors.white,
+//           child: ListView(
+//             padding: EdgeInsets.zero,
+//             children: [
+//               FutureBuilder<DocumentSnapshot>(
+//                 future: FirebaseFirestore.instance
+//                     .collection("users")
+//                     .doc(uid)
+//                     .get(),
+//                 builder: (context, snapshot) {
+//                   if (snapshot.connectionState == ConnectionState.waiting) {
+//                     return Column(
+//                       children: [
+//                         SizedBox(height: 40),
+//                         CircleAvatar(
+//                           radius: 50,
+//                           backgroundColor: AppColors.teaMilk,
+//                           child: Icon(
+//                             Icons.person,
+//                             color: AppColors.brown,
+//                             size: 60,
+//                           ),
+//                         ),
+//                         Text(
+//                           "Hello Loading...",
+//                           style: TextStyle(
+//                             color: AppColors.brown,
+//                             fontWeight: FontWeight.bold,
+//                             fontSize: 18,
+//                           ),
+//                         ),
+//                       ],
+//                     );
+//                   }
 
-                  if (!snapshot.hasData || !snapshot.data!.exists) {
-                    return Column(
-                      children: [
-                        SizedBox(height: 40),
+//                   if (!snapshot.hasData || !snapshot.data!.exists) {
+//                     return Column(
+//                       children: [
+//                         SizedBox(height: 40),
 
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundColor: AppColors.teaMilk,
-                          child: Icon(
-                            Icons.person,
-                            color: AppColors.brown,
-                            size: 60,
-                          ),
-                        ),
-                        Text(
-                          "Hello No Name",
-                          style: TextStyle(
-                            color: AppColors.brown,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    );
-                  }
+//                         CircleAvatar(
+//                           radius: 50,
+//                           backgroundColor: AppColors.teaMilk,
+//                           child: Icon(
+//                             Icons.person,
+//                             color: AppColors.brown,
+//                             size: 60,
+//                           ),
+//                         ),
+//                         Text(
+//                           "Hello No Name",
+//                           style: TextStyle(
+//                             color: AppColors.brown,
+//                             fontWeight: FontWeight.bold,
+//                             fontSize: 18,
+//                           ),
+//                         ),
+//                       ],
+//                     );
+//                   }
 
-                  final userData =
-                      snapshot.data!.data() as Map<String, dynamic>;
-                  return Column(
-                    children: [
-                      SizedBox(height: 40),
-                      CircleAvatar(
-                        radius: 50,
+//                   final userData =
+//                       snapshot.data!.data() as Map<String, dynamic>;
+//                   return Column(
+//                     children: [
+//                       SizedBox(height: 40),
+//                       CircleAvatar(
+//                         radius: 50,
 
-                        backgroundColor: AppColors.teaMilk,
-                        backgroundImage:
-                            userData["photoUrl"] != null &&
-                                userData["photoUrl"] != ""
-                            ? NetworkImage(userData["photoUrl"])
-                            : null,
-                        child:
-                            userData["photoUrl"] == null ||
-                                userData["photoUrl"] == ""
-                            ? Icon(
-                                Icons.person,
-                                size: 60,
-                                color: AppColors.brown,
-                              )
-                            : null,
-                      ),
-                      SizedBox(height: 10),
+//                         backgroundColor: AppColors.teaMilk,
+//                         backgroundImage:
+//                             userData["photoUrl"] != null &&
+//                                 userData["photoUrl"] != ""
+//                             ? NetworkImage(userData["photoUrl"])
+//                             : null,
+//                         child:
+//                             userData["photoUrl"] == null ||
+//                                 userData["photoUrl"] == ""
+//                             ? Icon(
+//                                 Icons.person,
+//                                 size: 60,
+//                                 color: AppColors.brown,
+//                               )
+//                             : null,
+//                       ),
+//                       SizedBox(height: 10),
 
-                      Text(
-                        "Hello ${userData["name"] ?? "No Name"}",
-                        style: TextStyle(
-                          color: AppColors.brown,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-              SizedBox(height: 20),
-              ListTile(
-                leading: Icon(
-                  Icons.brightness_6,
-                  color: AppColors.brown,
-                  size: 25,
-                ),
-                title: Obx(
-                  () => Text(
-                    controller.isDarkMode.value ? 'Dark Theme' : 'Light Theme',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: AppColors.brown,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                trailing: Obx(
-                  () => Switch(
-                    value: controller.isDarkMode.value,
-                    onChanged: controller.toggleDarkMode,
-                    activeColor: AppColors.teaMilk,
-                    activeTrackColor: AppColors.brown,
-                    inactiveThumbColor: AppColors.background,
-                    inactiveTrackColor: AppColors.brown,
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.language, color: AppColors.brown, size: 25),
-                title: Obx(
-                  () => Text(
-                    controller.currentLocale.value.languageCode == 'ar'
-                        ? 'العربية'
-                        : 'English',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: AppColors.brown,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                trailing: Obx(
-                  () => Switch(
-                    value: controller.currentLocale.value.languageCode == 'ar',
-                    onChanged: controller.toggleLanguage,
-                    activeColor: AppColors.teaMilk,
-                    activeTrackColor: AppColors.brown,
-                    inactiveThumbColor: AppColors.background,
-                    inactiveTrackColor: AppColors.brown,
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.person, color: AppColors.brown, size: 25),
-                title: Text(
-                  'Profile',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: AppColors.brown,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                onTap: () => Get.offAll(() => ProfilePage()),
-              ),
-              ListTile(
-                leading: Icon(Icons.mail, color: AppColors.brown, size: 25),
-                title: Text(
-                  'Messages',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: AppColors.brown,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                onTap: () {
-                  Get.to(() => ChatListView(currentUserId: uid!));
-                },
-              ),
-              SizedBox(height: 50),
-              ListTile(
-                leading: Icon(Icons.logout, color: AppColors.orange, size: 25),
-                title: Text(
-                  'Logout',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: AppColors.orange,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                onTap: () async {
-                  await AuthService().signOut();
-                  Get.offAll(() => LoginView());
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    ),
-  );
-}
+//                       Text(
+//                         "Hello ${userData["name"] ?? "No Name"}",
+//                         style: TextStyle(
+//                           color: AppColors.brown,
+//                           fontWeight: FontWeight.bold,
+//                           fontSize: 18,
+//                         ),
+//                       ),
+//                     ],
+//                   );
+//                 },
+//               ),
+//               SizedBox(height: 20),
+//               ListTile(
+//                 leading: Icon(
+//                   Icons.brightness_6,
+//                   color: AppColors.brown,
+//                   size: 25,
+//                 ),
+//                 title: Obx(
+//                   () => Text(
+//                     controller.isDarkMode.value ? 'Dark Theme' : 'Light Theme',
+//                     style: TextStyle(
+//                       fontSize: 18,
+//                       color: AppColors.brown,
+//                       fontWeight: FontWeight.w600,
+//                     ),
+//                   ),
+//                 ),
+//                 trailing: Obx(
+//                   () => Switch(
+//                     value: controller.isDarkMode.value,
+//                     onChanged: controller.toggleDarkMode,
+//                     activeColor: AppColors.teaMilk,
+//                     activeTrackColor: AppColors.brown,
+//                     inactiveThumbColor: AppColors.background,
+//                     inactiveTrackColor: AppColors.brown,
+//                   ),
+//                 ),
+//               ),
+//               ListTile(
+//                 leading: Icon(Icons.language, color: AppColors.brown, size: 25),
+//                 title: Obx(
+//                   () => Text(
+//                     controller.currentLocale.value.languageCode == 'ar'
+//                         ? 'العربية'
+//                         : 'English',
+//                     style: TextStyle(
+//                       fontSize: 18,
+//                       color: AppColors.brown,
+//                       fontWeight: FontWeight.w600,
+//                     ),
+//                   ),
+//                 ),
+//                 trailing: Obx(
+//                   () => Switch(
+//                     value: controller.currentLocale.value.languageCode == 'ar',
+//                     onChanged: controller.toggleLanguage,
+//                     activeColor: AppColors.teaMilk,
+//                     activeTrackColor: AppColors.brown,
+//                     inactiveThumbColor: AppColors.background,
+//                     inactiveTrackColor: AppColors.brown,
+//                   ),
+//                 ),
+//               ),
+//               ListTile(
+//                 leading: Icon(Icons.person, color: AppColors.brown, size: 25),
+//                 title: Text(
+//                   'Profile',
+//                   style: TextStyle(
+//                     fontSize: 18,
+//                     color: AppColors.brown,
+//                     fontWeight: FontWeight.w600,
+//                   ),
+//                 ),
+//                 onTap: () => Get.offAll(() => ProfilePage()),
+//               ),
+//               ListTile(
+//                 leading: Icon(Icons.mail, color: AppColors.brown, size: 25),
+//                 title: Text(
+//                   'Messages',
+//                   style: TextStyle(
+//                     fontSize: 18,
+//                     color: AppColors.brown,
+//                     fontWeight: FontWeight.w600,
+//                   ),
+//                 ),
+//                 onTap: () {
+//                   Get.to(() => ChatListView(currentUserId: uid!));
+//                 },
+//               ),
+//               SizedBox(height: 50),
+//               ListTile(
+//                 leading: Icon(Icons.logout, color: AppColors.orange, size: 25),
+//                 title: Text(
+//                   'Logout',
+//                   style: TextStyle(
+//                     fontSize: 18,
+//                     color: AppColors.orange,
+//                     fontWeight: FontWeight.w600,
+//                   ),
+//                 ),
+//                 onTap: () async {
+//                   await AuthService().signOut();
+//                   Get.offAll(() => LoginView());
+//                 },
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     ),
+//   );
+// }
 
 class PlaceholderWidget extends StatelessWidget {
   final String label;

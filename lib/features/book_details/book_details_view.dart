@@ -271,9 +271,11 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                                 ),
                                 SizedBox(width: 5.w),
                                 Text(
-                                  controller.ownerName.value,
-                                  style: const TextStyle(
-                                    fontSize: 16,
+                                  controller.ownerName.value.length > 15
+                                      ? '${controller.ownerName.value.substring(0, 15)}...'
+                                      : controller.ownerName.value,
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -377,62 +379,67 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                     ),
                   ],
                 ),
+                SizedBox(height: 10.h),
+
                 if (!controller.isLibraryOwner())
                   Row(
                     children: [
+                      SizedBox(width: 15.w),
+
+                      const Icon(
+                        Icons.location_on,
+
+                        color: AppColors.brown,
+                        size: 24,
+                      ),
+                      SizedBox(width: 5.w),
+
                       Expanded(
-                        child: ListTile(
-                          contentPadding: EdgeInsets.symmetric(
-                            horizontal: 10.r,
-                          ),
-                          leading: const Icon(
-                            Icons.location_on,
-                            color: AppColors.brown,
-                          ),
-                          title: Text(
-                            'location'.tr,
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          trailing: Text(
-                            controller.book.value!.location,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                        child: Text(
+                          'location'.tr,
+                          style: const TextStyle(fontSize: 20),
                         ),
                       ),
-                      SizedBox(width: 80.w),
+                      Text(
+                        ': ${controller.book.value!.location}',
+                        style: TextStyle(
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(width: 170.w),
                     ],
                   ),
+                SizedBox(height: 5.h),
+
                 Row(
                   children: [
+                    SizedBox(width: 15.w),
+
+                    const Icon(
+                      Icons.info_outline,
+                      color: AppColors.brown,
+                      size: 24,
+                    ),
+                    SizedBox(width: 5.w),
+
                     Expanded(
-                      child: ListTile(
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 5.r,
-                          vertical: 0,
-                        ),
-                        leading: const Icon(
-                          Icons.info_outline,
-                          color: AppColors.brown,
-                        ),
-                        title: Text(
-                          'condition'.tr,
-                          style: TextStyle(fontSize: 18),
-                        ),
-                        trailing: Text(
-                          controller.book.value!.condition,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      child: Text(
+                        'condition'.tr,
+                        style: const TextStyle(fontSize: 20),
                       ),
                     ),
-                    SizedBox(width: 80.w),
+                    Text(
+                      ': ${controller.book.value!.condition}',
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(width: 170.w),
                   ],
                 ),
+                SizedBox(height: 10.h),
 
                 _buildSection(
                   'you_might_also_like'.tr,

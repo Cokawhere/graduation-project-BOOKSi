@@ -6,7 +6,6 @@ import 'package:booksi/features/profile/services/profile_service.dart';
 import 'package:booksi/features/notifications/services/notification_service.dart';
 import 'package:get/utils.dart';
 
-import '../../book_details/book_details_conroller.dart';
 import '../controllers/chat_controller.dart';
 import '../services/chat_service.dart';
 import '../views/chat_detail_view.dart';

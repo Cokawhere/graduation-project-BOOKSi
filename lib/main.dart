@@ -57,8 +57,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isDark = GetStorage().read('isDarkMode') ?? false;
-    print("Screen width: ${MediaQuery.of(context).size.width}");
-    print("Screen height: ${MediaQuery.of(context).size.height}");
     return ScreenUtilInit(
       designSize: const Size(384, 856),
       minTextAdapt: true,
@@ -105,7 +103,7 @@ class MyApp extends StatelessWidget {
           translations: AppTranslations(),
           locale: GetStorage().read('lang') != null
               ? Locale(GetStorage().read('lang'))
-              : const Locale('en'),
+              : Get.deviceLocale,
           fallbackLocale: const Locale('en', 'US'),
           debugShowCheckedModeBanner: false,
           home: const SplashView(),

@@ -73,7 +73,7 @@ const Map<String, String> ar = {
   "fiction": "خيال",
   "fantasy": "فانتازيا",
   "science_fiction": "خيال علمي",
-  "mystery_thriller": "غموض وتشويق",
+  "mystery_&_thriller": "غموض وتشويق",
   "romance": "رومانسية",
   "historical": "تاريخي",
   "young_adult": "شبابي",
@@ -216,7 +216,7 @@ const Map<String, String> ar = {
   'rating_3_0_3_5': '٣.٠ - ٣.٥',
   'rating_2_5_3_0': '٢.٥ - ٣.٠',
   'reset': 'إعادة ضبط',
-  
+
   //shipping information
   "shipping_info": "معلومات الشحن",
   "your_name": "اسمك",
@@ -232,5 +232,5 @@ const Map<String, String> ar = {
   "enter_address": "من فضلك أدخل العنوان",
   "note": "ملاحظة",
   "optional_note": "اكتب أي ملاحظة (اختياري)",
-  "proceed_order_summary": "إتمام الطلب"
+  "proceed_order_summary": "إتمام الطلب",
 };

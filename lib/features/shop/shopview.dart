@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../common/widgets/custom-book-cart.dart';
 import '../../common/styles/colors.dart';
@@ -31,12 +32,12 @@ class ShopView extends StatelessWidget {
 
         return Column(
           children: [
-            const SizedBox(height: 5),
+             SizedBox(height: 5.h),
             _buildSearchBar(context),
             Expanded(
               child: hasFilters
                   ? GridView.builder(
-                      padding: const EdgeInsets.all(6),
+                      padding:  EdgeInsets.all(6.r),
                       itemCount: controller.filteredBooks.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
@@ -68,26 +69,26 @@ class ShopView extends StatelessWidget {
                       ),
                     )
                   : ListView(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding:  EdgeInsets.symmetric(horizontal: 10.r),
                       children: [
-                        const SizedBox(height: 10),
+                        SizedBox(height: 10.h),
                         _buildSection(
                           "best_selling".tr,
                           controller.bestSellingBooks,
                         ),
-                        const SizedBox(height: 10),
+                         SizedBox(height: 10.h),
                         _buildCategoriesSection(),
-                        const SizedBox(height: 10),
+                         SizedBox(height: 10.h),
                         _buildSection(
                           "new_arrivals".tr,
                           controller.newArrivalBooks,
                         ),
-                        const SizedBox(height: 10),
+                       SizedBox(height: 10.h),
                         _buildSectionallbooks(
                           "all_books".tr,
                           controller.allBooks,
                         ),
-                        const SizedBox(height: 80),
+                        SizedBox(height: 80.h),
                       ],
                     ),
             ),
@@ -105,7 +106,7 @@ class ShopView extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 5),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
-          borderRadius: BorderRadius.circular(40),
+          borderRadius: BorderRadius.circular(40.r),
         ),
         child: Row(
           children: [
@@ -132,13 +133,12 @@ class ShopView extends StatelessWidget {
               }),
             ),
             IconButton(
-              icon: const Icon(Icons.tune, color: AppColors.brown, size: 27),
+              icon:  Icon(Icons.tune, color: AppColors.brown, size: 27.sp),
               onPressed: () async {
                 final result = await Get.to(
                   () => FilterView(),
                   arguments: controller.currentFilters,
                 );
-                print("FilterView returned result: $result");
                 controller.applyFilters(result);
                 if (result == null) {
                   controller.searchQuery.value = '';
@@ -149,7 +149,6 @@ class ShopView extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.clear, color: AppColors.brown, size: 27),
               onPressed: () {
-                print("Clear button pressed");
                 controller.applyFilters(null);
                 controller.searchQuery.value = '';
                 _searchController.clear();
@@ -171,7 +170,7 @@ class ShopView extends StatelessWidget {
           children: [
             Text(
               title,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style:  TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
             ),
             // GestureDetector(
             //   onTap: () {
@@ -188,9 +187,9 @@ class ShopView extends StatelessWidget {
             // ),
           ],
         ),
-        SizedBox(height: 11),
+        SizedBox(height: 11.h),
         SizedBox(
-          height: 270,
+          height: 270.h,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: books.length,
@@ -241,9 +240,9 @@ class ShopView extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 11),
+        SizedBox(height: 11.h),
         SizedBox(
-          height: 270,
+          height: 270.h,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: books.length,
@@ -309,7 +308,7 @@ class ShopView extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 12),
+         SizedBox(height: 12.h),
         SizedBox(
           height: 95,
           child: ListView.builder(
@@ -338,11 +337,11 @@ class ShopView extends StatelessWidget {
                   );
                 },
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding:  EdgeInsets.symmetric(horizontal: 10.r),
                   child: Column(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(14),
+                        padding:  EdgeInsets.all(14.r),
                         decoration: BoxDecoration(
                           color: AppColors.teaMilk.withOpacity(0.2),
                           shape: BoxShape.circle,
@@ -353,13 +352,13 @@ class ShopView extends StatelessWidget {
                           size: 35,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                       SizedBox(height: 4.h),
                       Text(
                         genre.tr,
                         style: const TextStyle(fontSize: 12),
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 7),
+                       SizedBox(height: 7.h),
                     ],
                   ),
                 ),

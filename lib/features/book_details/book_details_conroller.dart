@@ -146,16 +146,39 @@ class BookDetailsController extends GetxController {
 
     bool hasPurchased = await checkIfUserPurchasedBook();
     if (hasPurchased) {
-      _showReviewDialog(context, bookId);
     } else {
       Get.snackbar(
         "Not Allowed",
         "You must purchase this book before writing a review",
       );
     }
+
+    bool alreadyReviewed = await hasUserReviewedBook();
+    if (alreadyReviewed) {
+      Get.snackbar("Not Allowed", "You have already reviewed this book");
+      return;
+    }
+
+    _showReviewDialog(context, bookId);
   }
 
-  
+  Future<bool> hasUserReviewedBook() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return false;
+
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('reviews')
+          .where('targetId', isEqualTo: bookId)
+          .where('reviewerId', isEqualTo: user.uid)
+          .get();
+
+      return querySnapshot.docs.isNotEmpty;
+    } catch (e) {
+      print("Error checking if user reviewed book: $e");
+      return false;
+    }
+  }
 
   void _showReviewDialog(BuildContext context, String bookId) {
     selectedRating.value = 0;

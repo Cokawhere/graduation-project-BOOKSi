@@ -4,12 +4,16 @@ import 'package:get/get.dart';
 import '../../common/styles/colors.dart';
 import '../../common/widgets/custom_bottom_navigation.dart';
 import '../../common/widgets/custom_cart_item.dart';
+import '../../common/widgets/drawer.dart';
+import '../Home/home_controller.dart';
 import '../shipping information/shipping-information_controller.dart';
 import '../shipping information/shipping-information_view.dart';
 import 'cart_controller.dart';
 
 class CartView extends StatelessWidget {
   final CartController cartController = Get.find<CartController>();
+  final HomeController homeController = Get.find<HomeController>();
+
   // final ShippingInfoController shippingController = Get.put(
   //   ShippingInfoController(),
   //   permanent: false,
@@ -22,6 +26,13 @@ class CartView extends StatelessWidget {
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: false,
+      drawer: homeController.currentLocale.value.languageCode == 'ar'
+          ? null
+          : CustomDrawer(),
+      endDrawer: homeController.currentLocale.value.languageCode == 'ar'
+          ? CustomDrawer()
+          : null,
+
       appBar: AppBar(
         toolbarHeight: 70,
 
@@ -32,14 +43,24 @@ class CartView extends StatelessWidget {
           style: TextStyle(
             fontSize: 26,
             fontWeight: FontWeight.bold,
-            color: AppColors.white,
+            color: AppColors.brown,
           ),
         ),
-        backgroundColor: AppColors.brown,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.white, size: 30),
-          onPressed: () => Get.off(HomeView()),
-        ),
+        backgroundColor: AppColors.white,
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back, color: AppColors.brown, size: 30),
+        //   onPressed: () => Get.off(HomeView()),
+        // ),
+        // leading: Builder(
+        //   builder: (context) => IconButton(
+        //     icon: Icon(Icons.menu, size: 30, color: AppColors.brown),
+        //     onPressed: () {
+        //       homeController.currentLocale.value.languageCode == 'ar'
+        //           ? Scaffold.of(context).openEndDrawer()
+        //           : Scaffold.of(context).openDrawer();
+        //     },
+        //   ),
+        // ),
       ),
       body: Obx(() {
         if (cartController.cartItems.isEmpty) {
@@ -62,7 +83,7 @@ class CartView extends StatelessWidget {
                   ),
                 ),
                 Text(
-                'add_book_start'.tr,
+                  'add_book_start'.tr,
                   style: TextStyle(
                     fontSize: 18,
                     color: Color.fromARGB(255, 223, 170, 145),
@@ -113,7 +134,7 @@ class CartView extends StatelessWidget {
                       Expanded(
                         child: TextField(
                           decoration: InputDecoration(
-                            hintText:   'promo_code'.tr,
+                            hintText: 'promo_code'.tr,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
                               borderSide: BorderSide(
@@ -172,10 +193,7 @@ class CartView extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                         Text(
-                         'order_amount'.tr,
-                          style: TextStyle(fontSize: 16),
-                        ),
+                        Text('order_amount'.tr, style: TextStyle(fontSize: 16)),
                         Obx(() {
                           double total = cartController.cartItems.fold(
                             0,
@@ -201,7 +219,7 @@ class CartView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                           'total_payment'.tr,
+                          'total_payment'.tr,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -249,7 +267,7 @@ class CartView extends StatelessWidget {
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 15),
                     ),
-                    child:Text(
+                    child: Text(
                       'proceed_checkout'.tr,
                       style: TextStyle(fontSize: 18),
                     ),

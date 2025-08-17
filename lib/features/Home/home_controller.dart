@@ -1,11 +1,14 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class HomeController extends GetxController {
   var selectedIndex = 0.obs;
-  var currentLocale = Locale(GetStorage().read('lang') ?? 'en').obs;
+  var currentLocale =
+      (GetStorage().read('lang') != null
+              ? Locale(GetStorage().read('lang'))
+              : Get.deviceLocale ?? const Locale('en', 'US'))
+          .obs;
   var isDarkMode = false.obs;
   final _storage = GetStorage();
   final String darkModeKey = 'isDarkMode';
@@ -16,11 +19,11 @@ class HomeController extends GetxController {
     final locale = isArabic
         ? const Locale('ar', 'EG')
         : const Locale('en', 'US');
+
     currentLocale.value = locale;
     Get.updateLocale(locale);
+
     GetStorage().write('lang', locale.languageCode);
-    
-    print("Language changed to ${locale.languageCode}");
   }
 
   @override

@@ -47,7 +47,7 @@ class OrderSummaryView extends StatelessWidget {
           children: [
             Row(
               children: [
-                 Text(
+                Text(
                   'address'.tr,
                   style: TextStyle(
                     fontSize: 25,
@@ -75,7 +75,9 @@ class OrderSummaryView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        shippingInfo['name'] ?? 'not_available'.tr,
+                        (shippingInfo['name'] ?? 'not_available'.tr).length > 20
+                            ? '${(shippingInfo['name'] ?? 'not_available'.tr).substring(0, 20)}...'
+                            : (shippingInfo['name'] ?? 'not_available'.tr),
                         style: const TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
@@ -88,7 +90,7 @@ class OrderSummaryView extends StatelessWidget {
                       ),
                       SizedBox(height: 5),
                       Text(
-                        shippingInfo['phone'] ??'not_available'.tr,
+                        shippingInfo['phone'] ?? 'not_available'.tr,
                         style: TextStyle(
                           fontSize: 20,
                           color: const Color.fromARGB(255, 35, 30, 138),

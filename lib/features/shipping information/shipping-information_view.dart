@@ -7,6 +7,7 @@ import 'shipping-information_controller.dart';
 
 class ShippingInfoView extends StatelessWidget {
   final ShippingInfoController controller = Get.find<ShippingInfoController>();
+  final egyptPhoneRegExp = RegExp(r'^(010|011|012|015)[0-9]{8}$');
 
   ShippingInfoView({super.key});
 
@@ -81,13 +82,11 @@ class ShippingInfoView extends StatelessWidget {
                         controller: controller.phoneController,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(vertical: 20),
-
                           labelText: 'phone'.tr,
                           labelStyle: TextStyle(
                             fontSize: 18,
                             color: Colors.grey,
                           ),
-
                           hintText: '',
                           border: UnderlineInputBorder(),
                           enabledBorder: UnderlineInputBorder(
@@ -106,9 +105,20 @@ class ShippingInfoView extends StatelessWidget {
                           ),
                         ),
                         keyboardType: TextInputType.phone,
-                        validator: (value) =>
-                            value!.isEmpty ? 'enter_phone'.tr : null,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'enter_phone'.tr;
+                          } else if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                            return 'phone_numbers_only'.tr;
+                          } else if (!RegExp(
+                            r'^(010|011|012|015)[0-9]{8}$',
+                          ).hasMatch(value)) {
+                            return 'invalid_egypt_phone'.tr;
+                          }
+                          return null;
+                        },
                       ),
+
                       SizedBox(height: 15),
 
                       Row(

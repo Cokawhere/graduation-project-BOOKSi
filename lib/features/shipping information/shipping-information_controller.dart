@@ -151,7 +151,7 @@ class ShippingInfoController extends GetxController {
 
   void updateGovernment(String value) {
     selectedGovernment.value = value;
-    selectedCity.value = ''; // Reset city when government changes
+    selectedCity.value = ''; 
   }
 
   Map<String, dynamic> getShippingInfo() {

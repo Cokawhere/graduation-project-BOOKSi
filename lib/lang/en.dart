@@ -69,7 +69,7 @@ const Map<String, String> en = {
   "fiction": "Fiction",
   "fantasy": "Fantasy",
   "science_fiction": "Science Fiction",
-  "mystery_thriller": "Mystery & Thriller",
+  "mystery_&_thriller": "Mystery & Thriller",
   "romance": "Romance",
   "historical": "Historical",
   "young_adult": "Young Adult",
@@ -201,9 +201,7 @@ const Map<String, String> en = {
   'total_payment': 'Total Payment',
   'proceed_checkout': 'Proceed to Checkout',
 
-
   //filter
-
   'filter': 'Filter',
   'select_location': 'Select Location',
   'category': 'Category',
@@ -230,8 +228,5 @@ const Map<String, String> en = {
   "enter_address": "Please enter your address",
   "note": "Note",
   "optional_note": "Write any note (optional)",
-  "proceed_order_summary": "Proceed to Order Summary"
-
-  
-  
+  "proceed_order_summary": "Proceed to Order Summary",
 };
