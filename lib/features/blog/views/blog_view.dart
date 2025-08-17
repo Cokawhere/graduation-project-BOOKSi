@@ -15,41 +15,64 @@ class BlogView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDarkTheme = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: false,
       appBar: AppBar(
         toolbarHeight: 70,
+        automaticallyImplyLeading: false,
+        backgroundColor: isDarkTheme ? Colors.black : AppColors.white,
+        elevation: isDarkTheme ? 0 : 2,
+        centerTitle: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
+        ),
+        title: Text(
+          'blog'.tr,
+          style: TextStyle(
+            color: isDarkTheme ? Colors.white : AppColors.brown,
+            fontSize: 22,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
         actions: [
-          TextButton(
-            onPressed: controller.isLoading.value
-                ? null
-                : () => Get.to(() => AddBlogView()),
-            child: Text(
-              'add_blog'.tr,
-              style: TextStyle(
-                color: AppColors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: OutlinedButton.icon(
+              onPressed: controller.isLoading.value
+                  ? null
+                  : () => Get.to(() => AddBlogView()),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: isDarkTheme ? Colors.white : AppColors.brown,
+                side: BorderSide(
+                  color: isDarkTheme ? Colors.white : AppColors.brown,
+                  width: 1.5,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              icon: Icon(
+                Icons.add,
+                size: 18,
+                color: isDarkTheme ? Colors.white : AppColors.brown,
+              ),
+              label: Text(
+                'add_blog'.tr,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: isDarkTheme ? Colors.white : AppColors.brown,
+                ),
               ),
             ),
           ),
         ],
-        backgroundColor: AppColors.brown,
-        title: Text(
-          'blog'.tr,
-          style: TextStyle(
-            color: AppColors.white,
-            fontSize: 27,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.white, size: 30),
-          onPressed: () => Get.off(HomeView()),
-        ),
-        centerTitle: true,
-        elevation: 0,
       ),
 
       body: Obx(() {
@@ -145,7 +168,7 @@ class BlogPostCard extends StatelessWidget {
     return Card(
       color: Theme.of(context).colorScheme.surface,
       margin: const EdgeInsets.only(bottom: 16),
-      elevation: 2,
+      elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         onTap: onTap,
@@ -158,26 +181,46 @@ class BlogPostCard extends StatelessWidget {
               // User info
               Row(
                 children: [
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundImage: post.userPhotoUrl.isNotEmpty
-                        ? NetworkImage(post.userPhotoUrl)
-                        : null,
-                    child: post.userPhotoUrl.isEmpty
-                        ? const Icon(Icons.person, color: AppColors.white)
-                        : null,
-                  ),
+                  Obx(() {
+                    final photoUrl = controller.getUserPhotoUrl(post.userId);
+                    final hasPhoto = (photoUrl != null && photoUrl.isNotEmpty);
+                    return Container(
+                      width: 42,
+                      height: 42,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white24
+                              : AppColors.teaMilk,
+                          width: 2,
+                        ),
+                      ),
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundImage: hasPhoto
+                            ? NetworkImage(photoUrl)
+                            : null,
+                        child: !hasPhoto
+                            ? const Icon(Icons.person, color: AppColors.white)
+                            : null,
+                      ),
+                    );
+                  }),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          post.userName,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary,
+                        Obx(
+                          () => Text(
+                            controller.getUserName(post.userId),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         Text(
@@ -304,40 +347,39 @@ class BlogPostCard extends StatelessWidget {
                 return Text(
                   post.content,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 15,
                     color: Theme.of(context).colorScheme.primary,
-                    height: 1.4,
+                    height: 1.5,
+                    fontWeight: FontWeight.w500,
                   ),
-                  maxLines: 3,
+                  maxLines: 4,
                   overflow: TextOverflow.ellipsis,
                 );
               }),
 
               // Image if exists
-              if (post.imageURL != null) ...[
+              if (post.imageURL != null && post.imageURL!.isNotEmpty) ...[
                 const SizedBox(height: 12),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    post.imageURL!,
-                    width: double.infinity,
-                    height: 200,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        width: double.infinity,
-                        height: 200,
-                        decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Image.network(
+                      post.imageURL!,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          width: double.infinity,
                           color: AppColors.olive,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Icon(
-                          Icons.image_not_supported,
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 50,
-                        ),
-                      );
-                    },
+                          child: Icon(
+                            Icons.image_not_supported,
+                            color: Theme.of(context).colorScheme.primary,
+                            size: 50,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ],
@@ -347,21 +389,22 @@ class BlogPostCard extends StatelessWidget {
               // Action buttons
               Row(
                 children: [
-                  Obx(
-                    () => _buildActionButton(
-                      icon: controller.isLikedByUser(post.postId)
-                          ? Icons.favorite
-                          : Icons.favorite_border,
+                  Obx(() {
+                    final liked = controller.isLikedByUser(post.postId);
+                    return _buildModernAction(
+                      context: context,
+                      icon: liked ? Icons.favorite : Icons.favorite_border,
                       label: '${controller.getLikeCount(post.postId)}',
-                      color: controller.isLikedByUser(post.postId)
+                      color: liked
                           ? Colors.red
                           : Theme.of(context).colorScheme.primary,
                       onTap: () => controller.toggleLike(post.postId),
-                    ),
-                  ),
-                  const SizedBox(width: 24),
+                    );
+                  }),
+                  const SizedBox(width: 12),
                   Obx(
-                    () => _buildActionButton(
+                    () => _buildModernAction(
+                      context: context,
                       icon: Icons.comment_outlined,
                       label: '${controller.getCommentCount(post.postId)}',
                       color: Theme.of(context).colorScheme.primary,
@@ -377,28 +420,35 @@ class BlogPostCard extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButton({
+  Widget _buildModernAction({
+    required BuildContext context,
     required IconData icon,
     required String label,
     required Color color,
     required VoidCallback onTap,
   }) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+    final Color bg = isDark ? Colors.white10 : Colors.black.withOpacity(0.05);
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(20),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+          color: bg,
+          borderRadius: BorderRadius.circular(20),
+        ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 18, color: color),
-            const SizedBox(width: 4),
+            Icon(icon, size: 16, color: color),
+            const SizedBox(width: 6),
             Text(
               label,
               style: TextStyle(
                 fontSize: 12,
                 color: color,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ],

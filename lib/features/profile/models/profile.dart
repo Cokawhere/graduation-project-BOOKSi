@@ -173,6 +173,7 @@ class Book {
   final String coverImage;
   final List<String> images;
   final String? location;
+  final int? quantity;
   final DateTime createdAt;
   final DateTime updatedAt;
   final double? price;
@@ -197,6 +198,7 @@ class Book {
     required this.coverImage,
     required this.images,
     this.location,
+    required this.quantity,
     required this.createdAt,
     required this.updatedAt,
     this.price,
@@ -223,6 +225,7 @@ class Book {
       coverImage: map['coverImage'],
       images: List<String>.from(map['images']),
       location: map['location'],
+      quantity: map['quantity'],
       createdAt: (map['createdAt'] as Timestamp).toDate(),
       updatedAt: (map['updatedAt'] as Timestamp).toDate(),
       price: map['price']?.toDouble(),
@@ -250,6 +253,7 @@ class Book {
       'coverImage': coverImage,
       'images': images,
       'location': location,
+      'quantity': quantity,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
       'price': price,
@@ -276,6 +280,7 @@ class Book {
     String? coverImage,
     List<String>? images,
     String? location,
+    int? quantity,
     DateTime? createdAt,
     DateTime? updatedAt,
     double? price,
@@ -300,6 +305,7 @@ class Book {
       coverImage: coverImage ?? this.coverImage,
       images: images ?? this.images,
       location: location ?? this.location,
+      quantity: quantity ?? this.quantity,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       price: price ?? this.price,

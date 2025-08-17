@@ -137,7 +137,7 @@ class ChatService {
     final query = _firestore
         .collection(chatsCollection)
         .where('participants', arrayContains: userId)
-        .orderBy('updatedAt', descending: true);
+        .orderBy('lastTimestamp', descending: true);
 
     return query.snapshots().asyncMap((snapshot) async {
       final Map<String, ChatPreview> bestByPair = {};
