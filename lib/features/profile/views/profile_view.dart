@@ -48,7 +48,7 @@ class ProfilePage extends StatelessWidget {
           : null,
       appBar: AppBar(
         backgroundColor: isDarkTheme ? Colors.black : AppColors.white,
-        elevation: isDarkTheme ? 0 : 2,
+        elevation: isDarkTheme ? 0 : 0,
         centerTitle: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
@@ -84,7 +84,6 @@ class ProfilePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // User Info (vertical, centered)
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.all(media.size.width * 0.045),

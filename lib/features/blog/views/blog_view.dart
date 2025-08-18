@@ -1,3 +1,4 @@
+import 'package:booksi/features/notifications/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../common/widgets/custom_bottom_navigation.dart';
@@ -22,11 +23,17 @@ class BlogView extends StatelessWidget {
         toolbarHeight: 70,
         automaticallyImplyLeading: false,
         backgroundColor: isDarkTheme ? Colors.black : AppColors.white,
-        elevation: isDarkTheme ? 0 : 2,
+        elevation: isDarkTheme ? 0 : 0,
         centerTitle: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: NotificationBadge(),
+          ),
+        ],
         title: Text(
           'blog'.tr,
           style: TextStyle(
@@ -35,43 +42,6 @@ class BlogView extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: OutlinedButton.icon(
-              onPressed: controller.isLoading.value
-                  ? null
-                  : () => Get.to(() => AddBlogView()),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: isDarkTheme ? Colors.white : AppColors.brown,
-                side: BorderSide(
-                  color: isDarkTheme ? Colors.white : AppColors.brown,
-                  width: 1.5,
-                ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              icon: Icon(
-                Icons.add,
-                size: 18,
-                color: isDarkTheme ? Colors.white : AppColors.brown,
-              ),
-              label: Text(
-                'add_blog'.tr,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: isDarkTheme ? Colors.white : AppColors.brown,
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
 
       body: Obx(() {
@@ -145,6 +115,18 @@ class BlogView extends StatelessWidget {
           ),
         );
       }),
+      floatingActionButton: Obx(
+        () => FloatingActionButton(
+          onPressed: controller.isLoading.value
+              ? null
+              : () => Get.to(() => AddBlogView()),
+          backgroundColor: AppColors.brown,
+          shape: const CircleBorder(),
+          tooltip: 'add_blog'.tr,
+          child: const Icon(Icons.add, color: Colors.white),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
