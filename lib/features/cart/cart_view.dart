@@ -131,12 +131,23 @@ class CartView extends StatelessWidget {
                         child: TextField(
                           decoration: InputDecoration(
                             hintText: 'promo_code'.tr,
-                            border: OutlineInputBorder(
+                            hintStyle: TextStyle(color: AppColors.black),
+                            enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
                               borderSide: BorderSide(
-                                color: const Color.fromARGB(239, 220, 9, 9),
-                                width: 5.0,
+                                color: AppColors.black,
+                                width: 1,
                               ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(
+                                color: AppColors.black,
+                                width: 1,
+                              ),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
                             ),
                           ),
                         ),

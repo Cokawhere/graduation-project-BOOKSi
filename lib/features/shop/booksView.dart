@@ -13,51 +13,55 @@ class BooksView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 70,
-        backgroundColor: AppColors.brown,
-        elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 14),
-          child: IconButton(
-            icon: Icon(Icons.arrow_back_ios, color: AppColors.white, size: 30),
-            onPressed: () => Get.back(),
+    return SafeArea(
+      top: false,
+      bottom: true,
+      child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 70,
+          backgroundColor: AppColors.white,
+          elevation: 0,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 14),
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_ios, color: AppColors.brown, size: 30),
+              onPressed: () => Get.back(),
+            ),
           ),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 27,
-            fontWeight: FontWeight.bold,
-            color: AppColors.white,
+          title: Text(
+            title,
+            style: const TextStyle(
+              fontSize: 27,
+              fontWeight: FontWeight.bold,
+              color: AppColors.white,
+            ),
           ),
+          centerTitle: true,
         ),
-        centerTitle: true,
-      ),
-      body: GridView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        itemCount: books.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 7,
-          childAspectRatio: 0.65,
+        body: GridView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          itemCount: books.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 7,
+            childAspectRatio: 0.65,
+          ),
+          itemBuilder: (context, index) {
+            final book = books[index];
+            return BookCard(
+              id: book.id,
+              imageUrl: book.coverImage,
+              title: book.title,
+              author: book.author,
+              price: book.price.toString(),
+              index: index,
+              ownerId: book.ownerId,
+              averageRating: book.averageRating,
+              availableFor: book.availableFor,
+            );
+          },
         ),
-        itemBuilder: (context, index) {
-          final book = books[index];
-          return BookCard(
-            id: book.id,
-            imageUrl: book.coverImage,
-            title: book.title,
-            author: book.author,
-            price: book.price.toString(),
-            index: index,
-            ownerId: book.ownerId,
-            averageRating: book.averageRating,
-            availableFor: book.availableFor,
-          );
-        },
       ),
     );
   }

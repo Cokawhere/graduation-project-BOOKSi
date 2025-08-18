@@ -81,7 +81,7 @@ class MyApp extends StatelessWidget {
               elevation: 0,
             ),
             colorScheme: ColorScheme.light(
-              surface: const Color.fromARGB(255, 242, 240, 236),
+              surface:  Color.fromARGB(255, 242, 240, 236),
               primary: AppColors.dark,
               secondary: AppColors.background,
             ),

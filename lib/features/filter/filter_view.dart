@@ -43,7 +43,11 @@ class FilterView extends StatelessWidget {
           children: [
             Text(
               "location".tr,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: AppColors.black,
+              ),
             ),
             const SizedBox(height: 8),
 
@@ -90,7 +94,7 @@ class FilterView extends StatelessWidget {
                       width: 0,
                     ),
                   ),
-                  hintText:  'select_location'.tr,
+                  hintText: 'select_location'.tr,
                   hintStyle: const TextStyle(
                     color: Color.fromARGB(0, 214, 5, 5),
                   ),
@@ -102,7 +106,7 @@ class FilterView extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-             Text(
+            Text(
               "category".tr,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
@@ -204,7 +208,7 @@ class FilterView extends StatelessWidget {
             }),
             const SizedBox(height: 2),
 
-             Text(
+            Text(
               "rating".tr,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
             ),
@@ -213,7 +217,7 @@ class FilterView extends StatelessWidget {
                 children:
                     [
                       {"label": 'rating_4_5_above'.tr, "stars": 4.5},
-                      {"label":  'rating_4_0_4_5'.tr, "stars": 4.0},
+                      {"label": 'rating_4_0_4_5'.tr, "stars": 4.0},
                       {"label": 'rating_3_5_4_0'.tr, "stars": 3.5},
                       {"label": 'rating_3_0_3_5'.tr, "stars": 3.0},
                       {"label": 'rating_2_5_3_0'.tr, "stars": 2.5},
@@ -260,7 +264,7 @@ class FilterView extends StatelessWidget {
             }),
             const SizedBox(height: 16),
 
-             Text(
+            Text(
               "condition".tr,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
@@ -321,7 +325,7 @@ class FilterView extends StatelessWidget {
             ),
             const SizedBox(height: 16),
 
-             Text(
+            Text(
               'available_for'.tr,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),

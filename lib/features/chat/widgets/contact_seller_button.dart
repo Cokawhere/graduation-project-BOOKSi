@@ -114,7 +114,7 @@ class _ContactSellerButtonState extends State<ContactSellerButton> {
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: AppColors.white,
+                color: AppColors.black,
               ),
             ),
     );

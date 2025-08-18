@@ -14,6 +14,7 @@ class BookDetailsModel {
   final String location;
   final String ownerRole;
   final String ownerId;
+  final int quantity;  
 
   BookDetailsModel({
     required this.id,
@@ -31,6 +32,7 @@ class BookDetailsModel {
     required this.availableFor,
     required this.location,
     required this.ownerRole,
+    required this.quantity,  
   });
 
   factory BookDetailsModel.fromMap(Map<String, dynamic> map, String role) {
@@ -50,6 +52,7 @@ class BookDetailsModel {
       availableFor: List<String>.from(map['availableFor'] ?? []),
       location: map['location'] ?? '',
       ownerRole: role,
+      quantity: map['quantity'] ?? 0,  
     );
   }
 }

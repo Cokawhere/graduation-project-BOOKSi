@@ -7,15 +7,21 @@ class ShopServices {
         .collection('books')
         .where('approval', isEqualTo: 'approved')
         .where('isDeleted', isEqualTo: false)
+        .where('quantity', isGreaterThanOrEqualTo: 1)
         .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) {
-              try {
-                return Book.fromMap(doc.data());
-              } catch (e) {
-                print("Error parsing book: $e");
-                return null;
-              }
-            }).whereType<Book>().toList());
+        .map(
+          (snapshot) => snapshot.docs
+              .map((doc) {
+                try {
+                  return Book.fromMap(doc.data());
+                } catch (e) {
+                  print("Error parsing book: $e");
+                  return null;
+                }
+              })
+              .whereType<Book>()
+              .toList(),
+        );
   }
 
   static Stream<List<Book>> getBestSellingBooksStream() {
@@ -23,17 +29,23 @@ class ShopServices {
         .collection('books')
         .where('approval', isEqualTo: 'approved')
         .where('isDeleted', isEqualTo: false)
+        .where('quantity', isGreaterThanOrEqualTo: 1)
         .orderBy('totalRatings', descending: true)
         .limit(10)
         .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) {
-              try {
-                return Book.fromMap(doc.data());
-              } catch (e) {
-                print("Error parsing best seller: $e");
-                return null;
-              }
-            }).whereType<Book>().toList());
+        .map(
+          (snapshot) => snapshot.docs
+              .map((doc) {
+                try {
+                  return Book.fromMap(doc.data());
+                } catch (e) {
+                  print("Error parsing best seller: $e");
+                  return null;
+                }
+              })
+              .whereType<Book>()
+              .toList(),
+        );
   }
 
   static Stream<List<Book>> getNewArrivalBooksStream() {
@@ -41,17 +53,22 @@ class ShopServices {
         .collection('books')
         .where('approval', isEqualTo: 'approved')
         .where('isDeleted', isEqualTo: false)
+        .where('quantity', isGreaterThanOrEqualTo: 1)
         .orderBy('createdAt', descending: true)
         .limit(10)
         .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) {
-              try {
-                return Book.fromMap(doc.data());
-              } catch (e) {
-                print("Error parsing new arrival: $e");
-                return null;
-              }
-            }).whereType<Book>().toList());
+        .map(
+          (snapshot) => snapshot.docs
+              .map((doc) {
+                try {
+                  return Book.fromMap(doc.data());
+                } catch (e) {
+                  print("Error parsing new arrival: $e");
+                  return null;
+                }
+              })
+              .whereType<Book>()
+              .toList(),
+        );
   }
-  
 }

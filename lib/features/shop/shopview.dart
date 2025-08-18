@@ -18,84 +18,88 @@ class ShopView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      extendBodyBehindAppBar: false,
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        bool isSearchingOrFiltering =
-            controller.searchQuery.value.isNotEmpty ||
-            controller.currentFilters.isNotEmpty;
-        bool hasFilters = controller.filteredBooks.isNotEmpty;
+    return SafeArea(
+      top: false,
+      bottom: true,
+      child: Scaffold(
+        extendBody: true,
+        extendBodyBehindAppBar: false,
+        body: Obx(() {
+          if (controller.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          bool isSearchingOrFiltering =
+              controller.searchQuery.value.isNotEmpty ||
+              controller.currentFilters.isNotEmpty;
+          bool hasFilters = controller.filteredBooks.isNotEmpty;
 
-        return Column(
-          children: [
-             SizedBox(height: 5.h),
-            _buildSearchBar(context),
-            Expanded(
-              child: hasFilters
-                  ? GridView.builder(
-                      padding:  EdgeInsets.all(6.r),
-                      itemCount: controller.filteredBooks.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 1,
-                            crossAxisSpacing: 1,
-                            childAspectRatio: 0.65,
+          return Column(
+            children: [
+               SizedBox(height: 5.h),
+              _buildSearchBar(context),
+              Expanded(
+                child: hasFilters
+                    ? GridView.builder(
+                        padding:  EdgeInsets.all(6.r),
+                        itemCount: controller.filteredBooks.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 1,
+                              crossAxisSpacing: 1,
+                              childAspectRatio: 0.65,
+                            ),
+                        itemBuilder: (context, index) {
+                          final book = controller.filteredBooks[index];
+                          return BookCard(
+                            id: book.id,
+                            imageUrl: book.coverImage,
+                            title: book.title,
+                            author: book.author,
+                            price: book.price.toString(),
+                            index: index,
+                            ownerId: book.ownerId,
+                            averageRating: book.averageRating,
+                            availableFor: book.availableFor,
+                          );
+                        },
+                      )
+                    : isSearchingOrFiltering
+                    ? Center(
+                        child: Text(
+                          "No results found",
+                          style: TextStyle(fontSize: 20, color: AppColors.brown),
+                        ),
+                      )
+                    : ListView(
+                        padding:  EdgeInsets.symmetric(horizontal: 10.r),
+                        children: [
+                          SizedBox(height: 10.h),
+                          _buildSection(
+                            "best_selling".tr,
+                            controller.bestSellingBooks,
                           ),
-                      itemBuilder: (context, index) {
-                        final book = controller.filteredBooks[index];
-                        return BookCard(
-                          id: book.id,
-                          imageUrl: book.coverImage,
-                          title: book.title,
-                          author: book.author,
-                          price: book.price.toString(),
-                          index: index,
-                          ownerId: book.ownerId,
-                          averageRating: book.averageRating,
-                          availableFor: book.availableFor,
-                        );
-                      },
-                    )
-                  : isSearchingOrFiltering
-                  ? Center(
-                      child: Text(
-                        "No results found",
-                        style: TextStyle(fontSize: 20, color: AppColors.brown),
+                           SizedBox(height: 10.h),
+                          _buildCategoriesSection(),
+                           SizedBox(height: 10.h),
+                          _buildSection(
+                            "new_arrivals".tr,
+                            controller.newArrivalBooks,
+                          ),
+                         SizedBox(height: 10.h),
+                          _buildSectionallbooks(
+                            "all_books".tr,
+                            controller.allBooks,
+                          ),
+                          SizedBox(height: 80.h),
+                        ],
                       ),
-                    )
-                  : ListView(
-                      padding:  EdgeInsets.symmetric(horizontal: 10.r),
-                      children: [
-                        SizedBox(height: 10.h),
-                        _buildSection(
-                          "best_selling".tr,
-                          controller.bestSellingBooks,
-                        ),
-                         SizedBox(height: 10.h),
-                        _buildCategoriesSection(),
-                         SizedBox(height: 10.h),
-                        _buildSection(
-                          "new_arrivals".tr,
-                          controller.newArrivalBooks,
-                        ),
-                       SizedBox(height: 10.h),
-                        _buildSectionallbooks(
-                          "all_books".tr,
-                          controller.allBooks,
-                        ),
-                        SizedBox(height: 80.h),
-                      ],
-                    ),
-            ),
-          ],
-        );
-      }),
-      bottomNavigationBar: CustomBottomNavigationBar(),
+              ),
+            ],
+          );
+        }),
+        bottomNavigationBar: CustomBottomNavigationBar(),
+      ),
     );
   }
 
@@ -297,7 +301,7 @@ class ShopView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          padding:  EdgeInsets.symmetric(horizontal: 8.0.r),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -310,7 +314,7 @@ class ShopView extends StatelessWidget {
         ),
          SizedBox(height: 12.h),
         SizedBox(
-          height: 95,
+          height: 95.h,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: genreOptions.length,

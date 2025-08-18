@@ -276,6 +276,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                                   style: TextStyle(
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600,
+                                    color: AppColors.black,
                                   ),
                                 ),
                               ],
@@ -406,7 +407,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(width: 170.w),
+                      SizedBox(width: 120.w),
                     ],
                   ),
                 SizedBox(height: 5.h),

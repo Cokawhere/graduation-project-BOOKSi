@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../shop/book_model.dart';
 import 'book_details_model.dart';
 
+
 class BookDetailsService {
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   static Future<BookDetailsModel> getBookDetailsById(String id) async {
@@ -29,6 +30,7 @@ class BookDetailsService {
         .where('approval', isEqualTo: 'approved')
         .where('genre', isEqualTo: genre)
         .where('isDeleted', isEqualTo: false)
+        .where('quantity', isGreaterThanOrEqualTo: 1)
         .limit(10)
         .get();
     return querySnapshot.docs.map((doc) => Book.fromMap(doc.data())).toList();
