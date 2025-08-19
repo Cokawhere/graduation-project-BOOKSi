@@ -2,6 +2,8 @@ import 'package:booksi/features/notifications/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../common/widgets/custom_bottom_navigation.dart';
+import '../../../common/widgets/drawer.dart';
+import '../../Home/home_controller.dart';
 import '../controllers/blog_controller.dart';
 import '../models/blog_models.dart';
 import '../../../common/styles/colors.dart';
@@ -12,122 +14,143 @@ class BlogView extends StatelessWidget {
   BlogView({super.key});
 
   final BlogController controller = Get.put(BlogController());
+  final HomeController homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
     final bool isDarkTheme = Theme.of(context).brightness == Brightness.dark;
-    return Scaffold(
-      extendBody: true,
-      extendBodyBehindAppBar: false,
-      appBar: AppBar(
-        toolbarHeight: 70,
-        automaticallyImplyLeading: false,
-        backgroundColor: isDarkTheme ? Colors.black : AppColors.white,
-        elevation: isDarkTheme ? 0 : 0,
-        centerTitle: true,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: NotificationBadge(),
+    return SafeArea(
+      top: false,
+      bottom: true,
+      child: Scaffold(
+        extendBody: true,
+        extendBodyBehindAppBar: false,
+        drawer: homeController.currentLocale.value.languageCode == 'ar'
+            ? null
+            : CustomDrawer(),
+        endDrawer: homeController.currentLocale.value.languageCode == 'ar'
+            ? CustomDrawer()
+            : null,
+        appBar: AppBar(
+          toolbarHeight: 70,
+          automaticallyImplyLeading: false,
+          backgroundColor: isDarkTheme ? Colors.black : AppColors.white,
+          elevation: isDarkTheme ? 0 : 0,
+          centerTitle: true,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
           ),
-        ],
-        title: Text(
-          'blog'.tr,
-          style: TextStyle(
-            color: isDarkTheme ? Colors.white : AppColors.brown,
-            fontSize: 22,
-            fontWeight: FontWeight.w700,
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.menu, size: 30, color: AppColors.brown),
+              onPressed: () {
+                homeController.currentLocale.value.languageCode == 'ar'
+                    ? Scaffold.of(context).openEndDrawer()
+                    : Scaffold.of(context).openDrawer();
+              },
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: NotificationBadge(),
+            ),
+          ],
+          title: Text(
+            'blog'.tr,
+            style: TextStyle(
+              color: isDarkTheme ? Colors.white : AppColors.brown,
+              fontSize: 26,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
-      ),
 
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(color: AppColors.brown),
-                SizedBox(height: 16),
-                Text(
-                  'loading_posts'.tr,
-                  style: TextStyle(
-                    fontSize: 16,
+        body: Obx(() {
+          if (controller.isLoading.value) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(color: AppColors.brown),
+                  SizedBox(height: 16),
+                  Text(
+                    'loading_posts'.tr,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          if (controller.posts.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.article_outlined,
+                    size: 80,
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                ),
-              ],
-            ),
-          );
-        }
-
-        if (controller.posts.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.article_outlined,
-                  size: 80,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                SizedBox(height: 16),
-                Text(
-                  'no_posts_yet'.tr,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: AppColors.dark,
-                    fontWeight: FontWeight.w500,
+                  SizedBox(height: 16),
+                  Text(
+                    'no_posts_yet'.tr,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: AppColors.dark,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'be_first_to_share'.tr,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Theme.of(context).colorScheme.primary,
+                  SizedBox(height: 8),
+                  Text(
+                    'be_first_to_share'.tr,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          );
-        }
+                ],
+              ),
+            );
+          }
 
-        return RefreshIndicator(
-          onRefresh: () async {
-            controller.loadPosts();
-          },
-          child: ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: controller.posts.length,
-            itemBuilder: (context, index) {
-              final post = controller.posts[index];
-              return BlogPostCard(
-                post: post,
-                controller: controller,
-                onTap: () => Get.to(() => BlogDetailsView(post: post)),
-              );
+          return RefreshIndicator(
+            onRefresh: () async {
+              controller.loadPosts();
             },
+            child: ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: controller.posts.length,
+              itemBuilder: (context, index) {
+                final post = controller.posts[index];
+                return BlogPostCard(
+                  post: post,
+                  controller: controller,
+                  onTap: () => Get.to(() => BlogDetailsView(post: post)),
+                );
+              },
+            ),
+          );
+        }),
+        floatingActionButton: Obx(
+          () => FloatingActionButton(
+            onPressed: controller.isLoading.value
+                ? null
+                : () => Get.to(() => AddBlogView()),
+            backgroundColor: AppColors.brown,
+            shape: const CircleBorder(),
+            tooltip: 'add_blog'.tr,
+            child: const Icon(Icons.add, color: Colors.white),
           ),
-        );
-      }),
-      floatingActionButton: Obx(
-        () => FloatingActionButton(
-          onPressed: controller.isLoading.value
-              ? null
-              : () => Get.to(() => AddBlogView()),
-          backgroundColor: AppColors.brown,
-          shape: const CircleBorder(),
-          tooltip: 'add_blog'.tr,
-          child: const Icon(Icons.add, color: Colors.white),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        bottomNavigationBar: CustomBottomNavigationBar(),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }

@@ -26,37 +26,6 @@ class SplashView extends StatelessWidget {
 
               Image.asset('assets/images/logo.png', width: 250, height: 250),
 
-              // Text(
-              //   'iBOOK°',
-              //   style: TextStyle(
-              //     color: AppColors.orange,
-              //     shadows: [
-              //       Shadow(
-              //         blurRadius: 7,
-              //         color: AppColors.black,
-              //         offset: Offset(2, 2),
-              //       ),
-              //     ],
-              //     fontSize: 65,
-              //     fontWeight: FontWeight.bold,
-              //     letterSpacing: 1.5,
-              //   ),
-              // ),
-              // Text(
-              //   'splash_subtitle'.tr,
-              //   style: TextStyle(
-              //     color: const Color.fromARGB(255, 255, 251, 248),
-              //     shadows: [
-              //       Shadow(
-              //         blurRadius: 4,
-              //         color: const Color.fromARGB(255, 229, 119, 8),
-              //         offset: Offset(2, 2),
-              //       ),
-              //     ],
-              //     fontSize: 22,
-              //     fontWeight: FontWeight.w900,
-              //   ),
-              // ),
               const SizedBox(height: 180),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -77,23 +46,40 @@ class SplashView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  backgroundColor: AppColors.brown,
-
-                  minimumSize: const Size(330, 55),
-                  side: BorderSide(color: AppColors.white),
-                  shape: RoundedRectangleBorder(
+              Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color.fromARGB(255, 245, 118, 59),
+                        AppColors.white,
+                        Color.fromARGB(255, 245, 118, 59),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                ),
-                onPressed: () => Get.to(() => LoginView()),
-                child: Text(
-                  'sign_in'.tr,
-                  style: TextStyle(
-                    color: AppColors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(0, 177, 116, 87),
+                      shadowColor: Colors.transparent,
+
+                      minimumSize: const Size(330, 55),
+                      side: BorderSide(color: AppColors.white),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () => Get.to(() => LoginView()),
+                    child: Text(
+                      'sign_in'.tr,
+                      style: TextStyle(
+                        color: AppColors.black,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ),

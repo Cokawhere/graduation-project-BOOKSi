@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import '../../../common/styles/colors.dart';
 import '../controllers/logincontroller.dart';
 import '../controllers/sighupcontroller.dart';
@@ -8,166 +10,232 @@ import 'sighup.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
-
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(LoginController());
     final controlle = Get.put(SignupController());
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color.fromARGB(255, 245, 118, 59),
+            AppColors.white,
+            Color.fromARGB(255, 245, 118, 59),
+          ],
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        resizeToAvoidBottomInset: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leadingWidth: 100.w,
+          leading: GestureDetector(
+            onTap: () => Get.back(),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 15),
+                SizedBox(width: 15.w),
 
-    return Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [AppColors.white, AppColors.white, AppColors.white],
+                Icon(Icons.arrow_back_ios, color: Colors.black),
+                SizedBox(width: 1.w),
+                Text(
+                  "Back",
+                  style: TextStyle(color: Colors.black, fontSize: 23.sp),
                 ),
-              ),
+              ],
             ),
           ),
-
-          Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.70,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(188, 43, 39, 39),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: SingleChildScrollView(
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Center(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "iBOOk",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
+                    SizedBox(height: 134.h),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 100.w,
+                      height: MediaQuery.of(context).size.height * 0.75.h,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 40,
                       ),
-                    ),
-
-                    Text(
-                      'login_title'.tr,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 34,
-                        fontWeight: FontWeight.w600,
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(30),
                       ),
-                    ),
-                    Text(
-                      'login_subtitle'.tr,
-                      style: TextStyle(color: Colors.white70, fontSize: 14),
-                    ),
-                    const SizedBox(height: 30),
-                    _buildInputField(
-                      hint: 'email'.tr,
-                      icon: Icons.email_outlined,
-                      controller: controller.emailController,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildInputField(
-                      hint: 'password'.tr,
-                      icon: Icons.lock_outline,
-                      isPassword: true,
-                      controller: controller.passwordController,
-                    ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image.asset('assets/images/logo.png', height: 60),
 
-                    const SizedBox(height: 20),
-
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.teaMilk,
-                        minimumSize: Size(double.infinity, 50),
-
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      onPressed: controller.signInWithEmail,
-                      child: Text(
-                        'sign_in'.tr,
-                        style: TextStyle(
-                          color: AppColors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Divider(
-                            color: Color.fromARGB(202, 255, 255, 255),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          child: Text(
-                            'or_continue_with'.tr,
-                            style: TextStyle(
-                              color: const Color.fromARGB(255, 255, 255, 255),
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
+                            Text(
+                              'login_title'.tr,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 34,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Divider(
-                            color: const Color.fromARGB(202, 255, 255, 255),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        _socialButton('assets/images/SVG.svg', () {
-                          controller.signInWithGoogle();
-                        }),
-                        const SizedBox(width: 70),
-                        _socialButton('assets/images/face.svg', () {
-                          controlle.signInWithFacebook();
-                        }),
-                      ],
-                    ),
-
-                    const SizedBox(height: 30),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'signup_subtitle'.tr,
-                          style: TextStyle(
-                            color: const Color.fromARGB(255, 255, 255, 255),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () => Get.to(SignupView()),
-                          child: const Text(
-                            "Sign up",
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontWeight: FontWeight.bold,
+                            Text(
+                              'login_subtitle'.tr,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                              ),
                             ),
-                          ),
+                            const SizedBox(height: 30),
+                            _buildInputField(
+                              hint: 'email'.tr,
+                              icon: Icons.email_outlined,
+                              controller: controller.emailController,
+                            ),
+                            const SizedBox(height: 16),
+                            _buildInputField(
+                              hint: 'password'.tr,
+                              icon: Icons.lock_outline,
+                              isPassword: true,
+                              controller: controller.passwordController,
+                            ),
+
+                            const SizedBox(height: 20),
+
+                            Center(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      Color.fromARGB(255, 245, 118, 59),
+                                      AppColors.white,
+                                      Color.fromARGB(255, 245, 118, 59),
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color.fromARGB(
+                                      0,
+                                      196,
+                                      164,
+                                      132,
+                                    ),
+                                    shadowColor: Colors.transparent,
+                                    minimumSize: Size(double.infinity, 50),
+
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  onPressed: controller.signInWithEmail,
+                                  child: Text(
+                                    'sign_in'.tr,
+                                    style: TextStyle(
+                                      color: AppColors.black,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Divider(color: AppColors.black),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  child: Text(
+                                    'or_continue_with'.tr,
+                                    style: TextStyle(
+                                      color: AppColors.black,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Divider(color: AppColors.black),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                _socialButton('assets/images/SVG.svg', () {
+                                  controller.signInWithGoogle();
+                                }),
+                              ],
+                            ),
+
+                            const SizedBox(height: 30),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'signup_subtitle'.tr,
+                                  style: TextStyle(color: AppColors.black),
+                                ),
+                                GestureDetector(
+                                  onTap: () => Get.to(SignupView()),
+                                  child: const Text(
+                                    "Sign up",
+                                    style: TextStyle(
+                                      color: AppColors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
               ),
-            ),
+              // Obx(
+              //   () => controller.isLoading.value
+              //       ? Container(
+              //           color: Colors.black.withOpacity(0.5),
+              //           child: Column(
+              //             mainAxisSize: MainAxisSize.min,
+              //             children: [
+              //               Lottie.asset(
+              //                 'assets/animations/loading_animation.json',
+              //                 width: 200,
+              //                 height: 200,
+              //                 fit: BoxFit.contain,
+              //               ),
+              //               Text(
+              //                 'loading'.tr,
+              //                 style: TextStyle(
+              //                   color: Colors.white,
+              //                   fontSize: 16,
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         )
+              //       : SizedBox.shrink(),
+              // ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -181,15 +249,15 @@ class LoginView extends StatelessWidget {
     return TextField(
       controller: controller,
       obscureText: isPassword,
-      style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255)),
+      style: TextStyle(color: AppColors.black),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: TextStyle(color: const Color.fromARGB(233, 255, 255, 255)),
-        prefixIcon: Icon(icon, color: const Color.fromARGB(249, 255, 255, 255)),
+        hintStyle: TextStyle(color: AppColors.black),
+        prefixIcon: Icon(icon, color: AppColors.black),
         filled: true,
         fillColor: Colors.transparent,
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.background),
+          borderSide: BorderSide(color: AppColors.black),
           borderRadius: BorderRadius.circular(12),
         ),
         focusedBorder: OutlineInputBorder(
@@ -206,7 +274,7 @@ class LoginView extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
         decoration: BoxDecoration(
-          border: Border.all(color: AppColors.background),
+          border: Border.all(color: AppColors.black),
           borderRadius: BorderRadius.circular(12),
         ),
         child: SvgPicture.asset(assetPath, width: 40, height: 40),

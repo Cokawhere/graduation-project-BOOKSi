@@ -77,8 +77,27 @@ class OrderSummaryController extends GetxController {
           };
 
           await _firestore.collection('orders').doc(orderId).set(orderSchema);
+
+          for (var item in cartController.cartItems) {
+            final bookId = item['bookId'];
+            final purchasedQuantity = item['quantity'];
+            final bookDoc = await _firestore
+                .collection('books')
+                .doc(bookId)
+                .get();
+            if (bookDoc.exists) {
+              final currentQuantity = bookDoc.data()?['quantity'] ?? 0;
+              final newQuantity = currentQuantity - purchasedQuantity;
+              await _firestore.collection('books').doc(bookId).update({
+                'quantity': newQuantity >= 0
+                    ? newQuantity
+                    : 0, 
+              });
+            }
+          }
           Get.offAll(PaymentSuccessView());
-          Get.snackbar("Success", "Payment completed successfully!");
+          Get.snackbar("", "Payment completed successfully!");
+          Get.delete<ShippingInfoController>();
 
           for (var item in cartController.cartItems) {
             final bookDoc = await _firestore
@@ -100,10 +119,8 @@ class OrderSummaryController extends GetxController {
 
             await cartController.removeFromCart(item['bookId']);
           }
-
-          Get.delete<ShippingInfoController>();
         } else {
-          Get.snackbar("Error", "Payment failed: ${response.message}");
+          Get.snackbar("", "Payment failed please try again");
         }
       },
     );

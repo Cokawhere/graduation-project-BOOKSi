@@ -28,7 +28,7 @@ class ShopController extends GetxController {
       } else {
         filteredBooks.clear();
       }
-      filteredBooks.refresh(); 
+      filteredBooks.refresh();
       if (searchQuery.value.isNotEmpty) {
         filterBooks(searchQuery.value);
       }
@@ -81,7 +81,7 @@ class ShopController extends GetxController {
   }
 
   List<Book> _applyFilterLogic(List<Book> books, Map<String, dynamic> filters) {
-    List<Book> temp = books;
+    List<Book> temp = books.where((b) => b.quantity >= 1).toList();
 
     if ((filters['governorate'] ?? '').isNotEmpty) {
       temp = temp.where((b) => b.location == filters['governorate']).toList();

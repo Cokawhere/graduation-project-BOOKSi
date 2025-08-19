@@ -24,7 +24,11 @@ class BooksView extends StatelessWidget {
           leading: Padding(
             padding: const EdgeInsets.only(left: 14),
             child: IconButton(
-              icon: Icon(Icons.arrow_back_ios, color: AppColors.brown, size: 30),
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: AppColors.brown,
+                size: 30,
+              ),
               onPressed: () => Get.back(),
             ),
           ),
@@ -33,7 +37,7 @@ class BooksView extends StatelessWidget {
             style: const TextStyle(
               fontSize: 27,
               fontWeight: FontWeight.bold,
-              color: AppColors.white,
+              color: AppColors.brown,
             ),
           ),
           centerTitle: true,

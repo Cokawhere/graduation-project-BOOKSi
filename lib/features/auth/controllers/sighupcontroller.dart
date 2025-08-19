@@ -20,7 +20,7 @@ class SignupController extends GetxController {
 
     if (email.isEmpty || password.isEmpty || name.isEmpty) {
       Get.snackbar(
-        "Error",
+        "",
         "Please fill all fields",
         snackPosition: SnackPosition.TOP,
       );

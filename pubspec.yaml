@@ -57,6 +57,7 @@ dependencies:
   flutter_paymob:
   flutter_dotenv:
   flutter_screenutil:
+  lottie:
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +81,7 @@ flutter:
   assets:
     - assets/images/
     - .env
+    - assets/animations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

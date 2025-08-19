@@ -436,7 +436,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: 170.w),
+                    SizedBox(width: 120.w),
                   ],
                 ),
                 SizedBox(height: 10.h),

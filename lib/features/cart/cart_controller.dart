@@ -1,13 +1,12 @@
 import 'dart:ui';
-
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../../common/styles/colors.dart';
 
 class CartController extends GetxController {
   final RxList<Map<String, dynamic>> cartItems = <Map<String, dynamic>>[].obs;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   void onInit() {
@@ -50,11 +49,22 @@ class CartController extends GetxController {
     }
 
     try {
+      final bookDoc = await _firestore.collection('books').doc(bookId).get();
+      if (!bookDoc.exists) {
+        Get.snackbar("", "Book not found");
+        return;
+      }
+      final availableQuantity = bookDoc.data()?['quantity'] ?? 0;
+      if (availableQuantity < quantity) {
+        Get.snackbar("", "Not enough stock available for this book");
+        return;
+      }
+
       final isBookInCart = cartItems.any((item) => item['bookId'] == bookId);
 
       if (isBookInCart) {
         Get.snackbar(
-          "Info",
+          "",
           "Book already in cart!",
           snackPosition: SnackPosition.TOP,
           backgroundColor: const Color.fromARGB(156, 255, 255, 255),
@@ -82,17 +92,16 @@ class CartController extends GetxController {
       await fetchCartItems();
 
       Get.snackbar(
-        "Success",
+        "",
         "Book added to cart successfully!",
         snackPosition: SnackPosition.TOP,
         backgroundColor: const Color.fromARGB(156, 255, 255, 255),
         colorText: AppColors.black,
       );
     } catch (e) {
-      print("Error adding to cart: $e");
       Get.snackbar(
-        "Error",
-        "Failed to add book to cart: $e",
+        "",
+        "Failed to add book to cart",
         snackPosition: SnackPosition.TOP,
         backgroundColor: const Color.fromARGB(156, 255, 255, 255),
         colorText: AppColors.black,
@@ -100,10 +109,34 @@ class CartController extends GetxController {
     }
   }
 
+  Future<int> getAvailableBookQuantity(String bookId) async {
+    try {
+      final bookDoc = await _firestore.collection('books').doc(bookId).get();
+      if (bookDoc.exists) {
+        return bookDoc.data()?['quantity'] ?? 0;
+      }
+      return 0;
+    } catch (e) {
+      return 0;
+    }
+  }
+
   Future<void> updateQuantity(String bookId, int newQuantity) async {
     final userId = FirebaseAuth.instance.currentUser?.uid;
     if (userId != null) {
       try {
+        final availableQuantity = await getAvailableBookQuantity(bookId);
+        if (newQuantity > availableQuantity) {
+          Get.snackbar(
+            "",
+            "Cannot increase quantity. Only $availableQuantity available in stock.",
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: const Color.fromARGB(156, 255, 255, 255),
+            colorText: AppColors.black,
+          );
+          return;
+        }
+
         await FirebaseFirestore.instance
             .collection('users')
             .doc(userId)
@@ -113,6 +146,13 @@ class CartController extends GetxController {
         await fetchCartItems();
       } catch (e) {
         print("Error updating quantity: $e");
+        Get.snackbar(
+          "Error",
+          "Failed to update quantity: $e",
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: const Color.fromARGB(156, 255, 255, 255),
+          colorText: AppColors.black,
+        );
       }
     }
   }
@@ -128,13 +168,6 @@ class CartController extends GetxController {
             .doc(bookId)
             .delete();
         await fetchCartItems();
-        // Get.snackbar(
-        //   "",
-        //   "Book removed from cart!",
-        //   snackPosition: SnackPosition.TOP,
-        //   backgroundColor: const Color.fromARGB(156, 255, 255, 255),
-        //   colorText: AppColors.black,
-        // );
       } catch (e) {
         print("Error removing from cart: $e");
         Get.snackbar(
@@ -147,9 +180,6 @@ class CartController extends GetxController {
       }
     }
   }
-
-
-  
 
   int getQuantity(String bookId) {
     final item = cartItems.firstWhere(

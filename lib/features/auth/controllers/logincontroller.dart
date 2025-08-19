@@ -17,7 +17,7 @@ class LoginController extends GetxController {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
     } catch (e) {
-      Get.snackbar("Error", e.toString());
+      Get.snackbar("", e.toString());
     }
   }
 
@@ -32,7 +32,7 @@ class LoginController extends GetxController {
     final password = passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      Get.snackbar("error".tr, "please_enter_email_and_password".tr, snackPosition: SnackPosition.TOP);
+      Get.snackbar("", "please_enter_email_and_password".tr, snackPosition: SnackPosition.TOP);
       return;
     }
 
@@ -41,7 +41,7 @@ class LoginController extends GetxController {
       final user = await _authService.signInWithEmail(email, password);
       if (user != null) Get.offAll(() => HomeView());
     } catch (error) {
-      Get.snackbar("login_failed".tr, error.toString(), snackPosition: SnackPosition.TOP);
+      Get.snackbar("login_failed".tr, '', snackPosition: SnackPosition.TOP);
     } finally {
       isLoading.value = false;
     }
@@ -53,26 +53,26 @@ class LoginController extends GetxController {
       final user = await _authService.signInWithGoogle("");
       if (user != null) Get.offAll(() => HomeView());
     } catch (error) {
-      Get.snackbar("google_sign_in_failed".tr, error.toString(), snackPosition: SnackPosition.TOP);
+      Get.snackbar("google_sign_in_failed".tr,'', snackPosition: SnackPosition.TOP);
     } finally {
       isLoading.value = false;
     }
   }
 
-void signInWithFacebook() async {
-  print("Facebook button pressed!"); 
-  isLoading.value = true;
-  try {
-    final user = await _authService.signInWithFacebook("");
-    print("Facebook login returned: $user"); 
-    if (user != null) Get.offAll(() => HomeView());
-  } catch (error) {
-    print("Facebook error: $error");
-    Get.snackbar("facebook_sign_in_failed".tr, error.toString(), snackPosition: SnackPosition.TOP);
-  } finally {
-    isLoading.value = false;
-  }
-}
+// void signInWithFacebook() async {
+//   print("Facebook button pressed!"); 
+//   isLoading.value = true;
+//   try {
+//     final user = await _authService.signInWithFacebook("");
+//     print("Facebook login returned: $user"); 
+//     if (user != null) Get.offAll(() => HomeView());
+//   } catch (error) {
+//     print("Facebook error: $error");
+//     Get.snackbar("facebook_sign_in_failed".tr, error.toString(), snackPosition: SnackPosition.TOP);
+//   } finally {
+//     isLoading.value = false;
+//   }
+// }
 
   @override
   void onClose() {

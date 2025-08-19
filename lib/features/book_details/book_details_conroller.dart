@@ -53,7 +53,7 @@ class BookDetailsController extends GetxController {
       await fetchReviews();
       update();
     } catch (e) {
-      Get.snackbar("Error", "Failed to load book details: $e");
+      Get.snackbar("", "Failed to load book details");
     } finally {
       isLoading.value = false;
       print("Loading complete");
@@ -145,17 +145,14 @@ class BookDetailsController extends GetxController {
     }
 
     bool hasPurchased = await checkIfUserPurchasedBook();
-    if (hasPurchased) {
-    } else {
-      Get.snackbar(
-        "Not Allowed",
-        "You must purchase this book before writing a review",
-      );
+    if (!hasPurchased) {
+      Get.snackbar("", "You must purchase this book before writing a review");
+      return;
     }
 
     bool alreadyReviewed = await hasUserReviewedBook();
     if (alreadyReviewed) {
-      Get.snackbar("Not Allowed", "You have already reviewed this book");
+      Get.snackbar("", "You have already reviewed this book");
       return;
     }
 
