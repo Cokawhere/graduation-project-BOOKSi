@@ -10,7 +10,7 @@ class NotificationListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(NotificationController());
+    final controller = Get.find<NotificationController>();
 
     // Mark notifications as read when the view is opened
     WidgetsBinding.instance.addPostFrameCallback((_) {

@@ -9,7 +9,9 @@ class NotificationBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<NotificationController>();
+    final controller = Get.isRegistered<NotificationController>()
+        ? Get.find<NotificationController>()
+        : Get.put(NotificationController(), permanent: true);
 
     return Obx(() {
       final unreadCount = controller.unreadCount.value;

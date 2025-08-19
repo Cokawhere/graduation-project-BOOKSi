@@ -4,6 +4,7 @@ import 'package:booksi/common/styles/colors.dart';
 import 'chat_detail_view.dart';
 import 'package:booksi/features/profile/services/profile_service.dart';
 import 'package:booksi/features/profile/models/profile.dart';
+import 'package:booksi/features/chat_bot/chat_bot_view.dart';
 import '../chat_models.dart';
 import '../controllers/chat_controller.dart';
 import '../services/chat_service.dart';
@@ -88,13 +89,26 @@ class _ChatListViewState extends State<ChatListView> {
 
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: AppColors.background,
         leading: const BackButton(),
         title: Text(
           'chat'.tr,
           style: TextStyle(color: primaryText, fontWeight: FontWeight.w700),
         ),
         centerTitle: false,
+        actions: [
+          IconButton(
+            tooltip: 'Chat Bot',
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) =>
+                      ChatBotView(currentUserId: widget.currentUserId),
+                ),
+              );
+            },
+            icon: Icon(Icons.smart_toy_outlined, color: primaryText),
+          ),
+        ],
       ),
       body: chats.isEmpty
           ? Center(

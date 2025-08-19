@@ -119,7 +119,7 @@ class NotificationService {
     await batch.commit();
   }
 
-  // Create book sold notification (called when a book is sold)
+  // Create book sold notification 
   Future<void> createBookSoldNotification({
     required String sellerId,
     required String bookTitle,
@@ -134,7 +134,7 @@ class NotificationService {
     );
   }
 
-  // Create book request notification (called when user contacts seller)
+  // Create book request notification
   Future<void> createBookRequestNotification({
     required String userId,
     required String bookTitle,
@@ -150,7 +150,7 @@ class NotificationService {
     );
   }
 
-  // Create book approved notification (called from admin dashboard)
+  // Create book approved notification
   Future<void> createBookApprovedNotification({
     required String userId,
     required String bookTitle,
@@ -166,7 +166,7 @@ class NotificationService {
     );
   }
 
-  // Create book rejected notification (called from admin dashboard)
+  // Create book rejected notification
   Future<void> createBookRejectedNotification({
     required String userId,
     required String bookTitle,
@@ -186,7 +186,7 @@ class NotificationService {
     );
   }
 
-  // Test notification method (for testing purposes)
+  // Test notification method
   Future<void> createTestNotification({
     required String userId,
     required String message,
