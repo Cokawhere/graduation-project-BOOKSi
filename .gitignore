@@ -11,6 +11,7 @@
 .svn/
 .swiftpm/
 .env
+firebase.json
 migrate_working_dir/
 
 # IntelliJ related

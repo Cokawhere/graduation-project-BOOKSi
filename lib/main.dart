@@ -32,11 +32,10 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await FlutterPaymob.instance.initialize(
-    apiKey:
-        'ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SmpiR0Z6Y3lJNklrMWxjbU5vWVc1MElpd2ljSEp2Wm1sc1pWOXdheUk2TVRBMk5Ua3lNeXdpYm1GdFpTSTZJbWx1YVhScFlXd2lmUS5XYW1oWm8zWjNEQy1kaFozOExHNnZoOVJXWENNbzdYY0U2NDRzZUoxZzN6OF9tZXBJS1lBUnF6Y2tKTmYzZldVaFBUNHdvU0IxSC1qVUJ5Tjk5QjR0Zw==',
-    integrationID: 5226437,
-    walletIntegrationId: 654321,
-    iFrameID: 946372,
+    apiKey: dotenv.env['PAYMOB_API_KEY'] ?? '',
+    integrationID: int.parse(dotenv.env['PAYMOB_INTEGRATION_ID'] ?? '0'),
+    walletIntegrationId: int.parse(dotenv.env['PAYMOB_WALLET_INTEGRATION_ID'] ?? '0'),
+    iFrameID: int.parse(dotenv.env['PAYMOB_IFRAME_ID'] ?? '0'),
   );
 
   await GetStorage.init();
