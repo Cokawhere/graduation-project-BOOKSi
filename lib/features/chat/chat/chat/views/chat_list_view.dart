@@ -7,7 +7,6 @@ import 'package:booksi/features/profile/models/profile.dart';
 import '../chat_models.dart';
 import '../controllers/chat_controller.dart';
 import '../services/chat_service.dart';
-import 'package:booksi/features/chat_bot/chat_bot_view.dart';
 
 class ChatListView extends StatefulWidget {
   const ChatListView({super.key, required this.currentUserId, this.onOpenChat});
@@ -98,20 +97,6 @@ class _ChatListViewState extends State<ChatListView> {
           style: TextStyle(color: primaryText, fontWeight: FontWeight.w700),
         ),
         centerTitle: false,
-        actions: [
-          IconButton(
-            tooltip: 'IBook AI',
-            icon: Icon(Icons.smart_toy_outlined, color: primaryText),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) =>
-                      ChatBotView(currentUserId: widget.currentUserId),
-                ),
-              );
-            },
-          ),
-        ],
       ),
       body: chats.isEmpty
           ? Center(

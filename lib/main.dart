@@ -9,6 +9,8 @@ import 'package:flutter_paymob/flutter_paymob.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'features/chat_bot/chat_bot_view.dart';
 import 'features/Home/home_controller.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'features/auth/controllers/logincontroller.dart';
@@ -43,7 +45,7 @@ void main() async {
   Get.lazyPut(() => ImageKitController(), fenix: true);
   Get.lazyPut(() => BlogController(), fenix: true);
   Get.lazyPut(() => ChatController(service: ChatService()), fenix: true);
-  Get.lazyPut(() => NotificationController(), fenix: true);
+  Get.put(NotificationController(), permanent: true);
   Get.put(LoginController());
   Get.put(CartController());
   Get.put(HomeController());
@@ -70,6 +72,13 @@ class MyApp extends StatelessWidget {
                 return BookDetailsView(bookId: bookId);
               },
             ),
+            GetPage(
+              name: '/chat-bot',
+              page: () {
+                final uid = FirebaseAuth.instance.currentUser?.uid ?? '';
+                return ChatBotView(currentUserId: uid);
+              },
+            ),
           ],
           themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
           theme: ThemeData(
@@ -81,7 +90,7 @@ class MyApp extends StatelessWidget {
               elevation: 0,
             ),
             colorScheme: ColorScheme.light(
-              surface:  Color.fromARGB(255, 242, 240, 236),
+              surface: Color.fromARGB(255, 242, 240, 236),
               primary: AppColors.dark,
               secondary: AppColors.background,
             ),

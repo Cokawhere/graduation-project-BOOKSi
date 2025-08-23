@@ -8,6 +8,7 @@ import '../../features/Home/home_controller.dart';
 import '../../features/blog/views/blog_view.dart';
 import '../../features/cart/cart_controller.dart';
 import '../../features/cart/cart_view.dart';
+import '../../features/profile/controllers/book_controllers.dart';
 import '../../features/profile/views/profile_view.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -49,6 +50,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                         Get.off(() => BlogView());
                         break;
                       case 3:
+                        Get.put(BookController());
                         Get.off(() => ProfilePage());
                         break;
                     }

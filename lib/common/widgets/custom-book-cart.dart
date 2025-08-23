@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../features/book_details/book_details_view.dart';
@@ -52,7 +53,7 @@ class BookCard extends StatelessWidget {
     }
 
     return Container(
-      width: 180,
+      width: 180.w,
       margin: const EdgeInsets.all(6),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
@@ -93,7 +94,7 @@ class BookCard extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 8,
-                    vertical: 6,
+                    vertical: 3,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

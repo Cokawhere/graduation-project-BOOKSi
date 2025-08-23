@@ -125,12 +125,12 @@ class FilterController extends GetxController {
       shopController.applyFilters(null);
       print("applyFilters(null) called in ShopController");
 
-      ScaffoldMessenger.of(Get.context!).showSnackBar(
-        SnackBar(
-          content: Text("All filters have been cleared"),
-          duration: Duration(seconds: 3),
-        ),
-      );
+      // ScaffoldMessenger.of(Get.context!).showSnackBar(
+      //   SnackBar(
+      //     content: Text("All filters have been cleared"),
+      //     duration: Duration(seconds: 3),
+      //   ),
+      // );
     } catch (e) {
       print("Error in resetFilters: $e");
       ScaffoldMessenger.of(Get.context!).showSnackBar(
@@ -153,11 +153,11 @@ class FilterController extends GetxController {
     };
 
     Get.back(result: filters);
-    Get.snackbar(
-      "Success",
-      "Filters applied successfully!",
-      snackPosition: SnackPosition.BOTTOM,
-    
-    );
+    // Get.snackbar(
+    //   "Success",
+    //   "Filters applied successfully!",
+    //   snackPosition: SnackPosition.BOTTOM,
+
+    // );
   }
 }

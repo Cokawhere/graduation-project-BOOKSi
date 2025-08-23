@@ -19,6 +19,7 @@ class ShopController extends GetxController {
 
     isLoading.value = true;
     ShopServices.getAllApprovedBooksStream().listen((books) {
+      print("Books received in controller: ${books.length}");
       allBooks.value = books;
       isLoading.value = false;
 
@@ -35,10 +36,12 @@ class ShopController extends GetxController {
     });
 
     ShopServices.getBestSellingBooksStream().listen((books) {
+      print("Best selling books received: ${books.length}");
       bestSellingBooks.value = books;
     });
 
     ShopServices.getNewArrivalBooksStream().listen((books) {
+      print("New arrival books received: ${books.length}");
       newArrivalBooks.value = books;
     });
   }
@@ -63,6 +66,7 @@ class ShopController extends GetxController {
             .toList();
       }
       filteredBooks.value = temp;
+      print("Filtered books after search: ${filteredBooks.length}");
     }
   }
 
@@ -77,20 +81,24 @@ class ShopController extends GetxController {
       isFilteringActive.value = true;
       filteredBooks.value = _applyFilterLogic(allBooks, filters);
       originalFilteredBooks = filteredBooks.toList();
+      print("Filtered books after applying filters: ${filteredBooks.length}");
     }
   }
 
   List<Book> _applyFilterLogic(List<Book> books, Map<String, dynamic> filters) {
     List<Book> temp = books.where((b) => b.quantity >= 1).toList();
+    print("Books after quantity filter: ${temp.length}");
 
     if ((filters['governorate'] ?? '').isNotEmpty) {
       temp = temp.where((b) => b.location == filters['governorate']).toList();
+      print("Books after governorate filter: ${temp.length}");
     }
 
     if ((filters['categories'] as List).isNotEmpty) {
       temp = temp
           .where((b) => (filters['categories'] as List).contains(b.genre))
           .toList();
+      print("Books after categories filter: ${temp.length}");
     }
 
     if (filters['priceRange'] != null) {
@@ -98,12 +106,14 @@ class ShopController extends GetxController {
       temp = temp
           .where((b) => b.price >= range.start && b.price <= range.end)
           .toList();
+      print("Books after price range filter: ${temp.length}");
     }
 
     if ((filters['conditions'] as List).isNotEmpty) {
       temp = temp
           .where((b) => (filters['conditions'] as List).contains(b.condition))
           .toList();
+      print("Books after conditions filter: ${temp.length}");
     }
 
     if ((filters['availableFor'] as List).isNotEmpty) {
@@ -112,6 +122,7 @@ class ShopController extends GetxController {
             (b) => (filters['availableFor'] as List).contains(b.availableFor),
           )
           .toList();
+      print("Books after availableFor filter: ${temp.length}");
     }
 
     if ((filters['rating'] ?? '').isNotEmpty) {
@@ -122,6 +133,7 @@ class ShopController extends GetxController {
           ) ??
           0;
       temp = temp.where((b) => b.averageRating >= minRating).toList();
+      print("Books after rating filter: ${temp.length}");
     }
 
     return temp;

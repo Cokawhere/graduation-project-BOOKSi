@@ -17,12 +17,15 @@ class ChatService {
   static const String chatsCollection = 'chats';
   static const String messagesSubcollection = 'messages';
 
-
+  /// Deterministically generate a chatId based on the two user ids only.
+  /// This ensures a single chat per user pair regardless of book.
   String _deterministicChatId({required String userA, required String userB}) {
     final sorted = [userA, userB]..sort();
     return 'chat_${sorted.join('_')}';
   }
 
+  /// Create a chat if it does not exist, or return the existing chat id.
+  /// Optionally sends an [initialMessageContent] when creating a new chat.
   Future<String> createOrGetChat({
     required String currentUserId,
     required String otherUserId,
@@ -129,7 +132,10 @@ class ChatService {
     return preferredChatId;
   }
 
+  /// Stream the list of chats for a user, sorted by last update.
   Stream<List<ChatPreview>> watchUserChats({required String userId}) {
+    // Avoid Firestore orderBy to ensure results even if some docs miss the field
+    // or if composite indexes are not set up. We sort client-side below.
     final query = _firestore
         .collection(chatsCollection)
         .where('participants', arrayContains: userId);
@@ -233,6 +239,8 @@ class ChatService {
     });
   }
 
+  /// One-shot fetch of chats for a user from the server, with enrichment and
+  /// client-side sorting. Useful to force refresh when opening the list view.
   Future<List<ChatPreview>> fetchUserChatsOnce({required String userId}) async {
     final query = _firestore
         .collection(chatsCollection)

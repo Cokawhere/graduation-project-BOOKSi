@@ -18,29 +18,23 @@ class NotificationController extends GetxController {
 
   @override
   void onClose() {
-    // Clean up any listeners if needed
     super.onClose();
   }
 
-  // Refresh notifications when list view is opened
   void onListViewOpened() {
-    // Just refresh the notifications list without marking them as read
     refreshNotifications();
-    // Also refresh the unread count to ensure badge is accurate
     refreshUnreadCount();
   }
 
-  // Manual mark all as read (for user action)
+  // Manual mark all as read
   Future<void> manualMarkAllAsRead() async {
     try {
       isLoading.value = true;
       await _notificationService.markAllAsRead();
-      // Update local state
       for (int i = 0; i < notifications.length; i++) {
         notifications[i] = notifications[i].copyWith(isRead: true);
       }
       notifications.refresh();
-      // Update unread count immediately
       unreadCount.value = 0;
       Get.snackbar('success'.tr, 'all_notifications_marked_read'.tr);
     } catch (e) {
@@ -53,7 +47,6 @@ class NotificationController extends GetxController {
   void _loadNotifications() {
     _notificationService.getNotifications().listen((notificationsList) {
       notifications.value = notificationsList;
-      // Update unread count when notifications list changes
       _updateUnreadCountFromList(notificationsList);
     });
   }
@@ -108,7 +101,6 @@ class NotificationController extends GetxController {
     try {
       await _notificationService.deleteNotification(notificationId);
       notifications.removeWhere((n) => n.id == notificationId);
-      // Update unread count based on current notifications list
       _updateUnreadCountFromList(notifications);
       Get.snackbar('success'.tr, 'notification_deleted'.tr);
     } catch (e) {
@@ -121,7 +113,6 @@ class NotificationController extends GetxController {
       isLoading.value = true;
       await _notificationService.deleteAllNotifications();
       notifications.clear();
-      // Update unread count based on current notifications list
       _updateUnreadCountFromList(notifications);
       Get.snackbar('success'.tr, 'all_notifications_deleted'.tr);
     } catch (e) {
@@ -131,7 +122,6 @@ class NotificationController extends GetxController {
     }
   }
 
-  // Helper method to get notification by ID
   NotificationModel? getNotificationById(String id) {
     try {
       return notifications.firstWhere((notification) => notification.id == id);
@@ -140,12 +130,10 @@ class NotificationController extends GetxController {
     }
   }
 
-  // Helper method to get unread notifications
   List<NotificationModel> get unreadNotifications {
     return notifications.where((notification) => !notification.isRead).toList();
   }
 
-  // Helper method to get read notifications
   List<NotificationModel> get readNotifications {
     return notifications.where((notification) => notification.isRead).toList();
   }
@@ -174,24 +162,20 @@ class NotificationController extends GetxController {
     _loadUnreadCount();
   }
 
-  // Force refresh unread count
   Future<void> refreshUnreadCount() async {
     try {
       final count = await _notificationService.getUnreadCountOnce();
       unreadCount.value = count;
     } catch (e) {
-      // If there's an error, fall back to the stream
       _loadUnreadCount();
     }
   }
 
-  // Refresh everything when app comes to foreground
   void onAppResume() {
     refreshNotifications();
     refreshUnreadCount();
   }
 
-  // Force refresh notifications list (useful for real-time updates)
   void forceRefreshNotifications() {
     _loadNotifications();
   }
