@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import '../../../common/styles/colors.dart';
 import '../controllers/logincontroller.dart';
 import '../controllers/sighupcontroller.dart';

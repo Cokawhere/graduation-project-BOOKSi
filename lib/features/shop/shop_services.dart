@@ -11,9 +11,9 @@ class ShopServices {
         .snapshots()
         .map((snapshot) {
           print("Total documents fetched: ${snapshot.docs.length}");
-          snapshot.docs.forEach((doc) {
+          for (var doc in snapshot.docs) {
             print("Document data: ${doc.data()}");
-          });
+          }
           return snapshot.docs
               .map((doc) {
                 try {
@@ -40,9 +40,9 @@ class ShopServices {
         .snapshots()
         .map((snapshot) {
           print("Best selling documents fetched: ${snapshot.docs.length}");
-          snapshot.docs.forEach((doc) {
+          for (var doc in snapshot.docs) {
             print("Best selling document data: ${doc.data()}");
-          });
+          }
           return snapshot.docs
               .map((doc) {
                 try {
@@ -69,9 +69,9 @@ class ShopServices {
         .snapshots()
         .map((snapshot) {
           print("New arrival documents fetched: ${snapshot.docs.length}");
-          snapshot.docs.forEach((doc) {
+          for (var doc in snapshot.docs) {
             print("New arrival document data: ${doc.data()}");
-          });
+          }
           return snapshot.docs
               .map((doc) {
                 try {

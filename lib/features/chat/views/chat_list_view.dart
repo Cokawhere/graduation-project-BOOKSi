@@ -8,7 +8,6 @@ import 'package:booksi/features/chat_bot/chat_bot_view.dart';
 import '../chat_models.dart';
 import '../controllers/chat_controller.dart';
 import '../services/chat_service.dart';
-import 'package:booksi/features/chat_bot/chat_bot_view.dart';
 
 class ChatListView extends StatefulWidget {
   const ChatListView({super.key, required this.currentUserId, this.onOpenChat});

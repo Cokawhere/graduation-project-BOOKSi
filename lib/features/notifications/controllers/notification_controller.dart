@@ -16,10 +16,6 @@ class NotificationController extends GetxController {
     _loadUnreadCount();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   void onListViewOpened() {
     refreshNotifications();
