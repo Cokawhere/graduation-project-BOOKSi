@@ -4,6 +4,7 @@ import 'package:booksi/common/styles/colors.dart';
 import 'chat_detail_view.dart';
 import 'package:booksi/features/profile/services/profile_service.dart';
 import 'package:booksi/features/profile/models/profile.dart';
+import 'package:booksi/features/chat_bot/chat_bot_view.dart';
 import '../chat_models.dart';
 import '../controllers/chat_controller.dart';
 import '../services/chat_service.dart';
@@ -91,7 +92,6 @@ class _ChatListViewState extends State<ChatListView> {
 
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: AppColors.background,
         leading: const BackButton(),
         title: Text(
           'chat'.tr,
