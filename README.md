@@ -6,14 +6,23 @@ Blog section to share articles and updates.
 
 Features
 -Chat System: Real-time messaging between users or support team.
+
 -Chatbot: Automated responses to common questions.
+
 -User Profile: Manage personal info and order history.
+
 -Blog Section: Read articles, updates, and book recommendations.
+
 -Browse books with detailed info (title, price, author, cover image).
+
 -Add books to a shopping cart.
+
 -Shipping Information Page to enter delivery details.
+
 -Integrated Paymob payment gateway for card payments.
+
 -Firestore order creation after successful payment.
+
 -Order status lifecycle: pending → paid → shipped → delivered.
 
 Tech Stack
